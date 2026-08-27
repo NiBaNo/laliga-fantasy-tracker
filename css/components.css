@@ -449,3 +449,12 @@ button.profile {
 
 }
 
+/* =========================================================
+   AUTH VISIBILITY
+========================================================= */
+
+.auth-form[hidden],
+.auth-logged[hidden] {
+    display: none !important;
+}
+
