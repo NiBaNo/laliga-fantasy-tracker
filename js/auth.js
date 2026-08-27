@@ -4,31 +4,19 @@ import { supabase } from "./supabase.js";
 document.addEventListener("DOMContentLoaded", async () => {
 
 
-    /* =====================================================
+    /* =========================================================
        ELEMENTS
-    ===================================================== */
+    ========================================================= */
 
-    const profileButton =
-        document.getElementById("profileButton");
+    const profileButton = document.getElementById("profileButton");
 
-    const profileName =
-        document.getElementById("profileName");
-
-    const profileRole =
-        document.getElementById("profileRole");
-
-    const profileAvatar =
-        document.getElementById("profileAvatar");
-
-
-    const authModal =
-        document.getElementById("authModal");
-
-    const authModalClose =
-        document.getElementById("authModalClose");
+    const authModal = document.getElementById("authModal");
 
     const authModalBackdrop =
         document.getElementById("authModalBackdrop");
+
+    const authModalClose =
+        document.getElementById("authModalClose");
 
 
     const loginForm =
@@ -43,8 +31,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const loginError =
         document.getElementById("loginError");
 
-    const loginSubmit =
-        document.getElementById("loginSubmit");
+
+    const profileName =
+        document.getElementById("profileName");
+
+    const profileRole =
+        document.getElementById("profileRole");
+
+    const profileAvatar =
+        document.getElementById("profileAvatar");
 
 
     const loggedUserPanel =
@@ -57,13 +52,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("logoutButton");
 
 
-    /* =====================================================
+    const loginSubmit =
+        document.getElementById("loginSubmit");
+
+
+    /* =========================================================
        OPEN MODAL
-    ===================================================== */
+    ========================================================= */
 
-    const openModal = () => {
+    const openAuthModal = () => {
 
-        authModal.classList.add("active");
+        if (!authModal) return;
+
+        authModal.classList.add("is-open");
 
         authModal.setAttribute(
             "aria-hidden",
@@ -73,208 +74,228 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
 
-    /* =====================================================
+    /* =========================================================
        CLOSE MODAL
-    ===================================================== */
+    ========================================================= */
 
-    const closeModal = () => {
+    const closeAuthModal = () => {
 
-        authModal.classList.remove("active");
+        if (!authModal) return;
+
+        authModal.classList.remove("is-open");
 
         authModal.setAttribute(
             "aria-hidden",
             "true"
         );
 
-        loginError.textContent = "";
+        if (loginError) {
+
+            loginError.textContent = "";
+
+        }
 
     };
 
 
-    /* =====================================================
-       LOAD PROFILE
-    ===================================================== */
+    /* =========================================================
+       PROFILE BUTTON
+    ========================================================= */
 
-    const loadProfile = async user => {
+    if (profileButton) {
 
-        const { data, error } = await supabase
+        profileButton.addEventListener("click", () => {
+
+            openAuthModal();
+
+        });
+
+    }
+
+
+    /* =========================================================
+       CLOSE BUTTON
+    ========================================================= */
+
+    if (authModalClose) {
+
+        authModalClose.addEventListener("click", () => {
+
+            closeAuthModal();
+
+        });
+
+    }
+
+
+    /* =========================================================
+       BACKDROP
+    ========================================================= */
+
+    if (authModalBackdrop) {
+
+        authModalBackdrop.addEventListener("click", () => {
+
+            closeAuthModal();
+
+        });
+
+    }
+
+
+    /* =========================================================
+       ESCAPE
+    ========================================================= */
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            closeAuthModal();
+
+        }
+
+    });
+
+
+    /* =========================================================
+       UPDATE USER INTERFACE
+    ========================================================= */
+
+    const updateUserInterface = async user => {
+
+        if (!user) {
+
+            if (profileName) {
+
+                profileName.textContent =
+                    "Iniciar sessió";
+
+            }
+
+            if (profileRole) {
+
+                profileRole.textContent =
+                    "Accés al teu equip";
+
+            }
+
+            if (profileAvatar) {
+
+                profileAvatar.textContent = "M";
+
+            }
+
+            if (loginForm) {
+
+                loginForm.hidden = false;
+
+            }
+
+            if (loggedUserPanel) {
+
+                loggedUserPanel.hidden = true;
+
+            }
+
+            return;
+
+        }
+
+
+        /*
+           Busquem el perfil de l'usuari.
+        */
+
+        const { data: profile } = await supabase
             .from("profiles")
             .select("display_name")
             .eq("id", user.id)
             .single();
 
 
-        let displayName = "Manager";
+        /*
+           Si no hi ha display_name,
+           utilitzem la part abans de @.
+        */
+
+        const displayName =
+
+            profile?.display_name ||
+
+            user.email
+                .split("@")[0];
 
 
-        if (!error && data?.display_name) {
+        /*
+           Nom del perfil superior.
+        */
 
-            displayName =
-                data.display_name;
+        if (profileName) {
+
+            profileName.textContent =
+                displayName;
 
         }
 
 
-        const initial =
-            displayName
-                .charAt(0)
-                .toUpperCase();
+        /*
+           Rol.
+        */
+
+        if (profileRole) {
+
+            profileRole.textContent =
+                "Fantasy League";
+
+        }
 
 
-        profileName.textContent =
-            displayName;
+        /*
+           Avatar.
+        */
 
-        profileRole.textContent =
-            "Fantasy League";
+        if (profileAvatar) {
 
-        profileAvatar.textContent =
-            initial;
+            profileAvatar.textContent =
+                displayName
+                    .charAt(0)
+                    .toUpperCase();
 
-        loggedUserName.textContent =
-            displayName;
-
-    };
+        }
 
 
-    /* =====================================================
-       UPDATE UI
-    ===================================================== */
+        /*
+           Panell de logout.
+        */
 
-    const updateAuthUI = async session => {
-
-        if (session?.user) {
-
-            await loadProfile(
-                session.user
-            );
-
+        if (loginForm) {
 
             loginForm.hidden = true;
 
+        }
+
+
+        if (loggedUserPanel) {
+
             loggedUserPanel.hidden = false;
 
-
-        } else {
-
-            profileName.textContent =
-                "Iniciar sessió";
-
-            profileRole.textContent =
-                "Accés al teu equip";
-
-            profileAvatar.textContent =
-                "M";
+        }
 
 
-            loginForm.hidden = false;
+        if (loggedUserName) {
 
-            loggedUserPanel.hidden = true;
+            loggedUserName.textContent =
+                displayName;
 
         }
 
     };
 
 
-    /* =====================================================
-       INITIAL SESSION
-    ===================================================== */
-
-    const {
-        data: {
-            session
-        }
-    } = await supabase.auth.getSession();
-
-
-    await updateAuthUI(
-        session
-    );
-
-
-    /* =====================================================
-       AUTH STATE CHANGE
-    ===================================================== */
-
-    supabase.auth.onAuthStateChange(
-        async (_event, session) => {
-
-            await updateAuthUI(
-                session
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       PROFILE CLICK
-    ===================================================== */
-
-    if (profileButton) {
-
-        profileButton.addEventListener(
-            "click",
-            () => {
-
-                openModal();
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CLOSE BUTTON
-    ===================================================== */
-
-    if (authModalClose) {
-
-        authModalClose.addEventListener(
-            "click",
-            closeModal
-        );
-
-    }
-
-
-    /* =====================================================
-       BACKDROP
-    ===================================================== */
-
-    if (authModalBackdrop) {
-
-        authModalBackdrop.addEventListener(
-            "click",
-            closeModal
-        );
-
-    }
-
-
-    /* =====================================================
-       ESC
-    ===================================================== */
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                closeModal();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
+    /* =========================================================
        LOGIN
-    ===================================================== */
+    ========================================================= */
 
     if (loginForm) {
 
@@ -285,60 +306,129 @@ document.addEventListener("DOMContentLoaded", async () => {
                 event.preventDefault();
 
 
-                loginError.textContent = "";
+                /*
+                   Netegem error anterior.
+                */
+
+                if (loginError) {
+
+                    loginError.textContent = "";
+
+                }
 
 
-                loginSubmit.disabled =
-                    true;
+                /*
+                   Llegim dades.
+                */
 
-                loginSubmit.textContent =
-                    "Iniciant sessió...";
+                const email =
+                    loginEmail.value.trim();
 
+                const password =
+                    loginPassword.value;
+
+
+                /*
+                   Desactivem botó mentre
+                   Supabase processa el login.
+                */
+
+                if (loginSubmit) {
+
+                    loginSubmit.disabled = true;
+
+                    loginSubmit.textContent =
+                        "Iniciant sessió...";
+
+                }
+
+
+                /*
+                   Login Supabase.
+                */
 
                 const {
+                    data,
                     error
-                } = await supabase.auth
-                    .signInWithPassword({
+                } = await supabase.auth.signInWithPassword({
 
-                        email:
-                            loginEmail.value.trim(),
+                    email,
 
-                        password:
-                            loginPassword.value
+                    password
 
-                    });
+                });
 
+
+                /*
+                   Error.
+                */
 
                 if (error) {
 
-                    loginError.textContent =
-                        "Correu o contrasenya incorrectes.";
+                    if (loginError) {
+
+                        loginError.textContent =
+                            error.message;
+
+                    }
 
 
-                    loginSubmit.disabled =
-                        false;
+                    if (loginSubmit) {
 
-                    loginSubmit.textContent =
-                        "Iniciar sessió";
+                        loginSubmit.disabled = false;
+
+                        loginSubmit.textContent =
+                            "Iniciar sessió";
+
+                    }
 
                     return;
 
                 }
 
 
+                /*
+                   Actualitzem interfície.
+                */
+
+                await updateUserInterface(
+                    data.user
+                );
+
+
+                /*
+                   Tanquem modal.
+                */
+
+                closeAuthModal();
+
+
+                /*
+                   Restaurem formulari.
+                */
+
                 loginForm.reset();
 
-                closeModal();
+
+                if (loginSubmit) {
+
+                    loginSubmit.disabled = false;
+
+                    loginSubmit.textContent =
+                        "Iniciar sessió";
+
+                }
 
             }
+
         );
 
     }
 
 
-    /* =====================================================
+    /* =========================================================
        LOGOUT
-    ===================================================== */
+    ========================================================= */
 
     if (logoutButton) {
 
@@ -346,16 +436,54 @@ document.addEventListener("DOMContentLoaded", async () => {
             "click",
             async () => {
 
-                await supabase.auth
+                await supabase
+                    .auth
                     .signOut();
 
 
-                closeModal();
+                await updateUserInterface(
+                    null
+                );
+
+
+                closeAuthModal();
 
             }
+
         );
 
     }
+
+
+    /* =========================================================
+       INITIAL SESSION
+    ========================================================= */
+
+    const {
+        data: {
+            session
+        }
+    } = await supabase.auth.getSession();
+
+
+    await updateUserInterface(
+        session?.user || null
+    );
+
+
+    /* =========================================================
+       AUTH STATE CHANGES
+    ========================================================= */
+
+    supabase.auth.onAuthStateChange(
+        async (_event, session) => {
+
+            await updateUserInterface(
+                session?.user || null
+            );
+
+        }
+    );
 
 
 });
