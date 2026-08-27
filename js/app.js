@@ -203,14 +203,11 @@ document.addEventListener("click", event => {
     });
 
 
-    /* =====================================================
+   /* =====================================================
    ACTIVE PAGE
 ===================================================== */
 
-const currentFile = window.location.pathname
-    .split("/")
-    .pop() || "index.html";
-
+const currentPage = window.location.pathname;
 
 navLinks.forEach(link => {
 
@@ -219,19 +216,19 @@ navLinks.forEach(link => {
     if (!href) return;
 
 
-    const hrefFile = href
-        .split("/")
-        .pop();
-
-
-    if (hrefFile === currentFile) {
+    if (
+        currentPage.endsWith(href) ||
+        (
+            currentPage.endsWith("/") &&
+            href === "pages/dashboard.html"
+        )
+    ) {
 
         navLinks.forEach(item => {
 
             item.classList.remove("active");
 
         });
-
 
         link.classList.add("active");
 
