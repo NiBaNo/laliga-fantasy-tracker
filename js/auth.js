@@ -5,15 +5,180 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================================================
+       AUTH MODAL
+       El modal es crea automàticament a qualsevol pàgina.
+    ========================================================= */
+
+    const createAuthModal = () => {
+
+        if (document.getElementById("authModal")) {
+
+            return;
+
+        }
+
+
+        document.body.insertAdjacentHTML(
+            "beforeend",
+            `
+            <div
+                class="auth-modal"
+                id="authModal"
+                aria-hidden="true"
+            >
+
+                <div
+                    class="auth-modal__backdrop"
+                    id="authModalBackdrop"
+                ></div>
+
+
+                <div class="auth-modal__content">
+
+
+                    <button
+                        class="auth-modal__close"
+                        id="authModalClose"
+                        aria-label="Tancar"
+                    >
+                        ×
+                    </button>
+
+
+                    <span class="auth-modal__eyebrow">
+                        FANTASY TRACKER
+                    </span>
+
+
+                    <h2>
+                        Iniciar sessió
+                    </h2>
+
+
+                    <p>
+                        Entra per accedir al teu equip personal.
+                    </p>
+
+
+                    <!-- LOGIN -->
+
+                    <form
+                        id="loginForm"
+                        class="auth-form"
+                    >
+
+                        <div class="auth-form__group">
+
+                            <label for="loginEmail">
+                                Correu electrònic
+                            </label>
+
+                            <input
+                                type="email"
+                                id="loginEmail"
+                                placeholder="eloi@fantasy.com"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="auth-form__group">
+
+                            <label for="loginPassword">
+                                Contrasenya
+                            </label>
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="••••••••"
+                                required
+                            >
+
+                        </div>
+
+
+                        <p
+                            class="auth-form__error"
+                            id="loginError"
+                        ></p>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn--primary auth-form__submit"
+                            id="loginSubmit"
+                        >
+                            Iniciar sessió
+                        </button>
+
+                    </form>
+
+
+                    <!-- SESSION -->
+
+                    <div
+                        class="auth-logged"
+                        id="loggedUserPanel"
+                        hidden
+                    >
+
+                        <p>
+                            Sessió iniciada com a
+                            <strong id="loggedUserName"></strong>
+                        </p>
+
+
+                        <button
+                            class="btn btn--primary"
+                            id="logoutButton"
+                        >
+                            Tancar sessió
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            `
+        );
+
+    };
+
+
+    createAuthModal();
+
+
+    /* =========================================================
        ELEMENTS
     ========================================================= */
 
-    const profileButton = document.getElementById("profileButton");
+    const profileButton =
+        document.getElementById("profileButton");
 
-    const authModal = document.getElementById("authModal");
+
+    const profileName =
+        document.getElementById("profileName");
+
+
+    const profileRole =
+        document.getElementById("profileRole");
+
+
+    const profileAvatar =
+        document.getElementById("profileAvatar");
+
+
+    const authModal =
+        document.getElementById("authModal");
+
 
     const authModalBackdrop =
         document.getElementById("authModalBackdrop");
+
 
     const authModalClose =
         document.getElementById("authModalClose");
@@ -22,38 +187,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     const loginForm =
         document.getElementById("loginForm");
 
+
     const loginEmail =
         document.getElementById("loginEmail");
 
+
     const loginPassword =
         document.getElementById("loginPassword");
+
 
     const loginError =
         document.getElementById("loginError");
 
 
-    const profileName =
-        document.getElementById("profileName");
-
-    const profileRole =
-        document.getElementById("profileRole");
-
-    const profileAvatar =
-        document.getElementById("profileAvatar");
+    const loginSubmit =
+        document.getElementById("loginSubmit");
 
 
     const loggedUserPanel =
         document.getElementById("loggedUserPanel");
 
+
     const loggedUserName =
         document.getElementById("loggedUserName");
 
+
     const logoutButton =
         document.getElementById("logoutButton");
-
-
-    const loginSubmit =
-        document.getElementById("loginSubmit");
 
 
     /* =========================================================
@@ -61,8 +221,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     ========================================================= */
 
     const openAuthModal = () => {
-
-        if (!authModal) return;
 
         authModal.classList.add("is-open");
 
@@ -80,14 +238,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const closeAuthModal = () => {
 
-        if (!authModal) return;
-
         authModal.classList.remove("is-open");
 
         authModal.setAttribute(
             "aria-hidden",
             "true"
         );
+
 
         if (loginError) {
 
@@ -99,70 +256,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =========================================================
-       PROFILE BUTTON
+       GET DISPLAY NAME
     ========================================================= */
 
-    if (profileButton) {
+    const getDisplayName = async user => {
 
-        profileButton.addEventListener("click", () => {
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("display_name")
+            .eq("id", user.id)
+            .single();
 
-            openAuthModal();
 
-        });
+        return (
 
-    }
+            profile?.display_name ||
+
+            user.email
+                .split("@")[0]
+
+        );
+
+    };
 
 
     /* =========================================================
-       CLOSE BUTTON
-    ========================================================= */
-
-    if (authModalClose) {
-
-        authModalClose.addEventListener("click", () => {
-
-            closeAuthModal();
-
-        });
-
-    }
-
-
-    /* =========================================================
-       BACKDROP
-    ========================================================= */
-
-    if (authModalBackdrop) {
-
-        authModalBackdrop.addEventListener("click", () => {
-
-            closeAuthModal();
-
-        });
-
-    }
-
-
-    /* =========================================================
-       ESCAPE
-    ========================================================= */
-
-    document.addEventListener("keydown", event => {
-
-        if (event.key === "Escape") {
-
-            closeAuthModal();
-
-        }
-
-    });
-
-
-    /* =========================================================
-       UPDATE USER INTERFACE
+       UPDATE INTERFACE
     ========================================================= */
 
     const updateUserInterface = async user => {
+
+        /*
+           USER NOT LOGGED IN
+        */
 
         if (!user) {
 
@@ -173,6 +299,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             }
 
+
             if (profileRole) {
 
                 profileRole.textContent =
@@ -180,23 +307,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             }
 
+
             if (profileAvatar) {
 
-                profileAvatar.textContent = "M";
+                profileAvatar.textContent =
+                    "M";
 
             }
 
-            if (loginForm) {
 
-                loginForm.hidden = false;
+            loginForm.hidden = false;
 
-            }
+            loggedUserPanel.hidden = true;
 
-            if (loggedUserPanel) {
-
-                loggedUserPanel.hidden = true;
-
-            }
 
             return;
 
@@ -204,32 +327,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         /*
-           Busquem el perfil de l'usuari.
-        */
-
-        const { data: profile } = await supabase
-            .from("profiles")
-            .select("display_name")
-            .eq("id", user.id)
-            .single();
-
-
-        /*
-           Si no hi ha display_name,
-           utilitzem la part abans de @.
+           USER LOGGED IN
         */
 
         const displayName =
+            await getDisplayName(user);
 
-            profile?.display_name ||
-
-            user.email
-                .split("@")[0];
-
-
-        /*
-           Nom del perfil superior.
-        */
 
         if (profileName) {
 
@@ -239,10 +342,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
 
-        /*
-           Rol.
-        */
-
         if (profileRole) {
 
             profileRole.textContent =
@@ -250,10 +349,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
-
-        /*
-           Avatar.
-        */
 
         if (profileAvatar) {
 
@@ -266,193 +361,185 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         /*
-           Panell de logout.
+           Modal:
+           només logout.
         */
 
-        if (loginForm) {
+        loginForm.hidden = true;
 
-            loginForm.hidden = true;
+        loggedUserPanel.hidden = false;
 
-        }
-
-
-        if (loggedUserPanel) {
-
-            loggedUserPanel.hidden = false;
-
-        }
-
-
-        if (loggedUserName) {
-
-            loggedUserName.textContent =
-                displayName;
-
-        }
+        loggedUserName.textContent =
+            displayName;
 
     };
+
+
+    /* =========================================================
+       PROFILE BUTTON
+    ========================================================= */
+
+    if (profileButton) {
+
+        profileButton.addEventListener(
+            "click",
+            () => {
+
+                openAuthModal();
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       CLOSE BUTTON
+    ========================================================= */
+
+    authModalClose.addEventListener(
+        "click",
+        () => {
+
+            closeAuthModal();
+
+        }
+    );
+
+
+    /* =========================================================
+       BACKDROP
+    ========================================================= */
+
+    authModalBackdrop.addEventListener(
+        "click",
+        () => {
+
+            closeAuthModal();
+
+        }
+    );
+
+
+    /* =========================================================
+       ESCAPE
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape" &&
+                authModal.classList.contains("is-open")
+            ) {
+
+                closeAuthModal();
+
+            }
+
+        }
+    );
 
 
     /* =========================================================
        LOGIN
     ========================================================= */
 
-    if (loginForm) {
+    loginForm.addEventListener(
+        "submit",
+        async event => {
 
-        loginForm.addEventListener(
-            "submit",
-            async event => {
-
-                event.preventDefault();
+            event.preventDefault();
 
 
-                /*
-                   Netegem error anterior.
-                */
-
-                if (loginError) {
-
-                    loginError.textContent = "";
-
-                }
+            loginError.textContent = "";
 
 
-                /*
-                   Llegim dades.
-                */
-
-                const email =
-                    loginEmail.value.trim();
-
-                const password =
-                    loginPassword.value;
+            const email =
+                loginEmail.value.trim();
 
 
-                /*
-                   Desactivem botó mentre
-                   Supabase processa el login.
-                */
-
-                if (loginSubmit) {
-
-                    loginSubmit.disabled = true;
-
-                    loginSubmit.textContent =
-                        "Iniciant sessió...";
-
-                }
+            const password =
+                loginPassword.value;
 
 
-                /*
-                   Login Supabase.
-                */
+            loginSubmit.disabled = true;
 
-                const {
-                    data,
-                    error
-                } = await supabase.auth.signInWithPassword({
-
-                    email,
-
-                    password
-
-                });
+            loginSubmit.textContent =
+                "Iniciant sessió...";
 
 
-                /*
-                   Error.
-                */
+            const {
 
-                if (error) {
+                data,
+                error
 
-                    if (loginError) {
+            } = await supabase.auth.signInWithPassword({
 
-                        loginError.textContent =
-                            error.message;
+                email,
+                password
 
-                    }
-
-
-                    if (loginSubmit) {
-
-                        loginSubmit.disabled = false;
-
-                        loginSubmit.textContent =
-                            "Iniciar sessió";
-
-                    }
-
-                    return;
-
-                }
+            });
 
 
-                /*
-                   Actualitzem interfície.
-                */
+            if (error) {
 
-                await updateUserInterface(
-                    data.user
-                );
+                loginError.textContent =
+                    error.message;
 
 
-                /*
-                   Tanquem modal.
-                */
+                loginSubmit.disabled = false;
 
-                closeAuthModal();
-
-
-                /*
-                   Restaurem formulari.
-                */
-
-                loginForm.reset();
+                loginSubmit.textContent =
+                    "Iniciar sessió";
 
 
-                if (loginSubmit) {
-
-                    loginSubmit.disabled = false;
-
-                    loginSubmit.textContent =
-                        "Iniciar sessió";
-
-                }
+                return;
 
             }
 
-        );
 
-    }
+            await updateUserInterface(
+                data.user
+            );
+
+
+            loginForm.reset();
+
+
+            loginSubmit.disabled = false;
+
+            loginSubmit.textContent =
+                "Iniciar sessió";
+
+
+            closeAuthModal();
+
+        }
+    );
 
 
     /* =========================================================
        LOGOUT
     ========================================================= */
 
-    if (logoutButton) {
+    logoutButton.addEventListener(
+        "click",
+        async () => {
 
-        logoutButton.addEventListener(
-            "click",
-            async () => {
-
-                await supabase
-                    .auth
-                    .signOut();
+            await supabase.auth.signOut();
 
 
-                await updateUserInterface(
-                    null
-                );
+            await updateUserInterface(
+                null
+            );
 
 
-                closeAuthModal();
+            closeAuthModal();
 
-            }
-
-        );
-
-    }
+        }
+    );
 
 
     /* =========================================================
@@ -460,26 +547,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     ========================================================= */
 
     const {
+
         data: {
+
             session
+
         }
+
     } = await supabase.auth.getSession();
 
 
     await updateUserInterface(
+
         session?.user || null
+
     );
 
 
     /* =========================================================
-       AUTH STATE CHANGES
+       AUTH STATE CHANGE
     ========================================================= */
 
     supabase.auth.onAuthStateChange(
-        async (_event, session) => {
+        async (
+            event,
+            session
+        ) => {
 
             await updateUserInterface(
+
                 session?.user || null
+
             );
 
         }
