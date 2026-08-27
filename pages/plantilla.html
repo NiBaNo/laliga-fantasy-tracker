@@ -12,9 +12,13 @@
 
     <title>Plantilla · Fantasy Tracker</title>
 
+
     <!-- Fonts -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
     <link
         rel="preconnect"
@@ -27,906 +31,1400 @@
         rel="stylesheet"
     >
 
+
     <!-- CSS -->
 
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/cards.css">
-    <link rel="stylesheet" href="../css/components.css">
+    <link
+        rel="stylesheet"
+        href="../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/cards.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/components.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/plantilla.css"
+    >
 
 </head>
 
 
 <body>
 
-<div class="app">
 
+    <div class="app">
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
 
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
 
+        <aside
+            class="sidebar"
+            id="sidebar"
+        >
 
-        <!-- HEADER -->
 
-        <div class="sidebar__header">
+            <!-- HEADER -->
 
-            <a
-                href="../index.html"
-                class="brand"
-            >
+            <div class="sidebar__header">
 
-                <div class="brand__icon">
-                    FT
-                </div>
 
-                <div class="brand__text">
+                <a
+                    href="../index.html"
+                    class="brand"
+                >
 
-                    <span class="brand__title">
-                        Fantasy
-                    </span>
+                    <div class="brand__icon">
+                        FT
+                    </div>
 
-                    <span class="brand__subtitle">
-                        Tracker
-                    </span>
 
-                </div>
+                    <div class="brand__text">
 
-            </a>
+                        <span class="brand__title">
+                            Fantasy
+                        </span>
 
+                        <span class="brand__subtitle">
+                            Tracker
+                        </span>
 
-            <button
-                class="sidebar__toggle"
-                id="sidebarToggle"
-                aria-label="Tancar menú"
-            >
-                ☰
-            </button>
+                    </div>
 
-        </div>
-
-
-        <!-- NAVIGATION -->
-
-        <nav class="sidebar__nav">
-
-
-            <span class="nav__section-title">
-                PRINCIPAL
-            </span>
-
-
-            <a
-                href="dashboard.html"
-                class="nav__item"
-            >
-
-                <span class="nav__icon">
-                    ◈
-                </span>
-
-                <span class="nav__label">
-                    Dashboard
-                </span>
-
-            </a>
-
-
-            <a
-                href="plantilla.html"
-                class="nav__item active"
-            >
-
-                <span class="nav__icon">
-                    ♙
-                </span>
-
-                <span class="nav__label">
-                    Plantilla
-                </span>
-
-            </a>
-
-
-            <a
-                href="mercat.html"
-                class="nav__item"
-            >
-
-                <span class="nav__icon">
-                    ◆
-                </span>
-
-                <span class="nav__label">
-                    Mercat
-                </span>
-
-            </a>
-
-
-            <a
-                href="historial.html"
-                class="nav__item"
-            >
-
-                <span class="nav__icon">
-                    ↗
-                </span>
-
-                <span class="nav__label">
-                    Historial
-                </span>
-
-            </a>
-
-
-            <span class="nav__section-title">
-                CONFIGURACIÓ
-            </span>
-
-
-            <a
-                href="configuracio.html"
-                class="nav__item"
-            >
-
-                <span class="nav__icon">
-                    ⚙
-                </span>
-
-                <span class="nav__label">
-                    Configuració
-                </span>
-
-            </a>
-
-
-        </nav>
-
-
-        <!-- FOOTER -->
-
-        <div class="sidebar__footer">
-
-            <div class="sidebar__status">
-
-                <span class="status__dot"></span>
-
-                <span class="status__text">
-                    Sistema operatiu
-                </span>
-
-            </div>
-
-
-            <div class="sidebar__version">
-                v0.1.0
-            </div>
-
-        </div>
-
-
-    </aside>
-
-
-
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
-
-    <main class="main-content">
-
-
-        <!-- =================================================
-             TOPBAR
-        ================================================== -->
-
-        <header class="topbar">
-
-
-            <div class="topbar__left">
+                </a>
 
 
                 <button
-                    class="mobile-menu"
-                    id="mobileMenu"
-                    aria-label="Obrir menú"
+                    class="sidebar__toggle"
+                    id="sidebarToggle"
+                    aria-label="Tancar menú"
                 >
                     ☰
                 </button>
 
 
-                <div>
-
-                    <span class="page__eyebrow">
-                        LA LIGA FANTASY
-                    </span>
-
-                    <h1 class="page__title">
-                        La meva plantilla
-                    </h1>
-
-                </div>
-
-
             </div>
 
 
-            <div class="topbar__right">
+
+            <!-- NAVIGATION -->
+
+            <nav class="sidebar__nav">
 
 
-                <button
-                    class="icon-button"
-                    aria-label="Notificacions"
+                <span class="nav__section-title">
+                    PRINCIPAL
+                </span>
+
+
+                <a
+                    href="dashboard.html"
+                    class="nav__item"
                 >
 
-                    🔔
+                    <span class="nav__icon">
+                        ◈
+                    </span>
 
-                    <span class="notification-dot"></span>
+                    <span class="nav__label">
+                        Dashboard
+                    </span>
 
-                </button>
+                </a>
 
 
-                <div class="profile">
+                <a
+                    href="plantilla.html"
+                    class="nav__item active"
+                >
 
-                    <div class="profile__avatar">
-                        M
+                    <span class="nav__icon">
+                        ♙
+                    </span>
+
+                    <span class="nav__label">
+                        Plantilla
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="mercat.html"
+                    class="nav__item"
+                >
+
+                    <span class="nav__icon">
+                        ◆
+                    </span>
+
+                    <span class="nav__label">
+                        Mercat
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="historial.html"
+                    class="nav__item"
+                >
+
+                    <span class="nav__icon">
+                        ↗
+                    </span>
+
+                    <span class="nav__label">
+                        Historial
+                    </span>
+
+                </a>
+
+
+                <span class="nav__section-title">
+                    CONFIGURACIÓ
+                </span>
+
+
+                <a
+                    href="configuracio.html"
+                    class="nav__item"
+                >
+
+                    <span class="nav__icon">
+                        ⚙
+                    </span>
+
+                    <span class="nav__label">
+                        Configuració
+                    </span>
+
+                </a>
+
+
+            </nav>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="sidebar__footer">
+
+
+                <div class="sidebar__status">
+
+                    <span class="status__dot"></span>
+
+                    <span class="status__text">
+                        Sistema operatiu
+                    </span>
+
+                </div>
+
+
+                <div class="sidebar__version">
+                    v0.1.0
+                </div>
+
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
+        <main class="main-content">
+
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
+            <header class="topbar">
+
+
+                <div class="topbar__left">
+
+
+                    <button
+                        class="mobile-menu"
+                        id="mobileMenu"
+                        aria-label="Obrir menú"
+                    >
+                        ☰
+                    </button>
+
+
+                    <div>
+
+                        <span class="page__eyebrow">
+                            LA LIGA FANTASY
+                        </span>
+
+                        <h1 class="page__title">
+                            La meva plantilla
+                        </h1>
+
                     </div>
 
-                    <div class="profile__info">
 
-                        <span class="profile__name">
-                            Manager
+                </div>
+
+
+
+                <div class="topbar__right">
+
+
+                    <button
+                        class="icon-button"
+                        aria-label="Notificacions"
+                    >
+
+                        🔔
+
+                        <span class="notification-dot"></span>
+
+                    </button>
+
+
+                    <div class="profile">
+
+
+                        <div class="profile__avatar">
+                            M
+                        </div>
+
+
+                        <div class="profile__info">
+
+                            <span class="profile__name">
+                                Manager
+                            </span>
+
+                            <span class="profile__role">
+                                Fantasy League
+                            </span>
+
+                        </div>
+
+
+                        <span class="profile__arrow">
+                            ▾
                         </span>
 
-                        <span class="profile__role">
-                            Fantasy League
-                        </span>
 
                     </div>
 
-                    <span class="profile__arrow">
-                        ▾
-                    </span>
 
                 </div>
 
 
-            </div>
-
-
-        </header>
+            </header>
 
 
 
-        <!-- =================================================
-             PLANTILLA
-        ================================================== -->
+            <!-- =================================================
+                 PLANTILLA
+            ================================================== -->
 
-        <section class="squad-page">
-
-
-            <!-- =============================================
-                 PAGE HEADER
-            ============================================== -->
-
-            <div class="squad-page__header">
+            <section class="squad-page">
 
 
-                <div class="squad-page__heading">
+                <!-- =============================================
+                     PAGE HEADER
+                ============================================== -->
 
-                    <span class="section-eyebrow">
-                        PLANTILLA
-                    </span>
-
-                    <h2>
-                        Controla el teu equip
-                    </h2>
-
-                    <p>
-                        Consulta el valor actual dels teus jugadors,
-                        la seva evolució i registra totes les
-                        compres i vendes.
-                    </p>
-
-                </div>
+                <div class="squad-page__header">
 
 
-                <div class="squad-page__actions">
+                    <div class="squad-page__heading">
 
-
-                    <button
-                        class="btn btn--secondary"
-                        id="sellPlayerButton"
-                    >
-
-                        <span>
-                            −
+                        <span class="section-eyebrow">
+                            PLANTILLA
                         </span>
 
-                        Registrar venda
+                        <h2>
+                            Controla el teu equip
+                        </h2>
 
-                    </button>
+                        <p>
+                            Consulta el valor actual dels teus jugadors,
+                            la seva evolució i registra totes les
+                            compres i vendes.
+                        </p>
+
+                    </div>
 
 
-                    <button
-                        class="btn btn--primary"
-                        id="buyPlayerButton"
-                    >
 
-                        <span>
-                            +
+                    <div class="squad-page__actions">
+
+
+                        <button
+                            class="btn btn--secondary"
+                            id="sellPlayerButton"
+                            type="button"
+                        >
+
+                            <span>
+                                −
+                            </span>
+
+                            Registrar venda
+
+                        </button>
+
+
+                        <button
+                            class="btn btn--primary"
+                            id="buyPlayerButton"
+                            type="button"
+                        >
+
+                            <span>
+                                +
+                            </span>
+
+                            Registrar compra
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =============================================
+                     SUMMARY
+                ============================================== -->
+
+                <div class="squad-summary">
+
+
+                    <article class="squad-summary__card">
+
+                        <span class="squad-summary__label">
+                            VALOR PLANTILLA
                         </span>
 
-                        Registrar compra
+                        <strong class="squad-summary__value">
+                            126.4M €
+                        </strong>
 
-                    </button>
+                        <span class="squad-summary__change positive">
+                            ↑ +2.3M avui
+                        </span>
 
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- =============================================
-                 SUMMARY
-            ============================================== -->
-
-            <div class="squad-summary">
+                    </article>
 
 
-                <article class="squad-summary__card">
+                    <article class="squad-summary__card">
 
-                    <span class="squad-summary__label">
-                        VALOR PLANTILLA
-                    </span>
+                        <span class="squad-summary__label">
+                            JUGADORS
+                        </span>
 
-                    <strong class="squad-summary__value">
-                        126.4M €
-                    </strong>
+                        <strong class="squad-summary__value">
+                            24
+                        </strong>
 
-                    <span class="squad-summary__change positive">
-                        ↑ +2.3M avui
-                    </span>
+                        <span class="squad-summary__change neutral">
+                            plantilla actual
+                        </span>
 
-                </article>
-
-
-                <article class="squad-summary__card">
-
-                    <span class="squad-summary__label">
-                        JUGADORS
-                    </span>
-
-                    <strong class="squad-summary__value">
-                        24
-                    </strong>
-
-                    <span class="squad-summary__change neutral">
-                        plantilla actual
-                    </span>
-
-                </article>
+                    </article>
 
 
-                <article class="squad-summary__card">
+                    <article class="squad-summary__card">
 
-                    <span class="squad-summary__label">
-                        MILLOR PUJADA
-                    </span>
+                        <span class="squad-summary__label">
+                            MILLOR PUJADA
+                        </span>
 
-                    <strong class="squad-summary__value">
-                        +1.24M €
-                    </strong>
+                        <strong class="squad-summary__value">
+                            +1.24M €
+                        </strong>
 
-                    <span class="squad-summary__change positive">
-                        aquesta setmana
-                    </span>
+                        <span class="squad-summary__change positive">
+                            aquesta setmana
+                        </span>
 
-                </article>
-
-
-                <article class="squad-summary__card">
-
-                    <span class="squad-summary__label">
-                        RENDIBILITAT
-                    </span>
-
-                    <strong class="squad-summary__value">
-                        +8.7M €
-                    </strong>
-
-                    <span class="squad-summary__change positive">
-                        des de l'inici
-                    </span>
-
-                </article>
+                    </article>
 
 
-            </div>
+                    <article class="squad-summary__card">
 
+                        <span class="squad-summary__label">
+                            RENDIBILITAT
+                        </span>
 
+                        <strong class="squad-summary__value">
+                            +8.7M €
+                        </strong>
 
-            <!-- =============================================
-                 TOOLBAR
-            ============================================== -->
+                        <span class="squad-summary__change positive">
+                            des de l'inici
+                        </span>
 
-            <div class="squad-toolbar">
-
-
-                <div class="squad-toolbar__search">
-
-                    <span>
-                        ⌕
-                    </span>
-
-                    <input
-                        type="search"
-                        id="playerSearch"
-                        placeholder="Buscar jugador..."
-                    >
-
-                </div>
-
-
-                <div class="squad-toolbar__filters">
-
-
-                    <button
-                        class="filter-button active"
-                        data-filter="all"
-                    >
-                        Tots
-                    </button>
-
-
-                    <button
-                        class="filter-button"
-                        data-filter="portero"
-                    >
-                        Porters
-                    </button>
-
-
-                    <button
-                        class="filter-button"
-                        data-filter="defensa"
-                    >
-                        Defenses
-                    </button>
-
-
-                    <button
-                        class="filter-button"
-                        data-filter="centrocampista"
-                    >
-                        Migcampistes
-                    </button>
-
-
-                    <button
-                        class="filter-button"
-                        data-filter="delantero"
-                    >
-                        Davanters
-                    </button>
+                    </article>
 
 
                 </div>
 
 
-                <div class="squad-toolbar__sort">
 
-                    <select id="sortPlayers">
+                <!-- =============================================
+                     TOOLBAR
+                ============================================== -->
 
-                        <option value="value">
-                            Ordenar per valor
-                        </option>
+                <div class="squad-toolbar">
 
-                        <option value="daily">
-                            Pujada diària
-                        </option>
 
-                        <option value="weekly">
-                            Evolució 7 dies
-                        </option>
+                    <div class="squad-toolbar__search">
 
-                    </select>
+                        <span>
+                            ⌕
+                        </span>
+
+                        <input
+                            type="search"
+                            id="playerSearch"
+                            placeholder="Buscar jugador..."
+                        >
+
+                    </div>
+
+
+
+                    <div class="squad-toolbar__filters">
+
+
+                        <button
+                            class="filter-button active"
+                            data-filter="all"
+                            type="button"
+                        >
+                            Tots
+                        </button>
+
+
+                        <button
+                            class="filter-button"
+                            data-filter="portero"
+                            type="button"
+                        >
+                            Porters
+                        </button>
+
+
+                        <button
+                            class="filter-button"
+                            data-filter="defensa"
+                            type="button"
+                        >
+                            Defenses
+                        </button>
+
+
+                        <button
+                            class="filter-button"
+                            data-filter="centrocampista"
+                            type="button"
+                        >
+                            Migcampistes
+                        </button>
+
+
+                        <button
+                            class="filter-button"
+                            data-filter="delantero"
+                            type="button"
+                        >
+                            Davanters
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div class="squad-toolbar__sort">
+
+
+                        <select id="sortPlayers">
+
+                            <option value="value">
+                                Ordenar per valor
+                            </option>
+
+                            <option value="daily">
+                                Pujada diària
+                            </option>
+
+                            <option value="weekly">
+                                Evolució 7 dies
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
 
                 </div>
 
 
-            </div>
+
+                <!-- =============================================
+                     PLAYERS GRID
+                ============================================== -->
+
+                <div
+                    class="players-grid"
+                    id="playersGrid"
+                >
+
+
+                    <!-- PLAYER 1 -->
+
+                    <article
+                        class="squad-player-card"
+                        data-position="portero"
+                        data-name="Joan Garcia"
+                    >
+
+
+                        <div class="squad-player-card__top">
+
+
+                            <div class="squad-player-card__identity">
+
+
+                                <div
+                                    class="player-photo player-photo--goalkeeper"
+                                >
+                                    JG
+                                </div>
+
+
+                                <div>
+
+                                    <h3>
+                                        Joan García
+                                    </h3>
+
+
+                                    <div class="player-team">
+
+                                        <span class="team-badge">
+                                            ESP
+                                        </span>
+
+                                        RCD Espanyol
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <button
+                                class="player-menu-button"
+                                aria-label="Opcions"
+                                type="button"
+                            >
+                                ⋮
+                            </button>
+
+
+                        </div>
 
 
 
-            <!-- =============================================
-                 PLAYERS GRID
-            ============================================== -->
+                        <div class="player-position">
 
-            <div
-                class="players-grid"
-                id="playersGrid"
+
+                            <span
+                                class="position-badge position-badge--goalkeeper"
+                            >
+                                PORTER
+                            </span>
+
+
+                            <span class="player-market-trend positive">
+                                ↑ +2.1%
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="player-value">
+
+                            <span>
+                                VALOR ACTUAL
+                            </span>
+
+                            <strong>
+                                7.84M €
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="player-change-grid">
+
+
+                            <div>
+
+                                <span>
+                                    AVUI
+                                </span>
+
+                                <strong class="positive">
+                                    +124K €
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    7 DIES
+                                </span>
+
+                                <strong class="positive">
+                                    +780K €
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="player-points">
+
+
+                            <div class="player-points__header">
+
+                                <span>
+                                    ÚLTIMES JORNADES
+                                </span>
+
+                                <strong>
+                                    38 pts
+                                </strong>
+
+                            </div>
+
+
+                            <div class="points-trend">
+
+                                <span>8</span>
+                                <span>6</span>
+                                <span>7</span>
+                                <span>9</span>
+                                <span>8</span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- PLAYER 2 -->
+
+                    <article
+                        class="squad-player-card"
+                        data-position="defensa"
+                        data-name="Pau Cubarsi"
+                    >
+
+
+                        <div class="squad-player-card__top">
+
+
+                            <div class="squad-player-card__identity">
+
+
+                                <div
+                                    class="player-photo player-photo--defender"
+                                >
+                                    PC
+                                </div>
+
+
+                                <div>
+
+                                    <h3>
+                                        Pau Cubarsí
+                                    </h3>
+
+
+                                    <div class="player-team">
+
+                                        <span
+                                            class="team-badge team-badge--barca"
+                                        >
+                                            FCB
+                                        </span>
+
+                                        FC Barcelona
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <button
+                                class="player-menu-button"
+                                aria-label="Opcions"
+                                type="button"
+                            >
+                                ⋮
+                            </button>
+
+
+                        </div>
+
+
+
+                        <div class="player-position">
+
+
+                            <span
+                                class="position-badge position-badge--defender"
+                            >
+                                DEFENSA
+                            </span>
+
+
+                            <span class="player-market-trend positive">
+                                ↑ +1.8%
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="player-value">
+
+                            <span>
+                                VALOR ACTUAL
+                            </span>
+
+                            <strong>
+                                18.42M €
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="player-change-grid">
+
+
+                            <div>
+
+                                <span>
+                                    AVUI
+                                </span>
+
+                                <strong class="positive">
+                                    +318K €
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    7 DIES
+                                </span>
+
+                                <strong class="positive">
+                                    +1.84M €
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="player-points">
+
+
+                            <div class="player-points__header">
+
+                                <span>
+                                    ÚLTIMES JORNADES
+                                </span>
+
+                                <strong>
+                                    31 pts
+                                </strong>
+
+                            </div>
+
+
+                            <div class="points-trend">
+
+                                <span>5</span>
+                                <span>8</span>
+                                <span>6</span>
+                                <span>7</span>
+                                <span>5</span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- PLAYER 3 -->
+
+                    <article
+                        class="squad-player-card"
+                        data-position="centrocampista"
+                        data-name="Lamine Yamal"
+                    >
+
+
+                        <div class="squad-player-card__top">
+
+
+                            <div class="squad-player-card__identity">
+
+
+                                <div
+                                    class="player-photo player-photo--midfielder"
+                                >
+                                    LY
+                                </div>
+
+
+                                <div>
+
+                                    <h3>
+                                        Lamine Yamal
+                                    </h3>
+
+
+                                    <div class="player-team">
+
+                                        <span
+                                            class="team-badge team-badge--barca"
+                                        >
+                                            FCB
+                                        </span>
+
+                                        FC Barcelona
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <button
+                                class="player-menu-button"
+                                aria-label="Opcions"
+                                type="button"
+                            >
+                                ⋮
+                            </button>
+
+
+                        </div>
+
+
+
+                        <div class="player-position">
+
+
+                            <span
+                                class="position-badge position-badge--midfielder"
+                            >
+                                MIGCAMPISTA
+                            </span>
+
+
+                            <span class="player-market-trend positive">
+                                ↑ +3.4%
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="player-value">
+
+                            <span>
+                                VALOR ACTUAL
+                            </span>
+
+                            <strong>
+                                42.86M €
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="player-change-grid">
+
+
+                            <div>
+
+                                <span>
+                                    AVUI
+                                </span>
+
+                                <strong class="positive">
+                                    +648K €
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    7 DIES
+                                </span>
+
+                                <strong class="positive">
+                                    +3.12M €
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="player-points">
+
+
+                            <div class="player-points__header">
+
+                                <span>
+                                    ÚLTIMES JORNADES
+                                </span>
+
+                                <strong>
+                                    42 pts
+                                </strong>
+
+                            </div>
+
+
+                            <div class="points-trend">
+
+                                <span>8</span>
+                                <span>9</span>
+                                <span>6</span>
+                                <span>10</span>
+                                <span>9</span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- PLAYER 4 -->
+
+                    <article
+                        class="squad-player-card"
+                        data-position="delantero"
+                        data-name="Kylian Mbappe"
+                    >
+
+
+                        <div class="squad-player-card__top">
+
+
+                            <div class="squad-player-card__identity">
+
+
+                                <div
+                                    class="player-photo player-photo--forward"
+                                >
+                                    KM
+                                </div>
+
+
+                                <div>
+
+                                    <h3>
+                                        Kylian Mbappé
+                                    </h3>
+
+
+                                    <div class="player-team">
+
+                                        <span
+                                            class="team-badge team-badge--real"
+                                        >
+                                            RMA
+                                        </span>
+
+                                        Real Madrid
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <button
+                                class="player-menu-button"
+                                aria-label="Opcions"
+                                type="button"
+                            >
+                                ⋮
+                            </button>
+
+
+                        </div>
+
+
+
+                        <div class="player-position">
+
+
+                            <span
+                                class="position-badge position-badge--forward"
+                            >
+                                DAVANTER
+                            </span>
+
+
+                            <span class="player-market-trend negative">
+                                ↓ -0.8%
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="player-value">
+
+                            <span>
+                                VALOR ACTUAL
+                            </span>
+
+                            <strong>
+                                31.72M €
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="player-change-grid">
+
+
+                            <div>
+
+                                <span>
+                                    AVUI
+                                </span>
+
+                                <strong class="negative">
+                                    -112K €
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    7 DIES
+                                </span>
+
+                                <strong class="positive">
+                                    +842K €
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="player-points">
+
+
+                            <div class="player-points__header">
+
+                                <span>
+                                    ÚLTIMES JORNADES
+                                </span>
+
+                                <strong>
+                                    29 pts
+                                </strong>
+
+                            </div>
+
+
+                            <div class="points-trend">
+
+                                <span>4</span>
+                                <span>8</span>
+                                <span>7</span>
+                                <span>9</span>
+                                <span>1</span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PLAYER DETAIL MODAL
+    ====================================================== -->
+
+    <div
+        class="player-modal"
+        id="playerModal"
+        aria-hidden="true"
+    >
+
+
+        <div class="player-modal__overlay"></div>
+
+
+        <div
+            class="player-modal__content"
+            role="dialog"
+            aria-modal="true"
+        >
+
+
+            <button
+                class="player-modal__close"
+                id="closePlayerModal"
+                aria-label="Tancar"
+                type="button"
             >
+                ×
+            </button>
 
 
-                <!-- PLAYER 1 -->
-
-                <article
-                    class="squad-player-card"
-                    data-position="portero"
-                    data-name="Joan Garcia"
-                >
-
-                    <div class="squad-player-card__top">
+            <div class="player-modal__header">
 
 
-                        <div class="squad-player-card__identity">
-
-                            <div class="player-photo player-photo--goalkeeper">
-                                JG
-                            </div>
+                <div class="player-modal__identity">
 
 
-                            <div>
-
-                                <h3>
-                                    Joan García
-                                </h3>
-
-                                <div class="player-team">
-
-                                    <span class="team-badge">
-                                        ESP
-                                    </span>
-
-                                    RCD Espanyol
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                    <div
+                        class="player-photo player-photo--modal"
+                        id="modalPlayerInitials"
+                    >
+                        LY
+                    </div>
 
 
-                        <button
-                            class="player-menu-button"
-                            aria-label="Opcions"
+                    <div>
+
+                        <span
+                            class="section-eyebrow"
+                            id="modalPlayerPosition"
                         >
-                            ⋮
-                        </button>
-
-
-                    </div>
-
-
-
-                    <div class="player-position">
-
-                        <span class="position-badge position-badge--goalkeeper">
-                            PORTER
-                        </span>
-
-                        <span class="player-market-trend positive">
-                            ↑ +2.1%
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="player-value">
-
-                        <span>
-                            VALOR ACTUAL
-                        </span>
-
-                        <strong>
-                            7.84M €
-                        </strong>
-
-                    </div>
-
-
-
-                    <div class="player-change-grid">
-
-
-                        <div>
-
-                            <span>
-                                AVUI
-                            </span>
-
-                            <strong class="positive">
-                                +124K €
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                7 DIES
-                            </span>
-
-                            <strong class="positive">
-                                +780K €
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="player-points">
-
-                        <div class="player-points__header">
-
-                            <span>
-                                ÚLTIMES JORNADES
-                            </span>
-
-                            <strong>
-                                38 pts
-                            </strong>
-
-                        </div>
-
-
-                        <div class="points-trend">
-
-                            <span>8</span>
-                            <span>6</span>
-                            <span>7</span>
-                            <span>9</span>
-                            <span>8</span>
-
-                        </div>
-
-                    </div>
-
-
-                </article>
-
-
-
-                <!-- PLAYER 2 -->
-
-                <article
-                    class="squad-player-card"
-                    data-position="defensa"
-                    data-name="Pau Cubarsi"
-                >
-
-                    <div class="squad-player-card__top">
-
-
-                        <div class="squad-player-card__identity">
-
-                            <div class="player-photo player-photo--defender">
-                                PC
-                            </div>
-
-
-                            <div>
-
-                                <h3>
-                                    Pau Cubarsí
-                                </h3>
-
-                                <div class="player-team">
-
-                                    <span class="team-badge team-badge--barca">
-                                        FCB
-                                    </span>
-
-                                    FC Barcelona
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <button
-                            class="player-menu-button"
-                            aria-label="Opcions"
-                        >
-                            ⋮
-                        </button>
-
-
-                    </div>
-
-
-                    <div class="player-position">
-
-                        <span class="position-badge position-badge--defender">
-                            DEFENSA
-                        </span>
-
-                        <span class="player-market-trend positive">
-                            ↑ +1.8%
-                        </span>
-
-                    </div>
-
-
-                    <div class="player-value">
-
-                        <span>
-                            VALOR ACTUAL
-                        </span>
-
-                        <strong>
-                            18.42M €
-                        </strong>
-
-                    </div>
-
-
-                    <div class="player-change-grid">
-
-                        <div>
-
-                            <span>
-                                AVUI
-                            </span>
-
-                            <strong class="positive">
-                                +318K €
-                            </strong>
-
-                        </div>
-
-                        <div>
-
-                            <span>
-                                7 DIES
-                            </span>
-
-                            <strong class="positive">
-                                +1.84M €
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="player-points">
-
-                        <div class="player-points__header">
-
-                            <span>
-                                ÚLTIMES JORNADES
-                            </span>
-
-                            <strong>
-                                31 pts
-                            </strong>
-
-                        </div>
-
-
-                        <div class="points-trend">
-
-                            <span>5</span>
-                            <span>8</span>
-                            <span>6</span>
-                            <span>7</span>
-                            <span>5</span>
-
-                        </div>
-
-                    </div>
-
-
-                </article>
-
-
-
-                <!-- PLAYER 3 -->
-
-                <article
-                    class="squad-player-card"
-                    data-position="centrocampista"
-                    data-name="Lamine Yamal"
-                >
-
-                    <div class="squad-player-card__top">
-
-
-                        <div class="squad-player-card__identity">
-
-                            <div class="player-photo player-photo--midfielder">
-                                LY
-                            </div>
-
-
-                            <div>
-
-                                <h3>
-                                    Lamine Yamal
-                                </h3>
-
-                                <div class="player-team">
-
-                                    <span class="team-badge team-badge--barca">
-                                        FCB
-                                    </span>
-
-                                    FC Barcelona
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <button
-                            class="player-menu-button"
-                            aria-label="Opcions"
-                        >
-                            ⋮
-                        </button>
-
-
-                    </div>
-
-
-                    <div class="player-position">
-
-                        <span class="position-badge position-badge--midfielder">
                             MIGCAMPISTA
                         </span>
 
-                        <span class="player-market-trend positive">
-                            ↑ +3.4%
-                        </span>
+                        <h2 id="modalPlayerName">
+                            Lamine Yamal
+                        </h2>
+
+                        <p id="modalPlayerTeam">
+                            FC Barcelona
+                        </p>
 
                     </div>
 
 
-                    <div class="player-value">
+                </div>
 
-                        <span>
-                            VALOR ACTUAL
-                        </span>
 
-                        <strong>
-                            42.86M €
-                        </strong>
+
+                <div class="player-modal__value">
+
+
+                    <span>
+                        VALOR ACTUAL
+                    </span>
+
+                    <strong id="modalPlayerValue">
+                        42.86M €
+                    </strong>
+
+                    <small
+                        class="positive"
+                        id="modalPlayerDailyChange"
+                    >
+                        +648K € avui
+                    </small>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="player-modal__grid">
+
+
+                <!-- EVOLUTION -->
+
+                <section class="modal-panel">
+
+
+                    <span class="section-eyebrow">
+                        EVOLUCIÓ DEL VALOR
+                    </span>
+
+                    <h3>
+                        Tendència del jugador
+                    </h3>
+
+
+                    <div class="value-periods">
+
+
+                        <button
+                            class="value-period active"
+                            data-period="7"
+                            type="button"
+                        >
+                            7D
+                        </button>
+
+
+                        <button
+                            class="value-period"
+                            data-period="15"
+                            type="button"
+                        >
+                            15D
+                        </button>
+
+
+                        <button
+                            class="value-period"
+                            data-period="30"
+                            type="button"
+                        >
+                            30D
+                        </button>
+
 
                     </div>
 
 
-                    <div class="player-change-grid">
 
-                        <div>
+                    <div class="value-chart">
 
-                            <span>
-                                AVUI
-                            </span>
 
-                            <strong class="positive">
-                                +648K €
-                            </strong>
+                        <div class="chart-bars">
+
+                            <span style="height: 35%"></span>
+                            <span style="height: 45%"></span>
+                            <span style="height: 40%"></span>
+                            <span style="height: 55%"></span>
+                            <span style="height: 72%"></span>
+                            <span style="height: 68%"></span>
+                            <span style="height: 92%"></span>
 
                         </div>
+
+
+                    </div>
+
+
+
+                    <div class="period-values">
+
 
                         <div>
 
@@ -940,793 +1438,494 @@
 
                         </div>
 
-                    </div>
 
-
-                    <div class="player-points">
-
-                        <div class="player-points__header">
+                        <div>
 
                             <span>
-                                ÚLTIMES JORNADES
+                                15 DIES
                             </span>
 
-                            <strong>
-                                42 pts
+                            <strong class="positive">
+                                +5.42M €
                             </strong>
 
                         </div>
 
 
-                        <div class="points-trend">
+                        <div>
 
-                            <span>8</span>
-                            <span>9</span>
-                            <span>6</span>
-                            <span>10</span>
-                            <span>9</span>
+                            <span>
+                                30 DIES
+                            </span>
+
+                            <strong class="positive">
+                                +8.26M €
+                            </strong>
 
                         </div>
+
 
                     </div>
 
 
-                </article>
+                </section>
 
 
 
-                <!-- PLAYER 4 -->
+                <!-- PERFORMANCE -->
 
-                <article
-                    class="squad-player-card"
-                    data-position="delantero"
-                    data-name="Kylian Mbappe"
-                >
-
-                    <div class="squad-player-card__top">
+                <section class="modal-panel">
 
 
-                        <div class="squad-player-card__identity">
+                    <span class="section-eyebrow">
+                        RENDIMENT
+                    </span>
 
-                            <div class="player-photo player-photo--forward">
-                                KM
-                            </div>
+                    <h3>
+                        Tendència de punts
+                    </h3>
 
+
+                    <div class="points-chart">
+
+
+                        <div class="points-chart__bar">
+
+                            <span>
+                                J1
+                            </span>
 
                             <div>
-
-                                <h3>
-                                    Kylian Mbappé
-                                </h3>
-
-                                <div class="player-team">
-
-                                    <span class="team-badge team-badge--real">
-                                        RMA
-                                    </span>
-
-                                    Real Madrid
-
-                                </div>
-
+                                <i style="height: 72%"></i>
                             </div>
+
+                            <strong>
+                                8
+                            </strong>
 
                         </div>
 
 
-                        <button
-                            class="player-menu-button"
-                            aria-label="Opcions"
+                        <div class="points-chart__bar">
+
+                            <span>
+                                J2
+                            </span>
+
+                            <div>
+                                <i style="height: 82%"></i>
+                            </div>
+
+                            <strong>
+                                9
+                            </strong>
+
+                        </div>
+
+
+                        <div class="points-chart__bar">
+
+                            <span>
+                                J3
+                            </span>
+
+                            <div>
+                                <i style="height: 54%"></i>
+                            </div>
+
+                            <strong>
+                                6
+                            </strong>
+
+                        </div>
+
+
+                        <div class="points-chart__bar">
+
+                            <span>
+                                J4
+                            </span>
+
+                            <div>
+                                <i style="height: 92%"></i>
+                            </div>
+
+                            <strong>
+                                10
+                            </strong>
+
+                        </div>
+
+
+                        <div class="points-chart__bar">
+
+                            <span>
+                                J5
+                            </span>
+
+                            <div>
+                                <i style="height: 82%"></i>
+                            </div>
+
+                            <strong>
+                                9
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         BUY / SELL MODAL
+    ====================================================== -->
+
+    <div
+        class="transaction-modal"
+        id="transactionModal"
+        aria-hidden="true"
+    >
+
+
+        <div
+            class="transaction-modal__overlay"
+            id="transactionModalOverlay"
+        ></div>
+
+
+
+        <div
+            class="transaction-modal__content"
+            role="dialog"
+            aria-modal="true"
+        >
+
+
+            <!-- CLOSE -->
+
+            <button
+                class="transaction-modal__close"
+                id="closeTransactionModal"
+                aria-label="Tancar"
+                type="button"
+            >
+                ×
+            </button>
+
+
+
+            <!-- HEADER -->
+
+            <div class="transaction-modal__header">
+
+
+                <span
+                    class="section-eyebrow"
+                    id="transactionModalEyebrow"
+                >
+                    REGISTRAR COMPRA
+                </span>
+
+
+                <h2
+                    id="transactionModalTitle"
+                >
+                    Registrar compra
+                </h2>
+
+
+                <p
+                    id="transactionModalDescription"
+                >
+                    Busca un jugador i registra
+                    el preu i la data de compra.
+                </p>
+
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+
+            <div class="transaction-search">
+
+
+                <span class="transaction-search__icon">
+                    ⌕
+                </span>
+
+
+                <input
+                    type="search"
+                    id="transactionPlayerSearch"
+                    placeholder="Buscar jugador..."
+                    autocomplete="off"
+                >
+
+
+            </div>
+
+
+
+            <!-- SEARCH RESULTS -->
+
+            <div
+                class="transaction-results"
+                id="transactionResults"
+            >
+
+
+                <div class="transaction-empty">
+
+                    <span>
+                        Cerca un jugador per començar
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- SELECTED PLAYER -->
+
+            <div
+                class="selected-player"
+                id="selectedTransactionPlayer"
+                hidden
+            >
+
+
+                <div class="selected-player__label">
+
+
+                    <span>
+                        JUGADOR SELECCIONAT
+                    </span>
+
+
+                    <button
+                        type="button"
+                        id="clearSelectedPlayer"
+                    >
+                        Canviar
+                    </button>
+
+
+                </div>
+
+
+
+                <div class="selected-player__card">
+
+
+                    <div
+                        class="selected-player__image"
+                        id="selectedPlayerImage"
+                    >
+                        FT
+                    </div>
+
+
+
+                    <div class="selected-player__info">
+
+
+                        <strong
+                            id="selectedPlayerName"
                         >
-                            ⋮
-                        </button>
+                            Nom del jugador
+                        </strong>
+
+
+                        <span
+                            id="selectedPlayerMeta"
+                        >
+                            Equip · Posició
+                        </span>
 
 
                     </div>
 
 
-                    <div class="player-position">
 
-                        <span class="position-badge position-badge--forward">
-                            DAVANTER
-                        </span>
+                    <div class="selected-player__value">
 
-                        <span class="player-market-trend negative">
-                            ↓ -0.8%
-                        </span>
-
-                    </div>
-
-
-                    <div class="player-value">
 
                         <span>
                             VALOR ACTUAL
                         </span>
 
-                        <strong>
-                            31.72M €
+
+                        <strong
+                            id="selectedPlayerValue"
+                        >
+                            —
                         </strong>
+
 
                     </div>
 
 
-                    <div class="player-change-grid">
+                </div>
 
-                        <div>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form
+                class="transaction-form"
+                id="transactionForm"
+            >
+
+
+                <div class="transaction-form__grid">
+
+
+                    <!-- PRICE -->
+
+                    <div class="transaction-field">
+
+
+                        <label
+                            for="transactionPrice"
+                            id="transactionPriceLabel"
+                        >
+                            PREU DE COMPRA
+                        </label>
+
+
+
+                        <div class="transaction-price-input">
+
+
+                            <input
+                                type="number"
+                                id="transactionPrice"
+                                min="0"
+                                step="1"
+                                placeholder="0"
+                                required
+                            >
+
 
                             <span>
-                                AVUI
+                                €
                             </span>
 
-                            <strong class="negative">
-                                -112K €
-                            </strong>
-
-                        </div>
-
-                        <div>
-
-                            <span>
-                                7 DIES
-                            </span>
-
-                            <strong class="positive">
-                                +842K €
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="player-points">
-
-                        <div class="player-points__header">
-
-                            <span>
-                                ÚLTIMES JORNADES
-                            </span>
-
-                            <strong>
-                                29 pts
-                            </strong>
 
                         </div>
 
 
-                        <div class="points-trend">
+                        <small>
+                            Introdueix l'import exacte
+                            de l'operació.
+                        </small>
 
-                            <span>4</span>
-                            <span>8</span>
-                            <span>7</span>
-                            <span>9</span>
-                            <span>1</span>
-
-                        </div>
 
                     </div>
 
 
-                </article>
 
+                    <!-- DATE -->
 
-            </div>
+                    <div class="transaction-field">
 
 
-        </section>
+                        <label
+                            for="transactionDate"
+                            id="transactionDateLabel"
+                        >
+                            DATA DE COMPRA
+                        </label>
 
-
-    </main>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     PLAYER MODAL
-===================================================== -->
-
-<div
-    class="player-modal"
-    id="playerModal"
-    aria-hidden="true"
->
-
-
-    <div class="player-modal__overlay"></div>
-
-
-    <div
-        class="player-modal__content"
-        role="dialog"
-        aria-modal="true"
-    >
-
-
-        <button
-            class="player-modal__close"
-            id="closePlayerModal"
-            aria-label="Tancar"
-        >
-            ×
-        </button>
-
-
-        <div class="player-modal__header">
-
-
-            <div class="player-modal__identity">
-
-                <div
-                    class="player-photo player-photo--modal"
-                    id="modalPlayerInitials"
-                >
-                    LY
-                </div>
-
-
-                <div>
-
-                    <span
-                        class="section-eyebrow"
-                        id="modalPlayerPosition"
-                    >
-                        MIGCAMPISTA
-                    </span>
-
-                    <h2 id="modalPlayerName">
-                        Lamine Yamal
-                    </h2>
-
-                    <p id="modalPlayerTeam">
-                        FC Barcelona
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="player-modal__value">
-
-                <span>
-                    VALOR ACTUAL
-                </span>
-
-                <strong id="modalPlayerValue">
-                    42.86M €
-                </strong>
-
-                <small
-                    class="positive"
-                    id="modalPlayerDailyChange"
-                >
-                    +648K € avui
-                </small>
-
-            </div>
-
-
-        </div>
-
-
-
-        <div class="player-modal__grid">
-
-
-            <section class="modal-panel">
-
-                <span class="section-eyebrow">
-                    EVOLUCIÓ DEL VALOR
-                </span>
-
-                <h3>
-                    Tendència del jugador
-                </h3>
-
-
-                <div class="value-periods">
-
-                    <button
-                        class="value-period active"
-                        data-period="7"
-                    >
-                        7D
-                    </button>
-
-                    <button
-                        class="value-period"
-                        data-period="15"
-                    >
-                        15D
-                    </button>
-
-                    <button
-                        class="value-period"
-                        data-period="30"
-                    >
-                        30D
-                    </button>
-
-                </div>
-
-
-                <div class="value-chart">
-
-                    <div class="chart-bars">
-
-                        <span style="height: 35%"></span>
-                        <span style="height: 45%"></span>
-                        <span style="height: 40%"></span>
-                        <span style="height: 55%"></span>
-                        <span style="height: 72%"></span>
-                        <span style="height: 68%"></span>
-                        <span style="height: 92%"></span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="period-values">
-
-                    <div>
-
-                        <span>
-                            7 DIES
-                        </span>
-
-                        <strong class="positive">
-                            +3.12M €
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            15 DIES
-                        </span>
-
-                        <strong class="positive">
-                            +5.42M €
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            30 DIES
-                        </span>
-
-                        <strong class="positive">
-                            +8.26M €
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-            </section>
-
-
-
-            <section class="modal-panel">
-
-                <span class="section-eyebrow">
-                    RENDIMENT
-                </span>
-
-                <h3>
-                    Tendència de punts
-                </h3>
-
-
-                <div class="points-chart">
-
-                    <div class="points-chart__bar">
-
-                        <span>
-                            J1
-                        </span>
-
-                        <div>
-                            <i style="height: 72%"></i>
-                        </div>
-
-                        <strong>
-                            8
-                        </strong>
-
-                    </div>
-
-
-                    <div class="points-chart__bar">
-
-                        <span>
-                            J2
-                        </span>
-
-                        <div>
-                            <i style="height: 82%"></i>
-                        </div>
-
-                        <strong>
-                            9
-                        </strong>
-
-                    </div>
-
-
-                    <div class="points-chart__bar">
-
-                        <span>
-                            J3
-                        </span>
-
-                        <div>
-                            <i style="height: 54%"></i>
-                        </div>
-
-                        <strong>
-                            6
-                        </strong>
-
-                    </div>
-
-
-                    <div class="points-chart__bar">
-
-                        <span>
-                            J4
-                        </span>
-
-                        <div>
-                            <i style="height: 92%"></i>
-                        </div>
-
-                        <strong>
-                            10
-                        </strong>
-
-                    </div>
-
-
-                    <div class="points-chart__bar">
-
-                        <span>
-                            J5
-                        </span>
-
-                        <div>
-                            <i style="height: 82%"></i>
-                        </div>
-
-                        <strong>
-                            9
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-            </section>
-
-
-        </div>
-
-
-    </div>
-
-    <!-- =====================================================
-     BUY / SELL MODAL
-===================================================== -->
-
-<div
-    class="transaction-modal"
-    id="transactionModal"
-    aria-hidden="true"
->
-
-    <div
-        class="transaction-modal__overlay"
-        id="transactionModalOverlay"
-    ></div>
-
-
-    <div
-        class="transaction-modal__content"
-        role="dialog"
-        aria-modal="true"
-    >
-
-
-        <!-- CLOSE -->
-
-        <button
-            class="transaction-modal__close"
-            id="closeTransactionModal"
-            aria-label="Tancar"
-        >
-            ×
-        </button>
-
-
-        <!-- HEADER -->
-
-        <div class="transaction-modal__header">
-
-            <span
-                class="section-eyebrow"
-                id="transactionModalEyebrow"
-            >
-                REGISTRAR COMPRA
-            </span>
-
-            <h2
-                id="transactionModalTitle"
-            >
-                Registrar compra
-            </h2>
-
-            <p
-                id="transactionModalDescription"
-            >
-                Busca un jugador i registra
-                el preu i la data de compra.
-            </p>
-
-        </div>
-
-
-        <!-- SEARCH -->
-
-        <div class="transaction-search">
-
-            <span class="transaction-search__icon">
-                ⌕
-            </span>
-
-            <input
-                type="search"
-                id="transactionPlayerSearch"
-                placeholder="Buscar jugador..."
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <!-- SEARCH RESULTS -->
-
-        <div
-            class="transaction-results"
-            id="transactionResults"
-        >
-
-            <div class="transaction-empty">
-
-                <span>
-                    Cerca un jugador per començar
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- SELECTED PLAYER -->
-
-        <div
-            class="selected-player"
-            id="selectedTransactionPlayer"
-            hidden
-        >
-
-            <div class="selected-player__label">
-
-                <span>
-                    JUGADOR SELECCIONAT
-                </span>
-
-                <button
-                    type="button"
-                    id="clearSelectedPlayer"
-                >
-                    Canviar
-                </button>
-
-            </div>
-
-
-            <div class="selected-player__card">
-
-
-                <div
-                    class="selected-player__image"
-                    id="selectedPlayerImage"
-                >
-                    FT
-                </div>
-
-
-                <div
-                    class="selected-player__info"
-                >
-
-                    <strong
-                        id="selectedPlayerName"
-                    >
-                        Nom del jugador
-                    </strong>
-
-
-                    <span
-                        id="selectedPlayerMeta"
-                    >
-                        Equip · Posició
-                    </span>
-
-                </div>
-
-
-                <div
-                    class="selected-player__value"
-                >
-
-                    <span>
-                        VALOR ACTUAL
-                    </span>
-
-                    <strong
-                        id="selectedPlayerValue"
-                    >
-                        —
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-        <!-- FORM -->
-
-        <form
-            class="transaction-form"
-            id="transactionForm"
-        >
-
-
-            <div class="transaction-form__grid">
-
-
-                <!-- PRICE -->
-
-                <div class="transaction-field">
-
-                    <label
-                        for="transactionPrice"
-                        id="transactionPriceLabel"
-                    >
-                        PREU DE COMPRA
-                    </label>
-
-
-                    <div
-                        class="transaction-price-input"
-                    >
 
                         <input
-                            type="number"
-                            id="transactionPrice"
-                            min="0"
-                            step="1"
-                            placeholder="0"
+                            type="date"
+                            id="transactionDate"
                             required
                         >
 
-                        <span>
-                            €
-                        </span>
+
+                        <small>
+                            Per defecte apareix la data
+                            d'avui.
+                        </small>
+
 
                     </div>
 
 
-                    <small>
-                        Introdueix l'import exacte
-                        de l'operació.
-                    </small>
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div
+                    class="transaction-form__actions"
+                >
+
+
+                    <button
+                        type="button"
+                        class="btn btn--secondary"
+                        id="cancelTransaction"
+                    >
+                        Cancel·lar
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn--primary"
+                        id="confirmTransaction"
+                        disabled
+                    >
+                        Confirmar compra
+                    </button>
+
 
                 </div>
 
 
-                <!-- DATE -->
-
-                <div class="transaction-field">
-
-                    <label
-                        for="transactionDate"
-                        id="transactionDateLabel"
-                    >
-                        DATA DE COMPRA
-                    </label>
+            </form>
 
 
-                    <input
-                        type="date"
-                        id="transactionDate"
-                        required
-                    >
-
-
-                    <small>
-                        Per defecte apareix la data
-                        d'avui.
-                    </small>
-
-                </div>
-
-
-            </div>
-
-
-            <!-- ACTIONS -->
-
-            <div
-                class="transaction-form__actions"
-            >
-
-                <button
-                    type="button"
-                    class="btn btn--secondary"
-                    id="cancelTransaction"
-                >
-                    Cancel·lar
-                </button>
-
-
-                <button
-                    type="submit"
-                    class="btn btn--primary"
-                    id="confirmTransaction"
-                    disabled
-                >
-                    Confirmar compra
-                </button>
-
-
-            </div>
-
-
-        </form>
+        </div>
 
 
     </div>
 
-</div>
 
 
-</div>
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
+    <script src="../js/app.js"></script>
 
-
-<!-- JS -->
-
-<script src="../js/app.js"></script>
-
-<script src="../js/plantilla.js"></script>
+    <script src="../js/plantilla.js"></script>
 
 
 </body>
-
 </html>
