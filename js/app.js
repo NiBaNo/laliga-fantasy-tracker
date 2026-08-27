@@ -121,14 +121,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       CLICK OUTSIDE SIDEBAR
-    ===================================================== */
+   CLICK OUTSIDE SIDEBAR
+===================================================== */
 
-    overlay.addEventListener("click", () => {
+document.addEventListener("click", event => {
 
-        closeSidebar();
+    /*
+     * Ignorem el clic si estem dins del sidebar
+     */
+    if (sidebar.contains(event.target)) {
+        return;
+    }
 
-    });
+
+    /*
+     * Ignorem el clic sobre el botó del menú
+     * perquè aquest ja gestiona el toggle
+     */
+    if (
+        sidebarToggle &&
+        sidebarToggle.contains(event.target)
+    ) {
+        return;
+    }
+
+
+    /*
+     * MOBILE
+     */
+
+    if (isMobile()) {
+
+        if (sidebar.classList.contains("mobile-open")) {
+
+            closeSidebar();
+
+        }
+
+        return;
+    }
+
+
+    /*
+     * DESKTOP
+     */
+
+    if (!sidebar.classList.contains("collapsed")) {
+
+        sidebar.classList.add("collapsed");
+
+        document.body.classList.add("sidebar-collapsed");
+
+    }
+
+});
+
 
 
     /* =====================================================
