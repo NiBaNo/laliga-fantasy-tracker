@@ -5,15 +5,25 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
     const sidebar = document.getElementById("sidebar");
-    const sidebarToggle = document.getElementById("sidebarToggle");
-    const mobileMenu = document.getElementById("mobileMenu");
+
+    const sidebarToggle =
+        document.getElementById("sidebarToggle");
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
 
     if (!sidebar) return;
 
 
     /* =====================================================
-       CREATE MOBILE OVERLAY
+       CREATE OVERLAY
     ===================================================== */
 
     const overlay = document.createElement("div");
@@ -27,10 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
        HELPERS
     ===================================================== */
 
-    const isCompact = () => window.innerWidth <= 900;
+    const isCompact = () =>
+        window.innerWidth <= 900;
 
 
-    const closeSidebar = () => {
+    const closeCompactSidebar = () => {
 
         sidebar.classList.remove("mobile-open");
 
@@ -39,11 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    const openSidebar = () => {
+    const openCompactSidebar = () => {
 
         /*
-         * En mode compacte sempre obrim
-         * el sidebar complet.
+         * Eliminem qualsevol estat desktop.
          */
 
         sidebar.classList.remove("collapsed");
@@ -52,9 +62,36 @@ document.addEventListener("DOMContentLoaded", () => {
             "sidebar-collapsed"
         );
 
+
+        /*
+         * Obrim el sidebar.
+         */
+
         sidebar.classList.add("mobile-open");
 
         overlay.classList.add("active");
+
+    };
+
+
+    const closeDesktopSidebar = () => {
+
+        sidebar.classList.add("collapsed");
+
+        document.body.classList.add(
+            "sidebar-collapsed"
+        );
+
+    };
+
+
+    const openDesktopSidebar = () => {
+
+        sidebar.classList.remove("collapsed");
+
+        document.body.classList.remove(
+            "sidebar-collapsed"
+        );
 
     };
 
@@ -65,78 +102,96 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (sidebarToggle) {
 
-        sidebarToggle.addEventListener("click", event => {
+        sidebarToggle.addEventListener(
+            "click",
+            event => {
 
-            event.stopPropagation();
+                event.stopPropagation();
 
 
-            /*
-             * COMPACT / SMALL WINDOW
-             */
+                /*
+                 * COMPACT MODE
+                */
 
-            if (isCompact()) {
+                if (isCompact()) {
 
-                if (
-                    sidebar.classList.contains(
-                        "mobile-open"
-                    )
-                ) {
+                    closeCompactSidebar();
 
-                    closeSidebar();
-
-                } else {
-
-                    openSidebar();
+                    return;
 
                 }
 
-                return;
+
+                /*
+                 * DESKTOP
+                */
+
+                if (
+                    sidebar.classList.contains(
+                        "collapsed"
+                    )
+                ) {
+
+                    openDesktopSidebar();
+
+                } else {
+
+                    closeDesktopSidebar();
+
+                }
 
             }
-
-
-            /*
-             * DESKTOP
-             */
-
-            sidebar.classList.toggle("collapsed");
-
-            document.body.classList.toggle(
-                "sidebar-collapsed",
-                sidebar.classList.contains("collapsed")
-            );
-
-        });
+        );
 
     }
 
 
     /* =====================================================
-       MOBILE / COMPACT MENU BUTTON
+       TOPBAR MENU BUTTON
     ===================================================== */
 
     if (mobileMenu) {
 
-        mobileMenu.addEventListener("click", event => {
+        mobileMenu.addEventListener(
+            "click",
+            event => {
 
-            event.stopPropagation();
+                event.stopPropagation();
 
 
-            if (
-                sidebar.classList.contains(
-                    "mobile-open"
-                )
-            ) {
+                /*
+                 * COMPACT MODE
+                */
 
-                closeSidebar();
+                if (isCompact()) {
 
-            } else {
+                    if (
+                        sidebar.classList.contains(
+                            "mobile-open"
+                        )
+                    ) {
 
-                openSidebar();
+                        closeCompactSidebar();
+
+                    } else {
+
+                        openCompactSidebar();
+
+                    }
+
+                    return;
+
+                }
+
+
+                /*
+                 * DESKTOP
+                */
+
+                openDesktopSidebar();
 
             }
-
-        });
+        );
 
     }
 
@@ -147,9 +202,82 @@ document.addEventListener("DOMContentLoaded", () => {
 
     overlay.addEventListener("click", () => {
 
-        closeSidebar();
+        closeCompactSidebar();
 
     });
+
+
+    /* =====================================================
+       CLICK OUTSIDE SIDEBAR
+    ===================================================== */
+
+    document.addEventListener(
+        "click",
+        event => {
+
+
+            /*
+             * En compacte l'overlay
+             * ja gestiona el clic exterior.
+            */
+
+            if (isCompact()) return;
+
+
+            /*
+             * Si ja està tancat,
+             * no cal fer res.
+            */
+
+            if (
+                sidebar.classList.contains(
+                    "collapsed"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Ignorem clics dins
+             * del propi sidebar.
+            */
+
+            if (
+                sidebar.contains(event.target)
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Ignorem el botó
+             * que obre el sidebar.
+            */
+
+            if (
+                mobileMenu &&
+                mobileMenu.contains(event.target)
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Tanquem en clicar
+             * fora del sidebar.
+            */
+
+            closeDesktopSidebar();
+
+        }
+    );
 
 
     /* =====================================================
@@ -163,15 +291,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     navLinks.forEach(link => {
 
-        link.addEventListener("click", () => {
+        link.addEventListener(
+            "click",
+            () => {
 
-            if (isCompact()) {
+                if (isCompact()) {
 
-                closeSidebar();
+                    closeCompactSidebar();
+
+                }
 
             }
-
-        });
+        );
 
     });
 
@@ -180,24 +311,29 @@ document.addEventListener("DOMContentLoaded", () => {
        ACTIVE PAGE
     ===================================================== */
 
-    const currentFile = window.location.pathname
-        .split("/")
-        .pop() || "index.html";
+    const currentFile =
+        window.location.pathname
+            .split("/")
+            .pop() || "index.html";
 
 
     navLinks.forEach(link => {
 
-        const href = link.getAttribute("href");
+        const href =
+            link.getAttribute("href");
 
         if (!href) return;
 
 
-        const hrefFile = href
-            .split("/")
-            .pop();
+        const hrefFile =
+            href
+                .split("/")
+                .pop();
 
 
-        if (hrefFile === currentFile) {
+        if (
+            hrefFile === currentFile
+        ) {
 
             navLinks.forEach(item => {
 
@@ -217,34 +353,69 @@ document.addEventListener("DOMContentLoaded", () => {
        ESC KEY
     ===================================================== */
 
-    document.addEventListener("keydown", event => {
+    document.addEventListener(
+        "keydown",
+        event => {
 
-        if (event.key === "Escape") {
+            if (event.key !== "Escape") return;
 
-            closeSidebar();
+
+            if (isCompact()) {
+
+                closeCompactSidebar();
+
+            } else {
+
+                closeDesktopSidebar();
+
+            }
 
         }
-
-    });
+    );
 
 
     /* =====================================================
        WINDOW RESIZE
     ===================================================== */
 
-    window.addEventListener("resize", () => {
+    window.addEventListener(
+        "resize",
+        () => {
 
-        /*
-         * Quan passem a pantalla ampla,
-         * netegem l'estat de l'overlay.
-         */
 
-        if (!isCompact()) {
+            /*
+             * Si passem a desktop,
+             * eliminem l'estat overlay.
+            */
 
-            closeSidebar();
+            if (!isCompact()) {
+
+                closeCompactSidebar();
+
+            }
+
+
+            /*
+             * Si passem a compacte,
+             * eliminem l'estat desktop
+             * perquè el sidebar pugui
+             * funcionar com overlay.
+            */
+
+            if (isCompact()) {
+
+                sidebar.classList.remove(
+                    "collapsed"
+                );
+
+                document.body.classList.remove(
+                    "sidebar-collapsed"
+                );
+
+            }
 
         }
+    );
 
-    });
 
 });
