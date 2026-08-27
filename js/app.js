@@ -5,177 +5,147 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const sidebar =
-        document.getElementById("sidebar");
-
-    const sidebarToggle =
-        document.getElementById("sidebarToggle");
-
-    const mobileMenu =
-        document.getElementById("mobileMenu");
-
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
 
     if (!sidebar) return;
 
 
     /* =====================================================
-       CREATE OVERLAY
+       CREATE SIDEBAR OVERLAY
     ===================================================== */
 
-    const overlay =
-        document.createElement("div");
+    const overlay = document.createElement("div");
 
-    overlay.className =
-        "sidebar-overlay";
+    overlay.className = "sidebar-overlay";
 
     document.body.appendChild(overlay);
 
 
     /* =====================================================
-       BREAKPOINT
+       HELPERS
     ===================================================== */
 
-    const isCompact = () =>
-        window.innerWidth <= 900;
+    const isCompact = () => {
+
+        return window.innerWidth <= 900;
+
+    };
+
+
+    const isSidebarOpen = () => {
+
+        return !sidebar.classList.contains("collapsed");
+
+    };
 
 
     /* =====================================================
-       COMPACT SIDEBAR
+       OPEN SIDEBAR
     ===================================================== */
 
-    const openCompactSidebar = () => {
+    const openSidebar = () => {
 
         /*
-         * En mode compacte el sidebar
-         * sempre s'obre complet.
+           Obrim el sidebar
         */
 
-        sidebar.classList.remove(
-            "collapsed"
-        );
+        sidebar.classList.remove("collapsed");
 
-        document.body.classList.remove(
-            "sidebar-collapsed"
-        );
+        sidebar.classList.add("mobile-open");
 
 
-        sidebar.classList.add(
-            "mobile-open"
-        );
+        /*
+           El body deixa d'estar en estat tancat
+        */
 
-        overlay.classList.add(
-            "active"
-        );
-
-    };
+        document.body.classList.remove("sidebar-collapsed");
 
 
-    const closeCompactSidebar = () => {
+        /*
+           Activem l'overlay
+        */
 
-        sidebar.classList.remove(
-            "mobile-open"
-        );
-
-        overlay.classList.remove(
-            "active"
-        );
+        overlay.classList.add("active");
 
     };
 
 
     /* =====================================================
-       DESKTOP SIDEBAR
+       CLOSE SIDEBAR
     ===================================================== */
 
-    const openDesktopSidebar = () => {
+    const closeSidebar = () => {
 
-        sidebar.classList.remove(
-            "collapsed"
-        );
+        /*
+           Tanquem completament el sidebar
+        */
 
-        document.body.classList.remove(
-            "sidebar-collapsed"
-        );
+        sidebar.classList.remove("mobile-open");
 
-    };
+        sidebar.classList.add("collapsed");
 
 
-    const closeDesktopSidebar = () => {
+        /*
+           Guardem l'estat visual
+        */
 
-        sidebar.classList.add(
-            "collapsed"
-        );
+        document.body.classList.add("sidebar-collapsed");
 
-        document.body.classList.add(
-            "sidebar-collapsed"
-        );
+
+        /*
+           Eliminem l'overlay
+        */
+
+        overlay.classList.remove("active");
 
     };
 
 
     /* =====================================================
-       MAIN SIDEBAR TOGGLE
+       INITIAL STATE
+    ===================================================== */
+
+    /*
+       En pantalla compacta volem que
+       el sidebar comenci tancat.
+    */
+
+    if (isCompact()) {
+
+        closeSidebar();
+
+    }
+
+
+    /* =====================================================
+       SIDEBAR TOGGLE BUTTON
     ===================================================== */
 
     if (sidebarToggle) {
 
-        sidebarToggle.addEventListener(
-            "click",
-            event => {
+        sidebarToggle.addEventListener("click", event => {
 
-                event.stopPropagation();
+            event.stopPropagation();
 
 
-                /*
-                 * COMPACT MODE
-                */
+            /*
+               El botó interior del sidebar
+               serveix principalment per tancar-lo.
+            */
 
-                if (isCompact()) {
+            if (isSidebarOpen()) {
 
-                    if (
-                        sidebar.classList.contains(
-                            "mobile-open"
-                        )
-                    ) {
+                closeSidebar();
 
-                        closeCompactSidebar();
+            } else {
 
-                    } else {
-
-                        openCompactSidebar();
-
-                    }
-
-                    return;
-
-                }
-
-
-                /*
-                 * DESKTOP MODE
-                */
-
-                if (
-                    sidebar.classList.contains(
-                        "collapsed"
-                    )
-                ) {
-
-                    openDesktopSidebar();
-
-                } else {
-
-                    closeDesktopSidebar();
-
-                }
+                openSidebar();
 
             }
-        );
+
+        });
 
     }
 
@@ -186,49 +156,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (mobileMenu) {
 
-        mobileMenu.addEventListener(
-            "click",
-            event => {
+        mobileMenu.addEventListener("click", event => {
 
-                event.stopPropagation();
+            event.stopPropagation();
 
 
-                /*
-                 * COMPACT MODE
-                */
+            /*
+               Toggle universal.
 
-                if (isCompact()) {
+               Funciona igual a desktop,
+               pantalla dividida i mòbil.
+            */
 
-                    if (
-                        sidebar.classList.contains(
-                            "mobile-open"
-                        )
-                    ) {
+            if (isSidebarOpen()) {
 
-                        closeCompactSidebar();
+                closeSidebar();
 
-                    } else {
+            } else {
 
-                        openCompactSidebar();
-
-                    }
-
-                    return;
-
-                }
-
-
-                /*
-                 * DESKTOP MODE
-                 *
-                 * Aquest botó només apareix
-                 * quan el sidebar està tancat.
-                */
-
-                openDesktopSidebar();
+                openSidebar();
 
             }
-        );
+
+        });
 
     }
 
@@ -237,136 +187,41 @@ document.addEventListener("DOMContentLoaded", () => {
        OVERLAY CLICK
     ===================================================== */
 
-    overlay.addEventListener(
-        "click",
-        () => {
+    /*
+       Clicar sobre la zona fosca,
+       fora del sidebar, el tanca.
+    */
 
-            closeCompactSidebar();
+    overlay.addEventListener("click", () => {
 
-        }
-    );
+        closeSidebar();
 
-
-    /* =====================================================
-       CLICK OUTSIDE SIDEBAR
-    ===================================================== */
-
-    document.addEventListener(
-        "click",
-        event => {
-
-
-            /*
-             * En mode compacte l'overlay
-             * és qui gestiona el clic exterior.
-            */
-
-            if (isCompact()) {
-
-                return;
-
-            }
-
-
-            /*
-             * Si ja està tancat,
-             * no cal fer res.
-            */
-
-            if (
-                sidebar.classList.contains(
-                    "collapsed"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-             * Clic dins del sidebar:
-             * no el tanquem.
-            */
-
-            if (
-                sidebar.contains(event.target)
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-             * Ignorem el botó del topbar
-             * que serveix per reobrir-lo.
-            */
-
-            if (
-                mobileMenu &&
-                mobileMenu.contains(event.target)
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-             * Ignorem també el botó intern.
-            */
-
-            if (
-                sidebarToggle &&
-                sidebarToggle.contains(event.target)
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-             * Qualsevol altre clic en desktop
-             * tanca completament el sidebar.
-            */
-
-            closeDesktopSidebar();
-
-        }
-    );
+    });
 
 
     /* =====================================================
        NAVIGATION LINKS
     ===================================================== */
 
-    const navLinks =
-        sidebar.querySelectorAll(
-            ".nav__item"
-        );
-
+    const navLinks = sidebar.querySelectorAll(".nav__item");
 
     navLinks.forEach(link => {
 
-        link.addEventListener(
-            "click",
-            () => {
+        link.addEventListener("click", () => {
 
-                /*
-                 * En compacte tanquem el menú
-                 * després de navegar.
-                */
+            /*
+               En pantalla compacta,
+               tanquem el sidebar després
+               de seleccionar una pàgina.
+            */
 
-                if (isCompact()) {
+            if (isCompact()) {
 
-                    closeCompactSidebar();
-
-                }
+                closeSidebar();
 
             }
-        );
+
+        });
 
     });
 
@@ -375,43 +230,60 @@ document.addEventListener("DOMContentLoaded", () => {
        ACTIVE PAGE
     ===================================================== */
 
-    const currentFile =
-        window.location.pathname
-            .split("/")
-            .pop() || "index.html";
-
+    const currentPath = window.location.pathname;
 
     navLinks.forEach(link => {
 
-        const href =
-            link.getAttribute("href");
-
+        const href = link.getAttribute("href");
 
         if (!href) return;
 
 
-        const hrefFile =
-            href
-                .split("/")
-                .pop();
+        /*
+           Normalitzem el href.
 
+           Això permet que funcioni tant si
+           estem a index.html com a pages/*
+        */
+
+        const normalizedHref = href.replace(/^\.\//, "");
+
+
+        /*
+           Dashboard principal
+        */
+
+        const isDashboard =
+
+            normalizedHref === "index.html" ||
+
+            normalizedHref === "pages/dashboard.html";
+
+
+        /*
+           Si som a l'arrel del projecte,
+           considerem Dashboard com a actiu.
+        */
 
         if (
-            hrefFile === currentFile
+
+            currentPath.endsWith(normalizedHref) ||
+
+            (
+                currentPath.endsWith("/") &&
+                isDashboard
+            )
+
         ) {
 
             navLinks.forEach(item => {
 
-                item.classList.remove(
-                    "active"
-                );
+                item.classList.remove("active");
 
             });
 
 
-            link.classList.add(
-                "active"
-            );
+            link.classList.add("active");
 
         }
 
@@ -422,77 +294,47 @@ document.addEventListener("DOMContentLoaded", () => {
        ESC KEY
     ===================================================== */
 
-    document.addEventListener(
-        "keydown",
-        event => {
+    document.addEventListener("keydown", event => {
 
-            if (event.key !== "Escape") {
+        if (event.key === "Escape") {
 
-                return;
+            if (isSidebarOpen()) {
 
-            }
-
-
-            if (isCompact()) {
-
-                closeCompactSidebar();
-
-            } else {
-
-                closeDesktopSidebar();
+                closeSidebar();
 
             }
 
         }
-    );
+
+    });
 
 
     /* =====================================================
        WINDOW RESIZE
     ===================================================== */
 
-    window.addEventListener(
-        "resize",
-        () => {
+    window.addEventListener("resize", () => {
 
+        /*
+           Si el sidebar està obert,
+           mantenim el seu estat.
 
-            /*
-             * En passar a desktop:
-             * eliminem completament l'estat
-             * del mode compacte.
-            */
+           No fem cap desplaçament del main.
+           El comportament és sempre:
 
-            if (!isCompact()) {
+           Sidebar
+           → per sobre del contingut
 
-                closeCompactSidebar();
+           Overlay
+           → enfosqueix la resta
+        */
 
-            }
+        if (isSidebarOpen()) {
 
-
-            /*
-             * En passar a compacte:
-             *
-             * eliminem l'estat de desktop.
-             * El CSS ja deixa el sidebar
-             * completament fora de pantalla.
-            */
-
-            if (isCompact()) {
-
-                sidebar.classList.remove(
-                    "collapsed"
-                );
-
-                document.body.classList.remove(
-                    "sidebar-collapsed"
-                );
-
-                closeCompactSidebar();
-
-            }
+            sidebar.classList.remove("collapsed");
 
         }
-    );
 
+    });
 
 });
