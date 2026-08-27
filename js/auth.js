@@ -200,6 +200,13 @@ const initAuth = async () => {
     const authModalClose =
         document.getElementById("authModalClose");
 
+   const authModalTitle =
+    document.getElementById("authModalTitle");
+
+
+   const authModalDescription =
+       document.getElementById("authModalDescription");
+
 
     const loginForm =
         document.getElementById("loginForm");
@@ -412,11 +419,13 @@ const initAuth = async () => {
             }
 
 
+            authModalTitle.hidden = false;
+
+            authModalDescription.hidden = false;
+           
             loginForm.hidden = false;
 
-
             loggedUserPanel.hidden = true;
-
 
             loggedUserName.textContent = "";
 
@@ -458,6 +467,11 @@ const initAuth = async () => {
                     .toUpperCase();
 
         }
+
+       authModalTitle.hidden = true;
+
+
+       authModalDescription.hidden = true;
 
 
         /*
