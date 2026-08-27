@@ -204,39 +204,40 @@ document.addEventListener("click", event => {
 
 
     /* =====================================================
-       ACTIVE PAGE
-    ===================================================== */
+   ACTIVE PAGE
+===================================================== */
 
-    const currentPage = window.location.pathname;
-
-    navLinks.forEach(link => {
-
-        const href = link.getAttribute("href");
-
-        if (!href) return;
+const currentFile = window.location.pathname
+    .split("/")
+    .pop() || "index.html";
 
 
-        /*
-         * Don't mark everything active on index.html.
-         */
+navLinks.forEach(link => {
 
-        if (
-            currentPage.endsWith(href) ||
-            (
-                currentPage.endsWith("/") &&
-                href === "pages/dashboard.html"
-            )
-        ) {
+    const href = link.getAttribute("href");
 
-            navLinks.forEach(item => {
-                item.classList.remove("active");
-            });
+    if (!href) return;
 
-            link.classList.add("active");
 
-        }
+    const hrefFile = href
+        .split("/")
+        .pop();
 
-    });
+
+    if (hrefFile === currentFile) {
+
+        navLinks.forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+
+        link.classList.add("active");
+
+    }
+
+});
 
 
     /* =====================================================
