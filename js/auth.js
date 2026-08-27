@@ -188,6 +188,8 @@ const initAuth = async () => {
     const profileAvatar =
         document.getElementById("profileAvatar");
 
+   const greetingName = 
+      document.getElementById("greetingName");
 
     const authModal =
         document.getElementById("authModal");
@@ -418,6 +420,10 @@ const initAuth = async () => {
 
             }
 
+           if (greetingName) {
+             greetingName.textContent = "Manager";
+         }
+
 
             authModalTitle.hidden = false;
 
@@ -467,6 +473,10 @@ const initAuth = async () => {
                     .toUpperCase();
 
         }
+
+       if (greetingName) {
+          greetingName.textContent = displayName;
+      }
 
        authModalTitle.hidden = true;
 
