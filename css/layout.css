@@ -72,7 +72,9 @@
 
     min-width: 0;
 
-    transition: opacity var(--transition);
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
 }
 
 .brand__icon {
@@ -391,8 +393,6 @@
 
    <aside class="sidebar"></aside>
    <main class="main-content"></main>
-
-   Therefore + works perfectly here.
 */
 
 .sidebar.collapsed + .main-content {
@@ -400,7 +400,9 @@
 }
 
 
-/* Hide textual elements */
+/* =========================================================
+   HIDE TEXTUAL ELEMENTS
+========================================================= */
 
 .sidebar.collapsed .brand__text,
 .sidebar.collapsed .nav__label,
@@ -412,37 +414,62 @@
 }
 
 
-/* Header in collapsed mode */
+/* =========================================================
+   COLLAPSED HEADER
+========================================================= */
+
+/*
+   Quan el sidebar està plegat no deixem
+   el logo FT + el botó hamburguesa.
+
+   Això evita que visualment sembli
+   que el sidebar està "mig obert".
+*/
 
 .sidebar.collapsed .sidebar__header {
     justify-content: center;
 
-    padding: 0 10px;
+    padding: 0;
 }
+
+
+/*
+   Amaguem completament el branding.
+
+   No només el text:
+   també desapareix el quadrat FT.
+*/
 
 .sidebar.collapsed .brand {
-    justify-content: center;
+    display: none;
 }
+
+
+/*
+   El toggle queda sol i perfectament centrat.
+*/
 
 .sidebar.collapsed .sidebar__toggle {
-    position: absolute;
+    position: static;
 
-    top: 25px;
-    right: 7px;
+    width: 38px;
+    height: 38px;
 
-    width: 26px;
-    height: 26px;
+    display: grid;
+    place-items: center;
 
-    font-size: 14px;
+    font-size: 17px;
 }
 
 
-/* Navigation in collapsed mode */
+/* =========================================================
+   COLLAPSED NAVIGATION
+========================================================= */
 
 .sidebar.collapsed .sidebar__nav {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 25px 9px;
 }
+
 
 .sidebar.collapsed .nav__item {
     justify-content: center;
@@ -450,6 +477,7 @@
     padding-left: 0;
     padding-right: 0;
 }
+
 
 .sidebar.collapsed .nav__icon {
     width: auto;
@@ -465,7 +493,9 @@
 }
 
 
-/* Footer hidden */
+/* =========================================================
+   COLLAPSED FOOTER
+========================================================= */
 
 .sidebar.collapsed .sidebar__footer {
     display: none;
@@ -789,6 +819,16 @@
         transform: translateX(0);
     }
 
+
+    /*
+       Si venim de desktop amb el sidebar plegat,
+       en mòbil hem de restaurar tots els elements.
+    */
+
+    .sidebar.collapsed .brand {
+        display: flex;
+    }
+
     .sidebar.collapsed .brand__text,
     .sidebar.collapsed .nav__label,
     .sidebar.collapsed .nav__section-title,
@@ -804,8 +844,20 @@
         padding: 0 18px;
     }
 
+    .sidebar.collapsed .sidebar__toggle {
+        width: 32px;
+        height: 32px;
+
+        font-size: 16px;
+    }
+
+    .sidebar.collapsed .sidebar__nav {
+        padding: 25px 12px;
+    }
+
     .sidebar.collapsed .nav__item {
         justify-content: flex-start;
+
         padding-left: 11px;
         padding-right: 11px;
     }
@@ -925,6 +977,7 @@
 
 }
 
+
 /* =========================================================
    SIDEBAR MOBILE OVERLAY
 ========================================================= */
@@ -975,4 +1028,3 @@
     }
 
 }
-
