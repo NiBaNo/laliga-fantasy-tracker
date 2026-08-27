@@ -685,6 +685,57 @@
 
 }
 
+@media (max-width: 768px) {
+
+    .squad-player-card {
+
+        min-height:
+            430px;
+
+    }
+
+
+    .squad-player-card .player-photo {
+
+        width:
+            112px;
+
+        height:
+            112px;
+
+        font-size:
+            23px;
+
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .squad-player-card {
+
+        min-height:
+            400px;
+
+    }
+
+
+    .squad-player-card .player-photo {
+
+        width:
+            104px;
+
+        height:
+            104px;
+
+        margin-bottom:
+            12px;
+
+    }
+
+}
+
 /* =========================================================
    SQUAD PAGE
 ========================================================= */
@@ -951,69 +1002,146 @@
    PLAYERS GRID
 ========================================================= */
 
+/* =========================================================
+   PLAYERS GRID
+========================================================= */
+
 .players-grid {
+
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
     gap: 16px;
+
 }
 
+
+/* =========================================================
+   PLAYER CARD
+========================================================= */
+
 .squad-player-card {
+
     position: relative;
 
     display: flex;
     flex-direction: column;
 
-    min-height: 350px;
+    min-height: 455px;
 
-    padding: 18px;
+    padding: 20px;
 
     background:
+
         linear-gradient(
             145deg,
-            rgba(255, 255, 255, 0.025),
+            rgba(255, 255, 255, 0.03),
             transparent 42%
         ),
+
         var(--bg-card);
 
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    border:
+        1px solid var(--border);
 
-    cursor: pointer;
-    overflow: hidden;
+    border-radius:
+        var(--radius-md);
+
+    cursor:
+        pointer;
+
+    overflow:
+        hidden;
 
     transition:
-        transform var(--transition),
-        border-color var(--transition),
-        background var(--transition),
-        box-shadow var(--transition);
+
+        transform
+        var(--transition),
+
+        border-color
+        var(--transition),
+
+        background
+        var(--transition),
+
+        box-shadow
+        var(--transition);
+
 }
 
-.squad-player-card::after {
+
+/* =========================================================
+   DECORATIVE GLOW
+========================================================= */
+
+.squad-player-card::before {
+
     content: "";
 
     position: absolute;
 
-    right: -55px;
-    bottom: -55px;
+    top: -80px;
+    left: 50%;
 
-    width: 130px;
-    height: 130px;
+    width: 220px;
+    height: 220px;
 
-    border: 1px solid rgba(0, 230, 118, 0.07);
-    border-radius: 50%;
+    transform:
+        translateX(-50%);
 
-    pointer-events: none;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.035),
+            transparent 68%
+        );
+
+    pointer-events:
+        none;
+
 }
 
+
+.squad-player-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: -65px;
+    bottom: -65px;
+
+    width: 150px;
+    height: 150px;
+
+    border:
+        1px solid rgba(0, 230, 118, 0.07);
+
+    border-radius:
+        50%;
+
+    pointer-events:
+        none;
+
+}
+
+
 .squad-player-card:hover {
-    transform: translateY(-4px);
 
-    background: var(--bg-card-hover);
+    transform:
+        translateY(-4px);
 
-    border-color: rgba(0, 230, 118, 0.18);
+    background:
+        var(--bg-card-hover);
+
+    border-color:
+        rgba(0, 230, 118, 0.18);
 
     box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.20);
+        0 18px 45px rgba(0, 0, 0, 0.24);
+
 }
 
 
@@ -1022,213 +1150,448 @@
 ========================================================= */
 
 .squad-player-card__top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
 
-    gap: 10px;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+
+    padding-top: 2px;
+
 }
+
 
 .squad-player-card__identity {
+
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 11px;
+
+    width: 100%;
 
     min-width: 0;
-}
 
-.player-photo {
-    width: 42px;
-    height: 42px;
+    text-align:
+        center;
 
-    display: grid;
-    place-items: center;
-
-    flex-shrink: 0;
-
-    color: var(--text-primary);
-
-    background:
-        linear-gradient(
-            135deg,
-            #29313b,
-            #161b21
-        );
-
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 50%;
-
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.player-photo--goalkeeper {
-    color: #6dc6ff;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(77, 141, 255, 0.28),
-            rgba(77, 141, 255, 0.06)
-        );
-}
-
-.player-photo--defender {
-    color: var(--accent);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0, 230, 118, 0.22),
-            rgba(0, 230, 118, 0.04)
-        );
-}
-
-.player-photo--midfielder {
-    color: var(--purple);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(155, 108, 255, 0.25),
-            rgba(155, 108, 255, 0.05)
-        );
-}
-
-.player-photo--forward {
-    color: var(--orange);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 159, 67, 0.25),
-            rgba(255, 159, 67, 0.05)
-        );
-}
-
-.squad-player-card h3 {
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    font-size: 13px;
-}
-
-.player-team {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    margin-top: 3px;
-
-    color: var(--text-muted);
-
-    font-size: 9px;
-}
-
-.team-badge {
-    min-width: 22px;
-    height: 17px;
-
-    display: grid;
-    place-items: center;
-
-    color: var(--text-secondary);
-
-    background: rgba(255, 255, 255, 0.06);
-
-    border-radius: 4px;
-
-    font-size: 7px;
-    font-weight: 800;
-}
-
-.team-badge--barca {
-    color: #f4c542;
-
-    background: rgba(155, 108, 255, 0.12);
-}
-
-.team-badge--real {
-    color: #d5d9df;
-
-    background: rgba(255, 255, 255, 0.09);
-}
-
-.player-menu-button {
-    width: 28px;
-    height: 28px;
-
-    display: grid;
-    place-items: center;
-
-    flex-shrink: 0;
-
-    color: var(--text-muted);
-    background: transparent;
-
-    border-radius: 6px;
-
-    font-size: 17px;
-
-    transition:
-        color var(--transition-fast),
-        background var(--transition-fast);
-}
-
-.player-menu-button:hover {
-    color: var(--text-primary);
-
-    background: rgba(255, 255, 255, 0.05);
 }
 
 
 /* =========================================================
-   POSITION
+   PLAYER PHOTO
+========================================================= */
+
+.squad-player-card .player-photo {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 126px;
+    height: 126px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 14px;
+
+    flex-shrink:
+        0;
+
+    overflow:
+        hidden;
+
+    color:
+        var(--text-primary);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius:
+        50%;
+
+    font-size:
+        27px;
+
+    font-weight:
+        800;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.28);
+
+}
+
+
+/*
+   Preparat per quan l'scraper
+   introdueixi una imatge real.
+*/
+
+.squad-player-card .player-photo img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        block;
+
+    object-fit:
+        cover;
+
+}
+
+
+/* =========================================================
+   PLAYER PHOTO COLORS
+========================================================= */
+
+.squad-player-card .player-photo--goalkeeper {
+
+    color:
+        #6dc6ff;
+
+    background:
+
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(77, 141, 255, 0.30),
+            rgba(77, 141, 255, 0.07) 65%
+        ),
+
+        #151b23;
+
+}
+
+
+.squad-player-card .player-photo--defender {
+
+    color:
+        var(--accent);
+
+    background:
+
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(0, 230, 118, 0.24),
+            rgba(0, 230, 118, 0.05) 65%
+        ),
+
+        #151b20;
+
+}
+
+
+.squad-player-card .player-photo--midfielder {
+
+    color:
+        var(--purple);
+
+    background:
+
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(155, 108, 255, 0.28),
+            rgba(155, 108, 255, 0.06) 65%
+        ),
+
+        #181722;
+
+}
+
+
+.squad-player-card .player-photo--forward {
+
+    color:
+        var(--orange);
+
+    background:
+
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(255, 159, 67, 0.28),
+            rgba(255, 159, 67, 0.06) 65%
+        ),
+
+        #1c1916;
+
+}
+
+
+/* =========================================================
+   PLAYER IDENTITY
+========================================================= */
+
+.squad-player-card__identity > div:last-child {
+
+    width:
+        100%;
+
+    min-width:
+        0;
+
+}
+
+
+.squad-player-card h3 {
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+
+    color:
+        var(--text-primary);
+
+    font-size:
+        18px;
+
+    font-weight:
+        750;
+
+    letter-spacing:
+        -0.025em;
+
+}
+
+
+.player-team {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap:
+        6px;
+
+    margin-top:
+        6px;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        10px;
+
+    font-weight:
+        500;
+
+}
+
+
+.team-badge {
+
+    min-width:
+        24px;
+
+    height:
+        18px;
+
+    display: grid;
+    place-items: center;
+
+    color:
+        var(--text-secondary);
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border-radius:
+        4px;
+
+    font-size:
+        7px;
+
+    font-weight:
+        800;
+
+}
+
+
+.team-badge--barca {
+
+    color:
+        #f4c542;
+
+    background:
+        rgba(155, 108, 255, 0.12);
+
+}
+
+
+.team-badge--real {
+
+    color:
+        #d5d9df;
+
+    background:
+        rgba(255, 255, 255, 0.09);
+
+}
+
+
+/* =========================================================
+   PLAYER MENU
+========================================================= */
+
+.player-menu-button {
+
+    position: absolute;
+
+    top:
+        0;
+
+    right:
+        0;
+
+    z-index:
+        5;
+
+    width:
+        30px;
+
+    height:
+        30px;
+
+    display: grid;
+    place-items: center;
+
+    color:
+        var(--text-muted);
+
+    background:
+        transparent;
+
+    border-radius:
+        7px;
+
+    font-size:
+        18px;
+
+    transition:
+
+        color
+        var(--transition-fast),
+
+        background
+        var(--transition-fast);
+
+}
+
+
+.player-menu-button:hover {
+
+    color:
+        var(--text-primary);
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+}
+
+
+/* =========================================================
+   POSITION + MARKET TREND
 ========================================================= */
 
 .player-position {
+
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    margin-top: 19px;
+    margin-top:
+        22px;
+
+    padding-top:
+        14px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.045);
+
 }
+
 
 .position-badge {
-    padding: 5px 7px;
 
-    border-radius: 5px;
+    padding:
+        6px 8px;
 
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    border-radius:
+        6px;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.07em;
+
 }
+
 
 .position-badge--goalkeeper {
-    color: var(--blue);
-    background: rgba(77, 141, 255, 0.10);
+
+    color:
+        var(--blue);
+
+    background:
+        rgba(77, 141, 255, 0.10);
+
 }
+
 
 .position-badge--defender {
-    color: var(--accent);
-    background: var(--accent-soft);
+
+    color:
+        var(--accent);
+
+    background:
+        var(--accent-soft);
+
 }
+
 
 .position-badge--midfielder {
-    color: var(--purple);
-    background: rgba(155, 108, 255, 0.10);
+
+    color:
+        var(--purple);
+
+    background:
+        rgba(155, 108, 255, 0.10);
+
 }
+
 
 .position-badge--forward {
-    color: var(--orange);
-    background: rgba(255, 159, 67, 0.10);
+
+    color:
+        var(--orange);
+
+    background:
+        rgba(255, 159, 67, 0.10);
+
 }
 
+
 .player-market-trend {
-    font-size: 10px;
-    font-weight: 700;
+
+    font-size:
+        11px;
+
+    font-weight:
+        750;
+
 }
 
 
@@ -1237,67 +1600,127 @@
 ========================================================= */
 
 .player-value {
-    margin-top: 20px;
+
+    margin-top:
+        18px;
+
+    text-align:
+        center;
+
 }
+
 
 .player-value > span {
-    display: block;
 
-    color: var(--text-muted);
+    display:
+        block;
 
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    color:
+        var(--text-muted);
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.12em;
+
 }
 
+
 .player-value strong {
-    display: block;
 
-    margin-top: 4px;
+    display:
+        block;
 
-    font-size: 22px;
-    letter-spacing: -0.04em;
+    margin-top:
+        6px;
+
+    color:
+        var(--text-primary);
+
+    font-size:
+        26px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        -0.045em;
+
 }
 
 
 /* =========================================================
-   CHANGE GRID
+   VALUE CHANGE GRID
 ========================================================= */
 
 .player-change-grid {
+
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
 
-    gap: 8px;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-    margin-top: 18px;
+    gap:
+        8px;
+
+    margin-top:
+        18px;
+
 }
+
 
 .player-change-grid > div {
-    padding: 10px;
 
-    background: rgba(255, 255, 255, 0.025);
+    padding:
+        11px 12px;
 
-    border: 1px solid rgba(255, 255, 255, 0.035);
-    border-radius: 8px;
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.045);
+
+    border-radius:
+        9px;
+
 }
+
 
 .player-change-grid span {
-    display: block;
 
-    color: var(--text-muted);
+    display:
+        block;
 
-    font-size: 7px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    color:
+        var(--text-muted);
+
+    font-size:
+        7px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.09em;
+
 }
 
+
 .player-change-grid strong {
-    display: block;
 
-    margin-top: 4px;
+    display:
+        block;
 
-    font-size: 10px;
+    margin-top:
+        5px;
+
+    font-size:
+        11px;
+
 }
 
 
@@ -1306,51 +1729,95 @@
 ========================================================= */
 
 .player-points {
-    margin-top: auto;
-    padding-top: 19px;
+
+    margin-top:
+        auto;
+
+    padding-top:
+        20px;
+
 }
 
+
 .player-points__header {
+
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 9px;
+    margin-bottom:
+        10px;
+
 }
+
 
 .player-points__header span {
-    color: var(--text-muted);
 
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    color:
+        var(--text-muted);
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.09em;
+
 }
+
 
 .player-points__header strong {
-    font-size: 10px;
+
+    color:
+        var(--text-primary);
+
+    font-size:
+        11px;
+
 }
+
 
 .points-trend {
+
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap:
+        5px;
+
 }
 
+
 .points-trend span {
-    height: 26px;
+
+    height:
+        28px;
 
     display: grid;
     place-items: center;
 
-    color: var(--text-secondary);
+    color:
+        var(--text-secondary);
 
-    background: rgba(255, 255, 255, 0.035);
+    background:
+        rgba(255, 255, 255, 0.035);
 
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 5px;
+    border:
+        1px solid rgba(255, 255, 255, 0.045);
 
-    font-size: 9px;
-    font-weight: 700;
+    border-radius:
+        6px;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
 }
 
 
