@@ -1,15 +1,25 @@
 import { supabase } from "./supabase.js";
 
 
-document.addEventListener("DOMContentLoaded", async () => {
+/* =========================================================
+   FANTASY TRACKER
+   AUTH SYSTEM
+========================================================= */
 
 
-    /* =========================================================
-       AUTH MODAL
-       El modal es crea automàticament a qualsevol pàgina.
-    ========================================================= */
+const initAuth = async () => {
+
+
+    /* =====================================================
+       CREATE AUTH MODAL
+    ===================================================== */
 
     const createAuthModal = () => {
+
+
+        /*
+           El modal només existeix una vegada per pàgina.
+        */
 
         if (document.getElementById("authModal")) {
 
@@ -37,6 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                     <button
+                        type="button"
                         class="auth-modal__close"
                         id="authModalClose"
                         aria-label="Tancar"
@@ -50,22 +61,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </span>
 
 
-                    <h2>
+                    <h2 id="authModalTitle">
                         Iniciar sessió
                     </h2>
 
 
-                    <p>
+                    <p id="authModalDescription">
                         Entra per accedir al teu equip personal.
                     </p>
 
 
-                    <!-- LOGIN -->
+                    <!-- LOGIN FORM -->
 
                     <form
                         id="loginForm"
                         class="auth-form"
                     >
+
 
                         <div class="auth-form__group">
 
@@ -77,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 type="email"
                                 id="loginEmail"
                                 placeholder="eloi@fantasy.com"
+                                autocomplete="email"
                                 required
                             >
 
@@ -93,6 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 type="password"
                                 id="loginPassword"
                                 placeholder="••••••••"
+                                autocomplete="current-password"
                                 required
                             >
 
@@ -113,10 +127,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                             Iniciar sessió
                         </button>
 
+
                     </form>
 
 
-                    <!-- SESSION -->
+                    <!-- LOGGED USER PANEL -->
 
                     <div
                         class="auth-logged"
@@ -131,11 +146,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                         <button
+                            type="button"
                             class="btn btn--primary"
                             id="logoutButton"
                         >
                             Tancar sessió
                         </button>
+
 
                     </div>
 
@@ -152,9 +169,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     createAuthModal();
 
 
-    /* =========================================================
+    /* =====================================================
        ELEMENTS
-    ========================================================= */
+    ===================================================== */
 
     const profileButton =
         document.getElementById("profileButton");
@@ -216,29 +233,49 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("logoutButton");
 
 
-    /* =========================================================
+    /* =====================================================
        OPEN MODAL
-    ========================================================= */
+    ===================================================== */
 
     const openAuthModal = () => {
 
+
         authModal.classList.add("is-open");
+
 
         authModal.setAttribute(
             "aria-hidden",
             "false"
         );
 
+
+        /*
+           Si el login és visible,
+           posem el focus al correu.
+        */
+
+        if (!loginForm.hidden) {
+
+            setTimeout(() => {
+
+                loginEmail.focus();
+
+            }, 100);
+
+        }
+
     };
 
 
-    /* =========================================================
+    /* =====================================================
        CLOSE MODAL
-    ========================================================= */
+    ===================================================== */
 
     const closeAuthModal = () => {
 
+
         authModal.classList.remove("is-open");
+
 
         authModal.setAttribute(
             "aria-hidden",
@@ -246,51 +283,110 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
-        if (loginError) {
-
-            loginError.textContent = "";
-
-        }
+        loginError.textContent = "";
 
     };
 
 
-    /* =========================================================
+    /* =====================================================
+       FORMAT DISPLAY NAME
+    ===================================================== */
+
+    const formatDisplayName = name => {
+
+
+        if (!name) {
+
+            return "";
+
+        }
+
+
+        return name
+            .trim()
+            .replace(
+                /\b\w/g,
+                letter => letter.toUpperCase()
+            );
+
+    };
+
+
+    /* =====================================================
        GET DISPLAY NAME
-    ========================================================= */
+    ===================================================== */
 
     const getDisplayName = async user => {
 
-        const { data: profile } = await supabase
+
+        if (!user) {
+
+            return "";
+
+        }
+
+
+        const {
+
+            data: profile,
+            error
+
+        } = await supabase
             .from("profiles")
             .select("display_name")
             .eq("id", user.id)
-            .single();
+            .maybeSingle();
 
 
-        return (
+        /*
+           Si existeix el perfil,
+           utilitzem el nom visible.
+        */
 
-            profile?.display_name ||
+        if (
+
+            !error &&
+
+            profile?.display_name
+
+        ) {
+
+            return formatDisplayName(
+                profile.display_name
+            );
+
+        }
+
+
+        /*
+           Fallback:
+           utilitzem la primera part
+           del correu electrònic.
+        */
+
+        return formatDisplayName(
 
             user.email
-                .split("@")[0]
+                ?.split("@")[0]
 
         );
 
     };
 
 
-    /* =========================================================
-       UPDATE INTERFACE
-    ========================================================= */
+    /* =====================================================
+       UPDATE USER INTERFACE
+    ===================================================== */
 
     const updateUserInterface = async user => {
 
-        /*
+
+        /* ================================================
            USER NOT LOGGED IN
-        */
+        ================================================= */
 
         if (!user) {
+
 
             if (profileName) {
 
@@ -318,7 +414,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             loginForm.hidden = false;
 
+
             loggedUserPanel.hidden = true;
+
+
+            loggedUserName.textContent = "";
 
 
             return;
@@ -326,9 +426,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
 
-        /*
+        /* ================================================
            USER LOGGED IN
-        */
+        ================================================= */
 
         const displayName =
             await getDisplayName(user);
@@ -361,13 +461,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         /*
-           Modal:
-           només logout.
+           Dins del popup ja NO mostrem
+           el formulari de login.
         */
 
         loginForm.hidden = true;
 
+
+        /*
+           Mostrem només la sessió actual
+           i el botó de logout.
+        */
+
         loggedUserPanel.hidden = false;
+
 
         loggedUserName.textContent =
             displayName;
@@ -375,15 +482,66 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
 
-    /* =========================================================
+    /* =====================================================
+       REFRESH CURRENT SESSION
+    ===================================================== */
+
+    const refreshCurrentSession = async () => {
+
+
+        const {
+
+            data: {
+                session
+            },
+
+            error
+
+        } = await supabase.auth.getSession();
+
+
+        if (error) {
+
+            console.error(
+                "Error obtenint la sessió:",
+                error
+            );
+
+        }
+
+
+        await updateUserInterface(
+
+            session?.user || null
+
+        );
+
+
+        return session?.user || null;
+
+    };
+
+
+    /* =====================================================
        PROFILE BUTTON
-    ========================================================= */
+    ===================================================== */
 
     if (profileButton) {
 
+
         profileButton.addEventListener(
             "click",
-            () => {
+            async () => {
+
+
+                /*
+                   Abans d'obrir el modal,
+                   comprovem l'estat real
+                   de la sessió.
+                */
+
+                await refreshCurrentSession();
+
 
                 openAuthModal();
 
@@ -393,45 +551,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    /* =========================================================
+    /* =====================================================
        CLOSE BUTTON
-    ========================================================= */
+    ===================================================== */
 
     authModalClose.addEventListener(
         "click",
-        () => {
-
-            closeAuthModal();
-
-        }
+        closeAuthModal
     );
 
 
-    /* =========================================================
+    /* =====================================================
        BACKDROP
-    ========================================================= */
+    ===================================================== */
 
     authModalBackdrop.addEventListener(
         "click",
-        () => {
-
-            closeAuthModal();
-
-        }
+        closeAuthModal
     );
 
 
-    /* =========================================================
-       ESCAPE
-    ========================================================= */
+    /* =====================================================
+       ESCAPE KEY
+    ===================================================== */
 
     document.addEventListener(
         "keydown",
         event => {
 
+
             if (
+
                 event.key === "Escape" &&
-                authModal.classList.contains("is-open")
+
+                authModal.classList.contains(
+                    "is-open"
+                )
+
             ) {
 
                 closeAuthModal();
@@ -442,13 +598,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
 
-    /* =========================================================
+    /* =====================================================
        LOGIN
-    ========================================================= */
+    ===================================================== */
 
     loginForm.addEventListener(
         "submit",
         async event => {
+
 
             event.preventDefault();
 
@@ -465,6 +622,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             loginSubmit.disabled = true;
+
 
             loginSubmit.textContent =
                 "Iniciant sessió...";
@@ -483,13 +641,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
 
+            /* ============================================
+               LOGIN ERROR
+            ============================================= */
+
             if (error) {
+
 
                 loginError.textContent =
                     error.message;
 
 
                 loginSubmit.disabled = false;
+
 
                 loginSubmit.textContent =
                     "Iniciar sessió";
@@ -499,6 +663,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             }
 
+
+            /* ============================================
+               LOGIN SUCCESS
+            ============================================= */
 
             await updateUserInterface(
                 data.user
@@ -510,9 +678,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             loginSubmit.disabled = false;
 
+
             loginSubmit.textContent =
                 "Iniciar sessió";
 
+
+            /*
+               Tanquem el popup després
+               d'iniciar sessió.
+            */
 
             closeAuthModal();
 
@@ -520,15 +694,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
 
-    /* =========================================================
+    /* =====================================================
        LOGOUT
-    ========================================================= */
+    ===================================================== */
 
     logoutButton.addEventListener(
         "click",
         async () => {
 
-            await supabase.auth.signOut();
+
+            const {
+
+                error
+
+            } = await supabase.auth.signOut();
+
+
+            if (error) {
+
+
+                console.error(
+                    "Error tancant sessió:",
+                    error
+                );
+
+
+                return;
+
+            }
 
 
             await updateUserInterface(
@@ -542,37 +735,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
 
-    /* =========================================================
+    /* =====================================================
        INITIAL SESSION
-    ========================================================= */
+    ===================================================== */
 
-    const {
-
-        data: {
-
-            session
-
-        }
-
-    } = await supabase.auth.getSession();
+    await refreshCurrentSession();
 
 
-    await updateUserInterface(
-
-        session?.user || null
-
-    );
-
-
-    /* =========================================================
+    /* =====================================================
        AUTH STATE CHANGE
-    ========================================================= */
+    ===================================================== */
 
     supabase.auth.onAuthStateChange(
         async (
             event,
             session
         ) => {
+
 
             await updateUserInterface(
 
@@ -584,4 +763,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
 
-});
+};
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+if (
+
+    document.readyState === "loading"
+
+) {
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initAuth,
+        {
+            once: true
+        }
+    );
+
+
+} else {
+
+
+    initAuth();
+
+}
