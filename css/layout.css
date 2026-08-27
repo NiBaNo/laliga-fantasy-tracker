@@ -924,3 +924,55 @@
     }
 
 }
+
+/* =========================================================
+   SIDEBAR MOBILE OVERLAY
+========================================================= */
+
+.sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 900;
+
+    background: rgba(0, 0, 0, 0.60);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity var(--transition),
+        visibility var(--transition);
+
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+
+/* =========================================================
+   ACTIVE OVERLAY
+========================================================= */
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   MOBILE ONLY
+========================================================= */
+
+@media (min-width: 769px) {
+
+    .sidebar-overlay {
+        display: none;
+    }
+
+}
+
