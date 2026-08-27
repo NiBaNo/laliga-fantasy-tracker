@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
        HELPERS
     ===================================================== */
 
-    const isMobile = () => window.innerWidth <= 768;
+    const isCompact = () => window.innerWidth <= 900;
 
 
     const closeSidebar = () => {
@@ -41,6 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const openSidebar = () => {
 
+        /*
+         * En mode compacte sempre obrim
+         * el sidebar complet.
+         */
+
+        sidebar.classList.remove("collapsed");
+
+        document.body.classList.remove(
+            "sidebar-collapsed"
+        );
+
         sidebar.classList.add("mobile-open");
 
         overlay.classList.add("active");
@@ -49,21 +60,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       DESKTOP SIDEBAR
+       MAIN SIDEBAR TOGGLE
     ===================================================== */
 
     if (sidebarToggle) {
 
-        sidebarToggle.addEventListener("click", () => {
+        sidebarToggle.addEventListener("click", event => {
 
-            if (isMobile()) {
+            event.stopPropagation();
 
-                /*
-                 * Mobile:
-                 * Toggle open / close
-                 */
 
-                if (sidebar.classList.contains("mobile-open")) {
+            /*
+             * COMPACT / SMALL WINDOW
+             */
+
+            if (isCompact()) {
+
+                if (
+                    sidebar.classList.contains(
+                        "mobile-open"
+                    )
+                ) {
 
                     closeSidebar();
 
@@ -74,12 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 return;
+
             }
 
 
             /*
-             * Desktop:
-             * Collapse / expand
+             * DESKTOP
              */
 
             sidebar.classList.toggle("collapsed");
@@ -95,17 +112,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       MOBILE MENU BUTTON
+       MOBILE / COMPACT MENU BUTTON
     ===================================================== */
 
     if (mobileMenu) {
 
-        mobileMenu.addEventListener("click", () => {
+        mobileMenu.addEventListener("click", event => {
 
-            if (!isMobile()) return;
+            event.stopPropagation();
 
 
-            if (sidebar.classList.contains("mobile-open")) {
+            if (
+                sidebar.classList.contains(
+                    "mobile-open"
+                )
+            ) {
 
                 closeSidebar();
 
@@ -121,78 +142,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-   CLICK OUTSIDE SIDEBAR
-===================================================== */
+       OVERLAY CLICK
+    ===================================================== */
 
-document.addEventListener("click", event => {
+    overlay.addEventListener("click", () => {
 
-    /*
-     * Ignorem el clic si estem dins del sidebar
-     */
-    if (sidebar.contains(event.target)) {
-        return;
-    }
+        closeSidebar();
 
-
-    /*
-     * Ignorem el clic sobre el botó del menú
-     * perquè aquest ja gestiona el toggle
-     */
-    if (
-        sidebarToggle &&
-        sidebarToggle.contains(event.target)
-    ) {
-        return;
-    }
-
-
-    /*
-     * MOBILE
-     */
-
-    if (isMobile()) {
-
-        if (sidebar.classList.contains("mobile-open")) {
-
-            closeSidebar();
-
-        }
-
-        return;
-    }
-
-
-    /*
-     * DESKTOP
-     */
-
-    if (!sidebar.classList.contains("collapsed")) {
-
-        sidebar.classList.add("collapsed");
-
-        document.body.classList.add("sidebar-collapsed");
-
-    }
-
-});
-
+    });
 
 
     /* =====================================================
        NAVIGATION LINKS
     ===================================================== */
 
-    const navLinks = sidebar.querySelectorAll(".nav__item");
+    const navLinks = sidebar.querySelectorAll(
+        ".nav__item"
+    );
+
 
     navLinks.forEach(link => {
 
         link.addEventListener("click", () => {
 
-            /*
-             * Close sidebar on mobile
-             */
-
-            if (isMobile()) {
+            if (isCompact()) {
 
                 closeSidebar();
 
@@ -207,7 +180,10 @@ document.addEventListener("click", event => {
        ACTIVE PAGE
     ===================================================== */
 
-    const currentPage = window.location.pathname;
+    const currentFile = window.location.pathname
+        .split("/")
+        .pop() || "index.html";
+
 
     navLinks.forEach(link => {
 
@@ -216,21 +192,19 @@ document.addEventListener("click", event => {
         if (!href) return;
 
 
-        /*
-         * Don't mark everything active on index.html.
-         */
+        const hrefFile = href
+            .split("/")
+            .pop();
 
-        if (
-            currentPage.endsWith(href) ||
-            (
-                currentPage.endsWith("/") &&
-                href === "pages/dashboard.html"
-            )
-        ) {
+
+        if (hrefFile === currentFile) {
 
             navLinks.forEach(item => {
+
                 item.classList.remove("active");
+
             });
+
 
             link.classList.add("active");
 
@@ -261,11 +235,11 @@ document.addEventListener("click", event => {
     window.addEventListener("resize", () => {
 
         /*
-         * If we move from mobile → desktop,
-         * remove mobile state.
+         * Quan passem a pantalla ampla,
+         * netegem l'estat de l'overlay.
          */
 
-        if (!isMobile()) {
+        if (!isCompact()) {
 
             closeSidebar();
 
