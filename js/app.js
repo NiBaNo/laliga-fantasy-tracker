@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
        ELEMENTS
     ===================================================== */
 
-    const sidebar = document.getElementById("sidebar");
+    const sidebar =
+        document.getElementById("sidebar");
 
     const sidebarToggle =
         document.getElementById("sidebarToggle");
@@ -26,70 +27,91 @@ document.addEventListener("DOMContentLoaded", () => {
        CREATE OVERLAY
     ===================================================== */
 
-    const overlay = document.createElement("div");
+    const overlay =
+        document.createElement("div");
 
-    overlay.className = "sidebar-overlay";
+    overlay.className =
+        "sidebar-overlay";
 
     document.body.appendChild(overlay);
 
 
     /* =====================================================
-       HELPERS
+       BREAKPOINT
     ===================================================== */
 
     const isCompact = () =>
         window.innerWidth <= 900;
 
 
-    const closeCompactSidebar = () => {
-
-        sidebar.classList.remove("mobile-open");
-
-        overlay.classList.remove("active");
-
-    };
-
+    /* =====================================================
+       COMPACT SIDEBAR
+    ===================================================== */
 
     const openCompactSidebar = () => {
 
         /*
-         * Eliminem qualsevol estat desktop.
-         */
+         * En mode compacte el sidebar
+         * sempre s'obre complet.
+        */
 
-        sidebar.classList.remove("collapsed");
+        sidebar.classList.remove(
+            "collapsed"
+        );
 
         document.body.classList.remove(
             "sidebar-collapsed"
         );
 
 
-        /*
-         * Obrim el sidebar.
-         */
+        sidebar.classList.add(
+            "mobile-open"
+        );
 
-        sidebar.classList.add("mobile-open");
+        overlay.classList.add(
+            "active"
+        );
 
-        overlay.classList.add("active");
+    };
+
+
+    const closeCompactSidebar = () => {
+
+        sidebar.classList.remove(
+            "mobile-open"
+        );
+
+        overlay.classList.remove(
+            "active"
+        );
+
+    };
+
+
+    /* =====================================================
+       DESKTOP SIDEBAR
+    ===================================================== */
+
+    const openDesktopSidebar = () => {
+
+        sidebar.classList.remove(
+            "collapsed"
+        );
+
+        document.body.classList.remove(
+            "sidebar-collapsed"
+        );
 
     };
 
 
     const closeDesktopSidebar = () => {
 
-        sidebar.classList.add("collapsed");
-
-        document.body.classList.add(
-            "sidebar-collapsed"
+        sidebar.classList.add(
+            "collapsed"
         );
 
-    };
-
-
-    const openDesktopSidebar = () => {
-
-        sidebar.classList.remove("collapsed");
-
-        document.body.classList.remove(
+        document.body.classList.add(
             "sidebar-collapsed"
         );
 
@@ -115,7 +137,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (isCompact()) {
 
-                    closeCompactSidebar();
+                    if (
+                        sidebar.classList.contains(
+                            "mobile-open"
+                        )
+                    ) {
+
+                        closeCompactSidebar();
+
+                    } else {
+
+                        openCompactSidebar();
+
+                    }
 
                     return;
 
@@ -123,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 /*
-                 * DESKTOP
+                 * DESKTOP MODE
                 */
 
                 if (
@@ -185,7 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 /*
-                 * DESKTOP
+                 * DESKTOP MODE
+                 *
+                 * Aquest botó només apareix
+                 * quan el sidebar està tancat.
                 */
 
                 openDesktopSidebar();
@@ -200,11 +237,14 @@ document.addEventListener("DOMContentLoaded", () => {
        OVERLAY CLICK
     ===================================================== */
 
-    overlay.addEventListener("click", () => {
+    overlay.addEventListener(
+        "click",
+        () => {
 
-        closeCompactSidebar();
+            closeCompactSidebar();
 
-    });
+        }
+    );
 
 
     /* =====================================================
@@ -217,11 +257,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * En compacte l'overlay
-             * ja gestiona el clic exterior.
+             * En mode compacte l'overlay
+             * és qui gestiona el clic exterior.
             */
 
-            if (isCompact()) return;
+            if (isCompact()) {
+
+                return;
+
+            }
 
 
             /*
@@ -241,8 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * Ignorem clics dins
-             * del propi sidebar.
+             * Clic dins del sidebar:
+             * no el tanquem.
             */
 
             if (
@@ -255,8 +299,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * Ignorem el botó
-             * que obre el sidebar.
+             * Ignorem el botó del topbar
+             * que serveix per reobrir-lo.
             */
 
             if (
@@ -270,8 +314,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * Tanquem en clicar
-             * fora del sidebar.
+             * Ignorem també el botó intern.
+            */
+
+            if (
+                sidebarToggle &&
+                sidebarToggle.contains(event.target)
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Qualsevol altre clic en desktop
+             * tanca completament el sidebar.
             */
 
             closeDesktopSidebar();
@@ -284,9 +342,10 @@ document.addEventListener("DOMContentLoaded", () => {
        NAVIGATION LINKS
     ===================================================== */
 
-    const navLinks = sidebar.querySelectorAll(
-        ".nav__item"
-    );
+    const navLinks =
+        sidebar.querySelectorAll(
+            ".nav__item"
+        );
 
 
     navLinks.forEach(link => {
@@ -294,6 +353,11 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener(
             "click",
             () => {
+
+                /*
+                 * En compacte tanquem el menú
+                 * després de navegar.
+                */
 
                 if (isCompact()) {
 
@@ -322,6 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const href =
             link.getAttribute("href");
 
+
         if (!href) return;
 
 
@@ -337,12 +402,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             navLinks.forEach(item => {
 
-                item.classList.remove("active");
+                item.classList.remove(
+                    "active"
+                );
 
             });
 
 
-            link.classList.add("active");
+            link.classList.add(
+                "active"
+            );
 
         }
 
@@ -357,7 +426,11 @@ document.addEventListener("DOMContentLoaded", () => {
         "keydown",
         event => {
 
-            if (event.key !== "Escape") return;
+            if (event.key !== "Escape") {
+
+                return;
+
+            }
 
 
             if (isCompact()) {
@@ -384,8 +457,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * Si passem a desktop,
-             * eliminem l'estat overlay.
+             * En passar a desktop:
+             * eliminem completament l'estat
+             * del mode compacte.
             */
 
             if (!isCompact()) {
@@ -396,10 +470,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * Si passem a compacte,
-             * eliminem l'estat desktop
-             * perquè el sidebar pugui
-             * funcionar com overlay.
+             * En passar a compacte:
+             *
+             * eliminem l'estat de desktop.
+             * El CSS ja deixa el sidebar
+             * completament fora de pantalla.
             */
 
             if (isCompact()) {
@@ -411,6 +486,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.body.classList.remove(
                     "sidebar-collapsed"
                 );
+
+                closeCompactSidebar();
 
             }
 
