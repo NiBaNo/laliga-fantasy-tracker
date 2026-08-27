@@ -206,31 +206,35 @@
                     </button>
 
 
-                    <div class="profile">
+                    <button class="profile" id="profileButton">
 
-                        <div class="profile__avatar">
-                            M
-                        </div>
+    <div class="profile__avatar" id="profileAvatar">
+        M
+    </div>
 
-                        <div class="profile__info">
+    <div class="profile__info">
 
-                            <span class="profile__name">
-                                Manager
-                            </span>
+        <span
+            class="profile__name"
+            id="profileName"
+        >
+            Iniciar sessió
+        </span>
 
-                            <span class="profile__role">
-                                Fantasy League
-                            </span>
+        <span
+            class="profile__role"
+            id="profileRole"
+        >
+            Accés al teu equip
+        </span>
 
-                        </div>
+    </div>
 
-                        <span class="profile__arrow">
-                            ▾
-                        </span>
+    <span class="profile__arrow">
+        ▾
+    </span>
 
-                    </div>
-
-                </div>
+</button>
 
             </header>
 
@@ -885,8 +889,130 @@
 
     </div>
 
+    <!-- =========================================================
+     AUTH MODAL
+========================================================== -->
+
+<div
+    class="auth-modal"
+    id="authModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="auth-modal__backdrop"
+        id="authModalBackdrop"
+    ></div>
+
+    <div class="auth-modal__content">
+
+        <button
+            class="auth-modal__close"
+            id="authModalClose"
+            aria-label="Tancar"
+        >
+            ×
+        </button>
+
+        <span class="auth-modal__eyebrow">
+            FANTASY TRACKER
+        </span>
+
+        <h2 id="authModalTitle">
+            Iniciar sessió
+        </h2>
+
+        <p id="authModalDescription">
+            Entra per accedir al teu equip personal.
+        </p>
+
+        <!-- LOGIN FORM -->
+
+        <form
+            id="loginForm"
+            class="auth-form"
+        >
+
+            <div class="auth-form__group">
+
+                <label for="loginEmail">
+                    Correu electrònic
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="eloi@fantasy.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="auth-form__group">
+
+                <label for="loginPassword">
+                    Contrasenya
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="••••••••"
+                    required
+                >
+
+            </div>
+
+
+            <p
+                class="auth-form__error"
+                id="loginError"
+            ></p>
+
+
+            <button
+                type="submit"
+                class="btn btn--primary auth-form__submit"
+                id="loginSubmit"
+            >
+                Iniciar sessió
+            </button>
+
+        </form>
+
+
+        <!-- LOGOUT -->
+
+        <div
+            class="auth-logged"
+            id="loggedUserPanel"
+            hidden
+        >
+
+            <p>
+                Sessió iniciada com a
+                <strong id="loggedUserName"></strong>
+            </p>
+
+            <button
+                class="btn btn--primary"
+                id="logoutButton"
+            >
+                Tancar sessió
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
     <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script type="module" src="js/supabase.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/app.js"></script>
 
 </body>
