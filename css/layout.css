@@ -826,8 +826,12 @@ body.sidebar-collapsed .main-content {
 ========================================================= */
 
 /*
-   Per defecte no es veu en desktop
-   mentre el sidebar està obert.
+   El botó existeix sempre.
+
+   En desktop només es mostra
+   quan el sidebar està tancat.
+
+   En compacte sempre està visible.
 */
 
 .mobile-menu {
@@ -840,16 +844,23 @@ body.sidebar-collapsed .main-content {
     align-items: center;
     justify-content: center;
 
+    flex-shrink: 0;
+
     color:
         var(--text-secondary);
 
     background:
         transparent;
 
+    border: none;
+
     border-radius:
         8px;
 
     font-size: 17px;
+
+    cursor:
+        pointer;
 
     transition:
 
@@ -873,15 +884,26 @@ body.sidebar-collapsed .main-content {
 }
 
 
+/* =========================================================
+   DESKTOP: SIDEBAR CLOSED
+========================================================= */
+
 /*
-   En desktop, quan el sidebar
-   està completament amagat,
-   apareix aquest botó per reobrir-lo.
+   Quan el sidebar està tancat,
+   el botó ☰ apareix sempre.
+
+   Això és independent de l'amplada
+   de la pantalla mentre estiguem
+   fora del mode compacte.
 */
 
-body.sidebar-collapsed .mobile-menu {
+@media (min-width: 769px) {
 
-    display: flex;
+    body.sidebar-collapsed .mobile-menu {
+
+        display: flex;
+
+    }
 
 }
 
@@ -939,7 +961,7 @@ body.sidebar-collapsed .mobile-menu {
    window.innerWidth <= 900
 */
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
 
 
     /* =====================================================
@@ -1223,7 +1245,7 @@ body.sidebar-collapsed .mobile-menu {
    En desktop no necessitem overlay.
 */
 
-@media (min-width: 901px) {
+@media (min-width: 769px) {
 
     .sidebar-overlay {
 
