@@ -1,1 +1,228 @@
+/* =========================================================
+   COMPONENTS
+   Buttons / Icons / Small UI elements
+========================================================= */
+
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    min-height: 40px;
+
+    margin-top: 23px;
+    padding: 0 17px;
+
+    border-radius: 9px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    transition:
+        transform var(--transition-fast),
+        background var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.btn--primary {
+    color: #03140a;
+
+    background: var(--accent);
+
+    box-shadow:
+        0 5px 20px rgba(0, 230, 118, 0.10);
+}
+
+.btn--primary:hover {
+    background: #18ed84;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 28px rgba(0, 230, 118, 0.18);
+}
+
+.btn--primary:active {
+    transform: translateY(0);
+}
+
+.btn--primary span {
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+
+.icon-button {
+    position: relative;
+
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    color: var(--text-secondary);
+    background: transparent;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    transition:
+        color var(--transition-fast),
+        background var(--transition-fast);
+}
+
+.icon-button:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================================
+   NOTIFICATION DOT
+========================================================= */
+
+.notification-dot {
+    position: absolute;
+
+    top: 7px;
+    right: 7px;
+
+    width: 5px;
+    height: 5px;
+
+    background: var(--accent);
+
+    border: 1px solid var(--bg-primary);
+    border-radius: 50%;
+
+    box-shadow: 0 0 7px var(--accent);
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    min-height: 22px;
+
+    padding: 0 8px;
+
+    border-radius: 6px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.badge--green {
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.badge--blue {
+    color: var(--blue);
+    background: rgba(77, 141, 255, 0.10);
+}
+
+.badge--purple {
+    color: var(--purple);
+    background: rgba(155, 108, 255, 0.10);
+}
+
+.badge--orange {
+    color: var(--orange);
+    background: rgba(255, 159, 67, 0.10);
+}
+
+.badge--red {
+    color: var(--red);
+    background: rgba(255, 92, 92, 0.10);
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+    width: 100%;
+    height: 1px;
+
+    background: var(--border);
+}
+
+
+/* =========================================================
+   TOOLTIP FOUNDATION
+========================================================= */
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+
+    position: absolute;
+    z-index: 100;
+
+    bottom: calc(100% + 8px);
+    left: 50%;
+
+    padding: 5px 8px;
+
+    color: var(--text-primary);
+    background: #1b2026;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font-size: 9px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translate(-50%, 4px);
+
+    transition:
+        opacity var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translate(-50%, 0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .btn {
+        min-height: 39px;
+        padding: 0 15px;
+    }
+
+}
 
