@@ -212,6 +212,208 @@
     transform: translate(-50%, 0);
 }
 
+/* =========================================================
+   AUTH MODAL
+========================================================= */
+
+.auth-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    pointer-events: none;
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+.auth-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.auth-modal__backdrop {
+    position: absolute;
+    inset: 0;
+
+    background:
+        rgba(10, 12, 20, 0.72);
+
+    backdrop-filter:
+        blur(6px);
+}
+
+
+.auth-modal__content {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: 420px;
+
+    padding: 32px;
+
+    background:
+        var(--color-surface, #151923);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.4);
+
+    transform:
+        translateY(10px);
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.auth-modal.active
+.auth-modal__content {
+    transform:
+        translateY(0);
+}
+
+
+.auth-modal__close {
+    position: absolute;
+
+    top: 16px;
+    right: 16px;
+
+    width: 36px;
+    height: 36px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    color:
+        inherit;
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+
+.auth-modal__eyebrow {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    opacity: 0.6;
+}
+
+
+.auth-modal__content h2 {
+    margin: 0 0 8px;
+}
+
+
+.auth-modal__content > p {
+    margin:
+        0 0 28px;
+
+    opacity: 0.65;
+}
+
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+.auth-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.auth-form__group label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.auth-form__group input {
+    width: 100%;
+
+    padding:
+        14px 16px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color:
+        inherit;
+
+    font: inherit;
+
+    outline: none;
+}
+
+
+.auth-form__group input:focus {
+    border-color:
+        rgba(255, 255, 255, 0.3);
+}
+
+
+.auth-form__error {
+    min-height: 18px;
+
+    margin: 0;
+
+    font-size: 13px;
+
+    color:
+        #ff6b6b;
+}
+
+
+.auth-form__submit {
+    width: 100%;
+    justify-content: center;
+}
+
+
+.auth-logged {
+    padding-top: 8px;
+}
+
+
+.auth-logged p {
+    margin-bottom: 20px;
+}
 
 /* =========================================================
    RESPONSIVE
