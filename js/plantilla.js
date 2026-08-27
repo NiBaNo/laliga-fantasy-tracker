@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        TEMPORARY PLAYER DATABASE
-
-       This will later be replaced by the scraper.
     ===================================================== */
 
     const availablePlayers = [
@@ -75,10 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
        ELEMENTS
     ===================================================== */
 
-    const playersGrid =
-        document.getElementById("playersGrid");
-
-
     const playerSearch =
         document.getElementById("playerSearch");
 
@@ -95,7 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    /* Player detail modal */
+    /* =====================================================
+       PLAYER DETAIL MODAL
+    ===================================================== */
 
     const playerModal =
         document.getElementById(
@@ -103,13 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    const closePlayerModal =
+    const closePlayerModalButton =
         document.getElementById(
             "closePlayerModal"
         );
 
 
-    const modalOverlay =
+    const playerModalOverlay =
         document.querySelector(
             ".player-modal__overlay"
         );
@@ -121,7 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    /* Transaction modal */
+    /* =====================================================
+       TRANSACTION MODAL
+    ===================================================== */
 
     const transactionModal =
         document.getElementById(
@@ -135,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    const closeTransactionModal =
+    const closeTransactionModalButton =
         document.getElementById(
             "closeTransactionModal"
         );
@@ -316,25 +314,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const getTodayDate = () => {
 
-        const today =
-            new Date();
-
+        const today = new Date();
 
         const year =
             today.getFullYear();
-
 
         const month =
             String(
                 today.getMonth() + 1
             ).padStart(2, "0");
 
-
         const day =
             String(
                 today.getDate()
             ).padStart(2, "0");
-
 
         return `${year}-${month}-${day}`;
 
@@ -342,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       SEARCH - SQUAD
+       SQUAD SEARCH
     ===================================================== */
 
     if (playerSearch) {
@@ -456,6 +449,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                     .toLowerCase();
 
 
+                            const matchesSearch =
+                                playerName.includes(
+                                    searchValue
+                                );
+
+
                             const matchesFilter =
                                 selectedFilter === "all"
                                 ||
@@ -463,17 +462,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 selectedFilter;
 
 
-                            const matchesSearch =
-                                playerName.includes(
-                                    searchValue
-                                );
-
-
                             card.classList.toggle(
                                 "is-hidden",
-                                !matchesFilter
-                                ||
                                 !matchesSearch
+                                ||
+                                !matchesFilter
                             );
 
                         }
@@ -490,9 +483,13 @@ document.addEventListener("DOMContentLoaded", () => {
        PLAYER DETAIL MODAL
     ===================================================== */
 
-    const openModal = () => {
+    const openPlayerModal = card => {
 
-        if (!playerModal) return;
+        if (!playerModal) {
+
+            return;
+
+        }
 
 
         playerModal.classList.add(
@@ -512,9 +509,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    const closeModal = () => {
+    const closePlayerModal = () => {
 
-        if (!playerModal) return;
+        if (!playerModal) {
+
+            return;
+
+        }
 
 
         playerModal.classList.remove(
@@ -534,10 +535,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    /* =====================================================
-       PLAYER CARD CLICK
-    ===================================================== */
-
     playerCards.forEach(
         card => {
 
@@ -556,135 +553,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
 
-                    const name =
-                        card.querySelector("h3")
-                            ?.textContent
-                            .trim();
-
-
-                    const team =
-                        card.querySelector(
-                            ".player-team"
-                        )
-                            ?.textContent
-                            .trim();
-
-
-                    const position =
-                        card.querySelector(
-                            ".position-badge"
-                        )
-                            ?.textContent
-                            .trim();
-
-
-                    const value =
-                        card.querySelector(
-                            ".player-value strong"
-                        )
-                            ?.textContent
-                            .trim();
-
-
-                    const dailyChange =
-                        card.querySelector(
-                            ".player-change-grid strong"
-                        )
-                            ?.textContent
-                            .trim();
-
-
-                    const initials =
-                        name
-                            ? getInitials(name)
-                            : "FT";
-
-
-                    const modalName =
-                        document.getElementById(
-                            "modalPlayerName"
-                        );
-
-
-                    const modalTeam =
-                        document.getElementById(
-                            "modalPlayerTeam"
-                        );
-
-
-                    const modalPosition =
-                        document.getElementById(
-                            "modalPlayerPosition"
-                        );
-
-
-                    const modalValue =
-                        document.getElementById(
-                            "modalPlayerValue"
-                        );
-
-
-                    const modalDailyChange =
-                        document.getElementById(
-                            "modalPlayerDailyChange"
-                        );
-
-
-                    const modalInitials =
-                        document.getElementById(
-                            "modalPlayerInitials"
-                        );
-
-
-                    if (modalName) {
-
-                        modalName.textContent =
-                            name;
-
-                    }
-
-
-                    if (modalTeam) {
-
-                        modalTeam.textContent =
-                            team;
-
-                    }
-
-
-                    if (modalPosition) {
-
-                        modalPosition.textContent =
-                            position;
-
-                    }
-
-
-                    if (modalValue) {
-
-                        modalValue.textContent =
-                            value;
-
-                    }
-
-
-                    if (modalDailyChange) {
-
-                        modalDailyChange.textContent =
-                            `${dailyChange} avui`;
-
-                    }
-
-
-                    if (modalInitials) {
-
-                        modalInitials.textContent =
-                            initials;
-
-                    }
-
-
-                    openModal();
+                    openPlayerModal(
+                        card
+                    );
 
                 }
             );
@@ -693,33 +564,25 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    /* =====================================================
-       CLOSE PLAYER MODAL
-    ===================================================== */
+    if (closePlayerModalButton) {
 
-    if (closePlayerModal) {
-
-        closePlayerModal.addEventListener(
+        closePlayerModalButton.addEventListener(
             "click",
-            closeModal
+            closePlayerModal
         );
 
     }
 
 
-    if (modalOverlay) {
+    if (playerModalOverlay) {
 
-        modalOverlay.addEventListener(
+        playerModalOverlay.addEventListener(
             "click",
-            closeModal
+            closePlayerModal
         );
 
     }
 
-
-    /* =====================================================
-       VALUE PERIODS
-    ===================================================== */
 
     valuePeriods.forEach(
         button => {
@@ -751,170 +614,129 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       TRANSACTION MODAL HELPERS
+       TRANSACTION MODAL
     ===================================================== */
 
-    const updateTransactionModalText = () => {
+    const openTransactionModal =
+        type => {
 
-        const isBuy =
-            transactionType === "buy";
+            if (!transactionModal) {
 
+                return;
 
-        if (transactionModalEyebrow) {
+            }
 
-            transactionModalEyebrow.textContent =
-                isBuy
-                    ? "REGISTRAR COMPRA"
-                    : "REGISTRAR VENDA";
 
-        }
+            transactionType =
+                type;
 
 
-        if (transactionModalTitle) {
+            clearTransactionPlayer();
 
-            transactionModalTitle.textContent =
-                isBuy
-                    ? "Registrar compra"
-                    : "Registrar venda";
 
-        }
+            if (transactionPrice) {
 
+                transactionPrice.value =
+                    "";
 
-        if (transactionModalDescription) {
+            }
 
-            transactionModalDescription.textContent =
-                isBuy
-                    ? "Busca un jugador i registra el preu i la data de compra."
-                    : "Selecciona un jugador de la teva plantilla i registra el preu i la data de venda.";
 
-        }
+            if (transactionDate) {
 
+                transactionDate.value =
+                    getTodayDate();
 
-        if (transactionPriceLabel) {
+            }
 
-            transactionPriceLabel.textContent =
-                isBuy
-                    ? "PREU DE COMPRA"
-                    : "PREU DE VENDA";
 
-        }
+            if (type === "buy") {
 
+                transactionModalEyebrow.textContent =
+                    "REGISTRAR COMPRA";
 
-        if (transactionDateLabel) {
 
-            transactionDateLabel.textContent =
-                isBuy
-                    ? "DATA DE COMPRA"
-                    : "DATA DE VENDA";
+                transactionModalTitle.textContent =
+                    "Registrar compra";
 
-        }
 
+                transactionModalDescription.textContent =
+                    "Busca un jugador i registra el preu i la data de compra.";
 
-        if (confirmTransaction) {
 
-            confirmTransaction.textContent =
-                isBuy
-                    ? "Confirmar compra"
-                    : "Confirmar venda";
+                transactionPriceLabel.textContent =
+                    "PREU DE COMPRA";
 
-        }
 
-    };
+                transactionDateLabel.textContent =
+                    "DATA DE COMPRA";
 
 
-    const openTransactionModal = type => {
+                confirmTransaction.textContent =
+                    "Confirmar compra";
 
-        if (!transactionModal) return;
+            } else {
 
+                transactionModalEyebrow.textContent =
+                    "REGISTRAR VENDA";
 
-        transactionType =
-            type;
 
+                transactionModalTitle.textContent =
+                    "Registrar venda";
 
-        selectedTransactionPlayer =
-            null;
 
+                transactionModalDescription.textContent =
+                    "Selecciona un jugador i registra el preu i la data de venda.";
 
-        updateTransactionModalText();
 
+                transactionPriceLabel.textContent =
+                    "PREU DE VENDA";
 
-        transactionModal.classList.add(
-            "active"
-        );
 
+                transactionDateLabel.textContent =
+                    "DATA DE VENDA";
 
-        transactionModal.setAttribute(
-            "aria-hidden",
-            "false"
-        );
 
+                confirmTransaction.textContent =
+                    "Confirmar venda";
 
-        document.body.style.overflow =
-            "hidden";
+            }
 
 
-        if (transactionPlayerSearch) {
+            transactionModal.classList.add(
+                "active"
+            );
 
-            transactionPlayerSearch.value =
-                "";
 
-        }
+            transactionModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
 
 
-        if (transactionPrice) {
+            document.body.style.overflow =
+                "hidden";
 
-            transactionPrice.value =
-                "";
 
-        }
+            setTimeout(
+                () => {
 
+                    transactionPlayerSearch.focus();
 
-        if (transactionDate) {
+                },
+                100
+            );
 
-            transactionDate.value =
-                getTodayDate();
-
-        }
-
-
-        if (
-            selectedTransactionPlayerElement
-        ) {
-
-            selectedTransactionPlayerElement.hidden =
-                true;
-
-        }
-
-
-        if (confirmTransaction) {
-
-            confirmTransaction.disabled =
-                true;
-
-        }
-
-
-        renderTransactionResults(
-            ""
-        );
-
-
-        setTimeout(
-            () => {
-
-                transactionPlayerSearch?.focus();
-
-            },
-            100
-        );
-
-    };
+        };
 
 
     const closeTransactionModal = () => {
 
-        if (!transactionModal) return;
+        if (!transactionModal) {
+
+            return;
+
+        }
 
 
         transactionModal.classList.remove(
@@ -935,179 +757,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       GET CURRENT SQUAD NAMES
-
-       Used later for sell mode.
-    ===================================================== */
-
-    const getCurrentSquadNames = () => {
-
-        return Array.from(
-            document.querySelectorAll(
-                ".squad-player-card"
-            )
-        ).map(
-            card =>
-                (
-                    card.dataset.name
-                    || ""
-                )
-                    .toLowerCase()
-                    .trim()
-        );
-
-    };
-
-
-    /* =====================================================
        TRANSACTION RESULTS
     ===================================================== */
 
-    const renderTransactionResults = query => {
+    const renderTransactionResults =
+        search => {
 
-        if (!transactionResults) return;
+            if (!transactionResults) {
 
+                return;
 
-        const normalizedQuery =
-            query
-                .toLowerCase()
-                .trim();
-
-
-        let players =
-            [...availablePlayers];
+            }
 
 
-        /* SELL:
-           Only players currently in squad.
-        */
-
-        if (
-            transactionType === "sell"
-        ) {
-
-            const squadNames =
-                getCurrentSquadNames();
+            const query =
+                search
+                    .toLowerCase()
+                    .trim();
 
 
-            players =
-                players.filter(
-                    player =>
-                        squadNames.includes(
-                            player.name
-                                .toLowerCase()
-                                .trim()
-                        )
-                );
+            if (!query) {
 
-        }
+                transactionResults.innerHTML = `
+
+                    <div class="transaction-empty">
+                        <span>
+                            Cerca un jugador per començar
+                        </span>
+                    </div>
+
+                `;
+
+                return;
+
+            }
 
 
-        if (
-            normalizedQuery.length > 0
-        ) {
-
-            players =
-                players.filter(
+            const results =
+                availablePlayers.filter(
                     player => {
 
-                        const name =
-                            player.name
-                                .toLowerCase();
-
-
-                        const team =
-                            player.team
-                                .toLowerCase();
-
-
                         return (
-                            name.includes(
-                                normalizedQuery
-                            )
+                            player.name
+                                .toLowerCase()
+                                .includes(query)
                             ||
-                            team.includes(
-                                normalizedQuery
-                            )
+                            player.team
+                                .toLowerCase()
+                                .includes(query)
                         );
 
                     }
                 );
 
-        }
+
+            transactionResults.innerHTML =
+                "";
 
 
-        transactionResults.innerHTML =
-            "";
+            if (!results.length) {
+
+                transactionResults.innerHTML = `
+
+                    <div class="transaction-empty">
+                        <span>
+                            No s'han trobat jugadors
+                        </span>
+                    </div>
+
+                `;
+
+                return;
+
+            }
 
 
-        if (
-            players.length === 0
-        ) {
-
-            transactionResults.innerHTML = `
-
-                <div class="transaction-empty">
-
-                    <span>
-                        No hem trobat cap jugador
-                    </span>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        if (
-            normalizedQuery.length === 0
-        ) {
-
-            transactionResults.innerHTML = `
-
-                <div class="transaction-empty">
-
-                    <span>
-                        ${
-                            transactionType === "buy"
-                                ? "Escriu el nom d'un jugador per buscar-lo"
-                                : "Busca un jugador de la teva plantilla"
-                        }
-                    </span>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        players
-            .slice(0, 6)
-            .forEach(
+            results.forEach(
                 player => {
-
-                    const initials =
-                        getInitials(
-                            player.name
-                        );
-
-
-                    const image =
-                        player.image
-                            ? `
-                                <img
-                                    src="${player.image}"
-                                    alt="${player.name}"
-                                >
-                            `
-                            : initials;
-
 
                     const result =
                         document.createElement(
@@ -1121,6 +847,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     result.className =
                         "transaction-result";
+
+
+                    const image =
+                        player.image
+                            ? `<img src="${player.image}" alt="${player.name}">`
+                            : getInitials(
+                                player.name
+                            );
 
 
                     result.innerHTML = `
@@ -1192,7 +926,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             );
 
-    };
+        };
 
 
     /* =====================================================
@@ -1270,7 +1004,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (transactionPrice) {
 
                 transactionPrice.value =
-                    player.value;
+                    "";
+
+                transactionPrice.focus();
 
             }
 
@@ -1278,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (confirmTransaction) {
 
                 confirmTransaction.disabled =
-                    false;
+                    true;
 
             }
 
@@ -1335,7 +1071,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (transactionPlayerSearch) {
 
-            transactionPlayerSearch.focus();
+            transactionPlayerSearch.value =
+                "";
 
         }
 
@@ -1360,6 +1097,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderTransactionResults(
                     transactionPlayerSearch.value
                 );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       PRICE VALIDATION
+    ===================================================== */
+
+    if (transactionPrice) {
+
+        transactionPrice.addEventListener(
+            "input",
+            () => {
+
+                const price =
+                    Number(
+                        transactionPrice.value
+                    );
+
+
+                if (
+                    confirmTransaction
+                ) {
+
+                    confirmTransaction.disabled =
+                        !selectedTransactionPlayer
+                        ||
+                        !price
+                        ||
+                        price <= 0;
+
+                }
 
             }
         );
@@ -1411,9 +1183,9 @@ document.addEventListener("DOMContentLoaded", () => {
        CLOSE TRANSACTION MODAL
     ===================================================== */
 
-    if (closeTransactionModal) {
+    if (closeTransactionModalButton) {
 
-        closeTransactionModal.addEventListener(
+        closeTransactionModalButton.addEventListener(
             "click",
             closeTransactionModal
         );
@@ -1445,7 +1217,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         clearSelectedPlayer.addEventListener(
             "click",
-            clearTransactionPlayer
+            () => {
+
+                clearTransactionPlayer();
+
+                setTimeout(
+                    () => {
+
+                        transactionPlayerSearch.focus();
+
+                    },
+                    0
+                );
+
+            }
         );
 
     }
@@ -1453,16 +1238,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        CONFIRM TRANSACTION
-
-       For now:
-       - validates the operation
-       - prints it to console
-
-       Next step:
-       - modify squad
-       - update summary
-       - save transaction
-       - calculate profitability
     ===================================================== */
 
     if (transactionForm) {
@@ -1552,25 +1327,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                /*
-                 * Temporary confirmation.
-                 *
-                 * Next version will:
-                 *
-                 * BUY:
-                 * - Add player card
-                 * - Update player count
-                 * - Update squad value
-                 * - Save purchase
-                 *
-                 * SELL:
-                 * - Remove player card
-                 * - Calculate profit/loss
-                 * - Update squad value
-                 * - Save sale
-                 */
-
-
                 closeTransactionModal();
 
 
@@ -1620,7 +1376,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 )
             ) {
 
-                closeModal();
+                closePlayerModal();
 
             }
 
