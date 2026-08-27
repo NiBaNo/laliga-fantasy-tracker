@@ -203,38 +203,40 @@ document.addEventListener("click", event => {
     });
 
 
-   /* =====================================================
-   ACTIVE PAGE
-===================================================== */
+    /* =====================================================
+       ACTIVE PAGE
+    ===================================================== */
 
-const currentPage = window.location.pathname;
+    const currentPage = window.location.pathname;
 
-navLinks.forEach(link => {
+    navLinks.forEach(link => {
 
-    const href = link.getAttribute("href");
+        const href = link.getAttribute("href");
 
-    if (!href) return;
+        if (!href) return;
 
 
-    if (
-        currentPage.endsWith(href) ||
-        (
-            currentPage.endsWith("/") &&
-            href === "pages/dashboard.html"
-        )
-    ) {
+        /*
+         * Don't mark everything active on index.html.
+         */
 
-        navLinks.forEach(item => {
+        if (
+            currentPage.endsWith(href) ||
+            (
+                currentPage.endsWith("/") &&
+                href === "pages/dashboard.html"
+            )
+        ) {
 
-            item.classList.remove("active");
+            navLinks.forEach(item => {
+                item.classList.remove("active");
+            });
 
-        });
+            link.classList.add("active");
 
-        link.classList.add("active");
+        }
 
-    }
-
-});
+    });
 
 
     /* =====================================================
