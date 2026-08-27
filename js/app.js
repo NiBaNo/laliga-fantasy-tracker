@@ -1,8 +1,3 @@
-/* =========================================================
-   FANTASY TRACKER
-   App navigation
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     const sidebar = document.getElementById("sidebar");
@@ -12,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!sidebar) return;
 
 
-    /* -------------------------------------------------------
-       Desktop sidebar
-    ------------------------------------------------------- */
+    /* =====================================================
+       DESKTOP - COLLAPSE SIDEBAR
+    ===================================================== */
 
     if (sidebarToggle) {
 
@@ -22,14 +17,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             sidebar.classList.toggle("collapsed");
 
+            document.body.classList.toggle(
+                "sidebar-collapsed",
+                sidebar.classList.contains("collapsed")
+            );
+
         });
 
     }
 
 
-    /* -------------------------------------------------------
-       Mobile sidebar
-    ------------------------------------------------------- */
+    /* =====================================================
+       MOBILE - OPEN SIDEBAR
+    ===================================================== */
 
     if (mobileMenu) {
 
@@ -42,9 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* -------------------------------------------------------
-       Close mobile menu when clicking a link
-    ------------------------------------------------------- */
+    /* =====================================================
+       CLOSE MOBILE SIDEBAR WHEN CLICKING LINK
+    ===================================================== */
 
     const navLinks = sidebar.querySelectorAll(".nav__item");
 
@@ -53,12 +53,38 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", () => {
 
             if (window.innerWidth <= 768) {
+
                 sidebar.classList.remove("mobile-open");
+
             }
 
         });
 
     });
 
-});
 
+    /* =====================================================
+       ACTIVE PAGE
+    ===================================================== */
+
+    const currentPage = window.location.pathname;
+
+    navLinks.forEach(link => {
+
+        const href = link.getAttribute("href");
+
+        if (!href) return;
+
+        if (currentPage.endsWith(href)) {
+
+            navLinks.forEach(item => {
+                item.classList.remove("active");
+            });
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
