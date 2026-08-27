@@ -1428,7 +1428,295 @@
 
 </div>
 
+<!-- =====================================================
+     BUY / SELL MODAL
+===================================================== -->
 
+<div
+    class="transaction-modal"
+    id="transactionModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="transaction-modal__overlay"
+        id="transactionModalOverlay"
+    ></div>
+
+
+    <div
+        class="transaction-modal__content"
+        role="dialog"
+        aria-modal="true"
+    >
+
+
+        <!-- CLOSE -->
+
+        <button
+            class="transaction-modal__close"
+            id="closeTransactionModal"
+            aria-label="Tancar"
+        >
+            ×
+        </button>
+
+
+        <!-- HEADER -->
+
+        <div class="transaction-modal__header">
+
+            <span
+                class="section-eyebrow"
+                id="transactionModalEyebrow"
+            >
+                REGISTRAR COMPRA
+            </span>
+
+            <h2
+                id="transactionModalTitle"
+            >
+                Registrar compra
+            </h2>
+
+            <p
+                id="transactionModalDescription"
+            >
+                Busca un jugador i registra
+                el preu i la data de compra.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="transaction-search">
+
+            <span class="transaction-search__icon">
+                ⌕
+            </span>
+
+            <input
+                type="search"
+                id="transactionPlayerSearch"
+                placeholder="Buscar jugador..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- SEARCH RESULTS -->
+
+        <div
+            class="transaction-results"
+            id="transactionResults"
+        >
+
+            <div class="transaction-empty">
+
+                <span>
+                    Cerca un jugador per començar
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SELECTED PLAYER -->
+
+        <div
+            class="selected-player"
+            id="selectedTransactionPlayer"
+            hidden
+        >
+
+            <div class="selected-player__label">
+
+                <span>
+                    JUGADOR SELECCIONAT
+                </span>
+
+                <button
+                    type="button"
+                    id="clearSelectedPlayer"
+                >
+                    Canviar
+                </button>
+
+            </div>
+
+
+            <div class="selected-player__card">
+
+
+                <div
+                    class="selected-player__image"
+                    id="selectedPlayerImage"
+                >
+                    FT
+                </div>
+
+
+                <div
+                    class="selected-player__info"
+                >
+
+                    <strong
+                        id="selectedPlayerName"
+                    >
+                        Nom del jugador
+                    </strong>
+
+
+                    <span
+                        id="selectedPlayerMeta"
+                    >
+                        Equip · Posició
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="selected-player__value"
+                >
+
+                    <span>
+                        VALOR ACTUAL
+                    </span>
+
+                    <strong
+                        id="selectedPlayerValue"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            class="transaction-form"
+            id="transactionForm"
+        >
+
+
+            <div class="transaction-form__grid">
+
+
+                <!-- PRICE -->
+
+                <div class="transaction-field">
+
+                    <label
+                        for="transactionPrice"
+                        id="transactionPriceLabel"
+                    >
+                        PREU DE COMPRA
+                    </label>
+
+
+                    <div
+                        class="transaction-price-input"
+                    >
+
+                        <input
+                            type="number"
+                            id="transactionPrice"
+                            min="0"
+                            step="1"
+                            placeholder="0"
+                            required
+                        >
+
+                        <span>
+                            €
+                        </span>
+
+                    </div>
+
+
+                    <small>
+                        Introdueix l'import exacte
+                        de l'operació.
+                    </small>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="transaction-field">
+
+                    <label
+                        for="transactionDate"
+                        id="transactionDateLabel"
+                    >
+                        DATA DE COMPRA
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="transactionDate"
+                        required
+                    >
+
+
+                    <small>
+                        Per defecte apareix la data
+                        d'avui.
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div
+                class="transaction-form__actions"
+            >
+
+                <button
+                    type="button"
+                    class="btn btn--secondary"
+                    id="cancelTransaction"
+                >
+                    Cancel·lar
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn btn--primary"
+                    id="confirmTransaction"
+                    disabled
+                >
+                    Confirmar compra
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
 
 <!-- JS -->
 
