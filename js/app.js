@@ -112,11 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
        el sidebar comenci tancat.
     */
 
-    if (isCompact()) {
-
-        closeSidebar();
-
-    }
+    closeSidebar();
 
 
     /* =====================================================
