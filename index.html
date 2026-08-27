@@ -1,136 +1,883 @@
 <!DOCTYPE html>
 <html lang="ca">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Fantasy Tracker</title>
 
-    <link/main.css
-    <link/layout.css
-    <link rel="stylesheet" hrefody>
+    <meta
+        name="description"
+        content="La teva plataforma per seguir i analitzar el teu equip de LaLiga Fantasy."
+    >
 
-    <div class="layout">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        <aside class="sidebar">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-            <div class="logo">
-                ⚽ Fantasy Tracker
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         APP
+    ========================================================== -->
+
+    <div class="app">
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <!-- Logo -->
+            <div class="sidebar__header">
+
+                <a href="index.html" class="brand">
+
+                    <div class="brand__icon">
+                        FT
+                    </div>
+
+                    <div class="brand__text">
+                        <span class="brand__title">Fantasy</span>
+                        <span class="brand__subtitle">Tracker</span>
+                    </div>
+
+                </a>
+
+                <button
+                    class="sidebar__toggle"
+                    id="sidebarToggle"
+                    aria-label="Tancar menú"
+                >
+                    ☰
+                </button>
+
             </div>
 
-            <nav>
-                #🏠 Dashboard</a>
-                <a� Plantilla</a>
-                <a href="#">📈
-                <a� Historial</a>
-                <a️ Configuració</a>
+
+            <!-- Main navigation -->
+
+            <nav class="sidebar__nav">
+
+                <span class="nav__section-title">
+                    PRINCIPAL
+                </span>
+
+                <a href="pages/dashboard.html" class="nav__item active">
+
+                    <span class="nav__icon">◈</span>
+
+                    <span class="nav__label">
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a href="pages/plantilla.html" class="nav__item">
+
+                    <span class="nav__icon">♙</span>
+
+                    <span class="nav__label">
+                        Plantilla
+                    </span>
+
+                </a>
+
+
+                <a href="pages/mercat.html" class="nav__item">
+
+                    <span class="nav__icon">◆</span>
+
+                    <span class="nav__label">
+                        Mercat
+                    </span>
+
+                </a>
+
+
+                <a href="pages/historial.html" class="nav__item">
+
+                    <span class="nav__icon">↗</span>
+
+                    <span class="nav__label">
+                        Historial
+                    </span>
+
+                </a>
+
+
+                <span class="nav__section-title">
+                    CONFIGURACIÓ
+                </span>
+
+
+                <a href="pages/configuracio.html" class="nav__item">
+
+                    <span class="nav__icon">⚙</span>
+
+                    <span class="nav__label">
+                        Configuració
+                    </span>
+
+                </a>
+
             </nav>
+
+
+            <!-- Sidebar footer -->
+
+            <div class="sidebar__footer">
+
+                <div class="sidebar__status">
+
+                    <span class="status__dot"></span>
+
+                    <span class="status__text">
+                        Sistema operatiu
+                    </span>
+
+                </div>
+
+                <div class="sidebar__version">
+                    v0.1.0
+                </div>
+
+            </div>
 
         </aside>
 
-        <main class="content">
+
+        <!-- =====================================================
+             MAIN
+        ====================================================== -->
+
+        <main class="main-content">
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
 
             <header class="topbar">
 
-                <h1>Dashboard</h1>
+                <div class="topbar__left">
 
-                <button class="btn-primary">
-                    🔄 Actualitzar mercat
-                </button>
+                    <button
+                        class="mobile-menu"
+                        id="mobileMenu"
+                        aria-label="Obrir menú"
+                    >
+                        ☰
+                    </button>
+
+                    <div>
+
+                        <span class="page__eyebrow">
+                            LA LIGA FANTASY
+                        </span>
+
+                        <h1 class="page__title">
+                            Bon dia, Manager 👋
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+                <div class="topbar__right">
+
+                    <button class="icon-button" aria-label="Notificacions">
+                        🔔
+                        <span class="notification-dot"></span>
+                    </button>
+
+
+                    <div class="profile">
+
+                        <div class="profile__avatar">
+                            M
+                        </div>
+
+                        <div class="profile__info">
+
+                            <span class="profile__name">
+                                Manager
+                            </span>
+
+                            <span class="profile__role">
+                                Fantasy League
+                            </span>
+
+                        </div>
+
+                        <span class="profile__arrow">
+                            ▾
+                        </span>
+
+                    </div>
+
+                </div>
 
             </header>
 
-            <section class="stats-grid">
 
-                <div class="stat-card">
-                    <h3>Patrimoni</h3>
-                    <p>267 M€</p>
-                </div>
+            <!-- =================================================
+                 CONTENT
+            ================================================== -->
 
-                <div class="stat-card">
-                    <h3>Saldo</h3>
-                    <p>37 M€</p>
-                </div>
+            <section class="dashboard">
 
-                <div class="stat-card">
-                    <h3>Benefici latent</h3>
-                    <p class="positive">+18 M€</p>
-                </div>
+                <!-- Hero -->
 
-                <div class="stat-card">
-                    <h3>Jugadors</h3>
-                    <p>14</p>
-                </div>
+                <div class="hero-card">
 
-            </section>
+                    <div class="hero-card__content">
 
-            <section class="players-section">
+                        <span class="hero-card__eyebrow">
+                            JORNADA 03
+                        </span>
 
-                <h2>Plantilla actual</h2>
+                        <h2>
+                            El teu equip.
+                            <br>
+                            Les teves decisions.
+                        </h2>
 
-                <div class="players-grid">
+                        <p>
+                            Controla el valor de la plantilla,
+                            segueix l'evolució dels jugadors i
+                            pren millors decisions al mercat.
+                        </p>
 
-                    <!-- AGIRREZABALA -->
-
-                    <div class="player-card">
-
-                        <img src="https://via.placeholder.com/120"
-                             alt="Agirrezabala">
-
-                        <h3>Agirrezabala</h3>
-
-                        <p>Racing</p>
-
-                        <div class="player-stats">
-                            <span>Compra</span>
-                            <strong>2.9M</strong>
-                        </div>
-
-                        <div class="player-stats">
-                            <span>Actual</span>
-                            <strong>5.4M</strong>
-                        </div>
-
-                        <div class="player-stats">
-                            <span>Benefici</span>
-                            <strong class="positive">
-                                +2.5M
-                            </strong>
-                        </div>
+                        <a
+                            href="pages/dashboard.html"
+                            class="btn btn--primary"
+                        >
+                            Veure dashboard
+                            <span>→</span>
+                        </a>
 
                     </div>
 
-                    <!-- KOSKI -->
 
-                    <div class="player-card">
+                    <div class="hero-card__visual">
 
-                        <img src="https://via.placeholder.com/120"
-                             alt="Koski">
+                        <div class="hero-stat">
 
-                        <h3>Koski</h3>
+                            <span class="hero-stat__label">
+                                VALOR PLANTILLA
+                            </span>
 
-                        <p>Alavés</p>
-
-                        <div class="player-stats">
-                            <span>Compra</span>
-                            <strong>1M</strong>
-                        </div>
-
-                        <div class="player-stats">
-                            <span>Actual</span>
-                            <strong>2M</strong>
-                        </div>
-
-                        <div class="player-stats">
-                            <span>Benefici</span>
-                            <strong class="positive">
-                                +1M
+                            <strong>
+                                126.4M
                             </strong>
+
+                            <span class="hero-stat__change positive">
+                                +2.8M
+                            </span>
+
                         </div>
+
+                        <div class="hero-glow"></div>
 
                     </div>
 
                 </div>
+
+
+                <!-- =================================================
+                     QUICK STATS
+                ================================================== -->
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            RESUM
+                        </span>
+
+                        <h2 class="section-title">
+                            Estat de l'equip
+                        </h2>
+                    </div>
+
+                    <a
+                        href="pages/dashboard.html"
+                        class="section-link"
+                    >
+                        Veure tot →
+                    </a>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <!-- Stat -->
+
+                    <article class="stat-card">
+
+                        <div class="stat-card__top">
+
+                            <span class="stat-card__icon">
+                                €
+                            </span>
+
+                            <span class="stat-card__trend positive">
+                                +2.3%
+                            </span>
+
+                        </div>
+
+                        <span class="stat-card__label">
+                            Valor de plantilla
+                        </span>
+
+                        <strong class="stat-card__value">
+                            126.4M €
+                        </strong>
+
+                        <span class="stat-card__description">
+                            respecte la jornada anterior
+                        </span>
+
+                    </article>
+
+
+                    <!-- Stat -->
+
+                    <article class="stat-card">
+
+                        <div class="stat-card__top">
+
+                            <span class="stat-card__icon purple">
+                                ★
+                            </span>
+
+                            <span class="stat-card__trend positive">
+                                +14
+                            </span>
+
+                        </div>
+
+                        <span class="stat-card__label">
+                            Punts jornada
+                        </span>
+
+                        <strong class="stat-card__value">
+                            67
+                        </strong>
+
+                        <span class="stat-card__description">
+                            puntuació actual
+                        </span>
+
+                    </article>
+
+
+                    <!-- Stat -->
+
+                    <article class="stat-card">
+
+                        <div class="stat-card__top">
+
+                            <span class="stat-card__icon blue">
+                                ↗
+                            </span>
+
+                            <span class="stat-card__trend positive">
+                                +4
+                            </span>
+
+                        </div>
+
+                        <span class="stat-card__label">
+                            Posició lliga
+                        </span>
+
+                        <strong class="stat-card__value">
+                            #12
+                        </strong>
+
+                        <span class="stat-card__description">
+                            classificació general
+                        </span>
+
+                    </article>
+
+
+                    <!-- Stat -->
+
+                    <article class="stat-card">
+
+                        <div class="stat-card__top">
+
+                            <span class="stat-card__icon orange">
+                                ◉
+                            </span>
+
+                            <span class="stat-card__trend neutral">
+                                Estable
+                            </span>
+
+                        </div>
+
+                        <span class="stat-card__label">
+                            Pressupost disponible
+                        </span>
+
+                        <strong class="stat-card__value">
+                            18.7M €
+                        </strong>
+
+                        <span class="stat-card__description">
+                            disponible per fitxatges
+                        </span>
+
+                    </article>
+
+                </div>
+
+
+                <!-- =================================================
+                     MAIN GRID
+                ================================================== -->
+
+                <div class="content-grid">
+
+
+                    <!-- =============================================
+                         PLANTILLA
+                    ============================================== -->
+
+                    <section class="panel squad-panel">
+
+                        <div class="panel__header">
+
+                            <div>
+
+                                <span class="section-eyebrow">
+                                    PLANTILLA
+                                </span>
+
+                                <h2 class="panel__title">
+                                    Els teus jugadors
+                                </h2>
+
+                            </div>
+
+                            <a
+                                href="pages/plantilla.html"
+                                class="panel__action"
+                            >
+                                Veure plantilla →
+                            </a>
+
+                        </div>
+
+
+                        <div class="players-list">
+
+
+                            <!-- Player -->
+
+                            <div class="player-row">
+
+                                <div class="player__avatar">
+                                    01
+                                </div>
+
+                                <div class="player__info">
+
+                                    <strong>
+                                        Porteria
+                                    </strong>
+
+                                    <span>
+                                        Jugador
+                                    </span>
+
+                                </div>
+
+                                <div class="player__stats">
+
+                                    <span>
+                                        7 pts
+                                    </span>
+
+                                    <small class="positive">
+                                        +1.2%
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="player-row">
+
+                                <div class="player__avatar player__avatar--green">
+                                    02
+                                </div>
+
+                                <div class="player__info">
+
+                                    <strong>
+                                        Defensa
+                                    </strong>
+
+                                    <span>
+                                        Jugador
+                                    </span>
+
+                                </div>
+
+                                <div class="player__stats">
+
+                                    <span>
+                                        11 pts
+                                    </span>
+
+                                    <small class="positive">
+                                        +2.1%
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="player-row">
+
+                                <div class="player__avatar player__avatar--purple">
+                                    03
+                                </div>
+
+                                <div class="player__info">
+
+                                    <strong>
+                                        Migcamp
+                                    </strong>
+
+                                    <span>
+                                        Jugador
+                                    </span>
+
+                                </div>
+
+                                <div class="player__stats">
+
+                                    <span>
+                                        14 pts
+                                    </span>
+
+                                    <small class="positive">
+                                        +3.7%
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="player-row">
+
+                                <div class="player__avatar player__avatar--orange">
+                                    04
+                                </div>
+
+                                <div class="player__info">
+
+                                    <strong>
+                                        Davanter
+                                    </strong>
+
+                                    <span>
+                                        Jugador
+                                    </span>
+
+                                </div>
+
+                                <div class="player__stats">
+
+                                    <span>
+                                        18 pts
+                                    </span>
+
+                                    <small class="negative">
+                                        -0.4%
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =============================================
+                         MERCAT
+                    ============================================== -->
+
+                    <section class="panel market-panel">
+
+                        <div class="panel__header">
+
+                            <div>
+
+                                <span class="section-eyebrow">
+                                    MERCAT
+                                </span>
+
+                                <h2 class="panel__title">
+                                    Oportunitats
+                                </h2>
+
+                            </div>
+
+                            <a
+                                href="pages/mercat.html"
+                                class="panel__action"
+                            >
+                                Mercat →
+                            </a>
+
+                        </div>
+
+
+                        <div class="market-list">
+
+                            <div class="market-row">
+
+                                <div class="market__rank">
+                                    01
+                                </div>
+
+                                <div class="market__info">
+
+                                    <strong>
+                                        Jugador
+                                    </strong>
+
+                                    <span>
+                                        Migcampista
+                                    </span>
+
+                                </div>
+
+                                <div class="market__value">
+
+                                    <strong>
+                                        22.4M
+                                    </strong>
+
+                                    <span class="positive">
+                                        +4.8%
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="market-row">
+
+                                <div class="market__rank">
+                                    02
+                                </div>
+
+                                <div class="market__info">
+
+                                    <strong>
+                                        Jugador
+                                    </strong>
+
+                                    <span>
+                                        Davanter
+                                    </span>
+
+                                </div>
+
+                                <div class="market__value">
+
+                                    <strong>
+                                        18.9M
+                                    </strong>
+
+                                    <span class="positive">
+                                        +3.1%
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="market-row">
+
+                                <div class="market__rank">
+                                    03
+                                </div>
+
+                                <div class="market__info">
+
+                                    <strong>
+                                        Jugador
+                                    </strong>
+
+                                    <span>
+                                        Defensa
+                                    </span>
+
+                                </div>
+
+                                <div class="market__value">
+
+                                    <strong>
+                                        14.7M
+                                    </strong>
+
+                                    <span class="positive">
+                                        +2.6%
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACTIVITY
+                ================================================== -->
+
+                <section class="panel activity-panel">
+
+                    <div class="panel__header">
+
+                        <div>
+
+                            <span class="section-eyebrow">
+                                ACTIVITAT
+                            </span>
+
+                            <h2 class="panel__title">
+                                Últims moviments
+                            </h2>
+
+                        </div>
+
+                        <a
+                            href="pages/historial.html"
+                            class="panel__action"
+                        >
+                            Historial →
+                        </a>
+
+                    </div>
+
+
+                    <div class="activity-list">
+
+                        <div class="activity-row">
+
+                            <div class="activity__icon activity__icon--green">
+                                ↗
+                            </div>
+
+                            <div class="activity__content">
+
+                                <strong>
+                                    Valor de plantilla actualitzat
+                                </strong>
+
+                                <span>
+                                    La teva plantilla ha augmentat
+                                    2.8M €
+                                </span>
+
+                            </div>
+
+                            <time>
+                                Fa 2h
+                            </time>
+
+                        </div>
+
+
+                        <div class="activity-row">
+
+                            <div class="activity__icon activity__icon--blue">
+                                ★
+                            </div>
+
+                            <div class="activity__content">
+
+                                <strong>
+                                    Nova jornada disponible
+                                </strong>
+
+                                <span>
+                                    La jornada 03 ja està activa
+                                </span>
+
+                            </div>
+
+                            <time>
+                                Ahir
+                            </time>
+
+                        </div>
+
+
+                        <div class="activity-row">
+
+                            <div class="activity__icon activity__icon--orange">
+                                €
+                            </div>
+
+                            <div class="activity__content">
+
+                                <strong>
+                                    Actualització del mercat
+                                </strong>
+
+                                <span>
+                                    342 jugadors han canviat de valor
+                                </span>
+
+                            </div>
+
+                            <time>
+                                Ahir
+                            </time>
+
+                        </div>
+
+                    </div>
+
+                </section>
 
             </section>
 
@@ -138,6 +885,9 @@
 
     </div>
 
-</body>
 
+    <!-- JS -->
+    <script src="js/app.js"></script>
+
+</body>
 </html>
