@@ -49,6 +49,23 @@
 
 
 /* =========================================================
+   SIDEBAR CLOSED
+========================================================= */
+
+/*
+   Quan el sidebar està tancat desapareix
+   completament fora de la pantalla.
+*/
+
+.sidebar.collapsed {
+
+    transform:
+        translateX(-100%);
+
+}
+
+
+/* =========================================================
    SIDEBAR HEADER
 ========================================================= */
 
@@ -184,10 +201,14 @@
     background:
         transparent;
 
+    border: none;
+
     border-radius:
         8px;
 
     font-size: 16px;
+
+    cursor: pointer;
 
     transition:
 
@@ -485,6 +506,13 @@
    MAIN CONTENT
 ========================================================= */
 
+/*
+   El contingut sempre ocupa tota la pantalla.
+
+   El sidebar NO reserva espai.
+   Sempre apareix per sobre del contingut.
+*/
+
 .main-content {
 
     position: relative;
@@ -494,32 +522,6 @@
     margin-left: 0;
 
 }
-
-
-/* =========================================================
-   DESKTOP COLLAPSED SIDEBAR
-========================================================= */
-
-/*
-   El sidebar desapareix COMPLETAMENT.
-
-   No reduïm l'amplada.
-   No queda cap barra lateral.
-   No queda cap píxel visible.
-*/
-
-.sidebar.collapsed {
-
-    transform:
-        translateX(-100%);
-
-}
-
-
-/*
-   El contingut ocupa tota l'amplada
-   quan el sidebar està tancat.
-*/
 
 
 /* =========================================================
@@ -582,6 +584,76 @@
 .topbar__right {
 
     gap: 18px;
+
+}
+
+
+/* =========================================================
+   TOPBAR MENU BUTTON
+========================================================= */
+
+/*
+   Per defecte està ocult en desktop
+   mentre el sidebar està obert.
+*/
+
+.mobile-menu {
+
+    display: none;
+
+    width: 36px;
+    height: 36px;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color:
+        var(--text-secondary);
+
+    background:
+        transparent;
+
+    border: none;
+
+    border-radius:
+        8px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition:
+
+        color
+        var(--transition-fast),
+
+        background
+        var(--transition-fast);
+
+}
+
+
+.mobile-menu:hover {
+
+    color:
+        var(--text-primary);
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+}
+
+
+/*
+   En desktop, quan el sidebar està tancat,
+   apareix el botó per tornar-lo a obrir.
+*/
+
+body.sidebar-collapsed .mobile-menu {
+
+    display: flex;
 
 }
 
@@ -812,93 +884,6 @@
 
 
 /* =========================================================
-   TOPBAR MENU BUTTON
-========================================================= */
-
-/*
-   El botó existeix sempre.
-
-   En desktop només es mostra
-   quan el sidebar està tancat.
-
-   En compacte sempre està visible.
-*/
-
-.mobile-menu {
-
-    display: none;
-
-    width: 36px;
-    height: 36px;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    color:
-        var(--text-secondary);
-
-    background:
-        transparent;
-
-    border: none;
-
-    border-radius:
-        8px;
-
-    font-size: 17px;
-
-    cursor:
-        pointer;
-
-    transition:
-
-        color
-        var(--transition-fast),
-
-        background
-        var(--transition-fast);
-
-}
-
-
-.mobile-menu:hover {
-
-    color:
-        var(--text-primary);
-
-    background:
-        rgba(255, 255, 255, 0.05);
-
-}
-
-
-/* =========================================================
-   DESKTOP: SIDEBAR CLOSED
-========================================================= */
-
-/*
-   Quan el sidebar està tancat,
-   el botó ☰ apareix sempre.
-
-   Això és independent de l'amplada
-   de la pantalla mentre estiguem
-   fora del mode compacte.
-*/
-
-@media (min-width: 769px) {
-
-    body.sidebar-collapsed .mobile-menu {
-
-        display: flex;
-
-    }
-
-}
-
-
-/* =========================================================
    TABLET
 ========================================================= */
 
@@ -942,26 +927,19 @@
    COMPACT MODE
 ========================================================= */
 
-/*
-   IMPORTANT:
-
-   Aquest breakpoint és exactament
-   el mateix que utilitza app.js:
-
-   window.innerWidth <= 900
-*/
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
 
     /* =====================================================
        SIDEBAR
     ===================================================== */
 
-    .sidebar {
+    /*
+       En pantalla compacta el sidebar comença
+       completament fora de pantalla.
+    */
 
-        width:
-            var(--sidebar-width);
+    .sidebar {
 
         transform:
             translateX(-100%);
@@ -972,6 +950,11 @@
     }
 
 
+    /*
+       Si està obert apareix completament
+       per sobre del contingut.
+    */
+
     .sidebar.mobile-open {
 
         transform:
@@ -981,9 +964,7 @@
 
 
     /*
-       Per seguretat, si per algun motiu
-       conserva la classe collapsed,
-       continua quedant completament ocult.
+       Si està tancat sempre queda ocult.
     */
 
     .sidebar.collapsed {
@@ -993,6 +974,11 @@
 
     }
 
+
+    /*
+       Si s'obre, mobile-open té prioritat
+       visualment sobre collapsed.
+    */
 
     .sidebar.collapsed.mobile-open {
 
@@ -1006,9 +992,7 @@
        MAIN CONTENT
     ===================================================== */
 
-    .main-content,
-
-    body.sidebar-collapsed .main-content {
+    .main-content {
 
         margin-left: 0;
 
@@ -1030,7 +1014,7 @@
 
 
     /*
-       En mode compacte el botó
+       En mode compacte el botó menú
        sempre està disponible.
     */
 
@@ -1174,6 +1158,16 @@
    SIDEBAR OVERLAY
 ========================================================= */
 
+/*
+   L'overlay funciona a TOTES les mides.
+
+   El sidebar queda per sobre:
+   z-index 1000
+
+   L'overlay queda entre sidebar i contingut:
+   z-index 900
+*/
+
 .sidebar-overlay {
 
     position: fixed;
@@ -1213,57 +1207,6 @@
 /* =========================================================
    ACTIVE OVERLAY
 ========================================================= */
-
-.sidebar-overlay.active {
-
-    opacity: 1;
-
-    visibility:
-        visible;
-
-    pointer-events:
-        auto;
-
-}
-
-
-/* =========================================================
-   DESKTOP OVERLAY
-========================================================= */
-
-.sidebar-overlay {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 900;
-
-    background:
-        rgba(0, 0, 0, 0.60);
-
-    opacity: 0;
-
-    visibility:
-        hidden;
-
-    pointer-events:
-        none;
-
-    transition:
-
-        opacity var(--transition),
-
-        visibility var(--transition);
-
-    backdrop-filter:
-        blur(2px);
-
-    -webkit-backdrop-filter:
-        blur(2px);
-
-}
-
 
 .sidebar-overlay.active {
 
