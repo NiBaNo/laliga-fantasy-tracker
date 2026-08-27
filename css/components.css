@@ -235,7 +235,7 @@
 }
 
 
-.auth-modal.active {
+.auth-modal.is-open {
     opacity: 1;
     pointer-events: auto;
 }
@@ -281,7 +281,7 @@
 }
 
 
-.auth-modal.active
+.auth-modal.is-open
 .auth-modal__content {
     transform:
         translateY(0);
