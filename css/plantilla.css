@@ -310,9 +310,6 @@
         var(--shadow-md);
 }
 
-
-/* Decorative background */
-
 .player-card::after {
     content: "";
 
@@ -383,7 +380,6 @@
     color: var(--orange);
     background: rgba(255, 159, 67, 0.10);
 }
-
 
 .player-card__change {
     display: flex;
@@ -641,7 +637,7 @@
 
 
 /* =========================================================
-   MODAL
+   PLAYER DETAIL MODAL
 ========================================================= */
 
 .player-modal {
@@ -655,6 +651,22 @@
     justify-content: center;
 
     padding: 20px;
+
+    visibility: hidden;
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 180ms ease,
+        visibility 180ms ease;
+}
+
+.player-modal.active {
+    visibility: visible;
+    opacity: 1;
+
+    pointer-events: auto;
 }
 
 .player-modal__backdrop {
@@ -690,22 +702,16 @@
     box-shadow:
         0 30px 100px rgba(0, 0, 0, 0.60);
 
-    animation:
-        modalEnter 220ms ease;
+    transform: translateY(10px) scale(0.98);
+
+    transition:
+        transform 220ms ease;
 }
 
-@keyframes modalEnter {
-
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-
+.player-modal.active .player-modal__dialog {
+    transform:
+        translateY(0)
+        scale(1);
 }
 
 .player-modal__close {
@@ -728,6 +734,8 @@
     border-radius: 9px;
 
     font-size: 19px;
+
+    cursor: pointer;
 
     transition:
         color var(--transition-fast),
@@ -1023,6 +1031,7 @@
     margin-top: 0;
 }
 
+
 /* =========================================================
    TRANSACTION MODAL
 ========================================================= */
@@ -1058,7 +1067,7 @@
 
 
 /* =========================================================
-   OVERLAY
+   TRANSACTION OVERLAY
 ========================================================= */
 
 .transaction-modal__overlay {
@@ -1074,7 +1083,7 @@
 
 
 /* =========================================================
-   CONTENT
+   TRANSACTION CONTENT
 ========================================================= */
 
 .transaction-modal__content {
@@ -1116,7 +1125,7 @@
 
 
 /* =========================================================
-   CLOSE
+   TRANSACTION CLOSE
 ========================================================= */
 
 .transaction-modal__close {
@@ -1155,7 +1164,7 @@
 
 
 /* =========================================================
-   HEADER
+   TRANSACTION HEADER
 ========================================================= */
 
 .transaction-modal__header {
@@ -1189,7 +1198,7 @@
 
 
 /* =========================================================
-   SEARCH
+   TRANSACTION SEARCH
 ========================================================= */
 
 .transaction-search {
@@ -1254,7 +1263,7 @@
 
 
 /* =========================================================
-   RESULTS
+   TRANSACTION RESULTS
 ========================================================= */
 
 .transaction-results {
@@ -1284,7 +1293,6 @@
 
     font-size: 11px;
 }
-
 
 .transaction-result {
     display: flex;
@@ -1327,7 +1335,6 @@
         translateY(-1px);
 }
 
-
 .transaction-result__image {
     width: 48px;
     height: 48px;
@@ -1361,7 +1368,6 @@
     object-fit: contain;
 }
 
-
 .transaction-result__info {
     min-width: 0;
 
@@ -1392,7 +1398,6 @@
 
     font-size: 10px;
 }
-
 
 .transaction-result__value {
     display: flex;
@@ -1463,7 +1468,6 @@
     cursor: pointer;
 }
 
-
 .selected-player__card {
     display: flex;
     align-items: center;
@@ -1484,7 +1488,6 @@
 
     border-radius: 14px;
 }
-
 
 .selected-player__image {
     width: 58px;
@@ -1516,7 +1519,6 @@
     object-fit: contain;
 }
 
-
 .selected-player__info {
     min-width: 0;
 
@@ -1547,7 +1549,6 @@
     font-size: 10px;
 }
 
-
 .selected-player__value {
     display: flex;
     flex-direction: column;
@@ -1575,7 +1576,7 @@
 
 
 /* =========================================================
-   FORM
+   TRANSACTION FORM
 ========================================================= */
 
 .transaction-form {
@@ -1590,7 +1591,6 @@
 
     gap: 14px;
 }
-
 
 .transaction-field {
     display: flex;
@@ -1687,7 +1687,7 @@
 
 
 /* =========================================================
-   FORM ACTIONS
+   TRANSACTION ACTIONS
 ========================================================= */
 
 .transaction-form__actions {
@@ -1711,6 +1711,7 @@
 
     transform: none;
 }
+
 
 /* =========================================================
    RESPONSIVE
@@ -1800,6 +1801,42 @@
 }
 
 
+@media (max-width: 650px) {
+
+    .transaction-modal {
+        padding: 10px;
+    }
+
+    .transaction-modal__content {
+        max-height:
+            calc(100vh - 20px);
+
+        padding: 22px 18px;
+    }
+
+    .transaction-modal__header h2 {
+        font-size: 23px;
+    }
+
+    .transaction-form__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .transaction-form__actions {
+        flex-direction: column-reverse;
+    }
+
+    .transaction-form__actions .btn {
+        width: 100%;
+    }
+
+    .selected-player__value {
+        display: none;
+    }
+
+}
+
+
 @media (max-width: 620px) {
 
     .plantilla-toolbar__filters {
@@ -1874,41 +1911,5 @@
     .player-detail__name {
         font-size: 25px;
     }
-
-
-@media (max-width: 650px) {
-
-    .transaction-modal {
-        padding: 10px;
-    }
-
-    .transaction-modal__content {
-        max-height:
-            calc(100vh - 20px);
-
-        padding: 22px 18px;
-    }
-
-    .transaction-modal__header h2 {
-        font-size: 23px;
-    }
-
-    .transaction-form__grid {
-        grid-template-columns: 1fr;
-    }
-
-    .transaction-form__actions {
-        flex-direction: column-reverse;
-    }
-
-    .transaction-form__actions .btn {
-        width: 100%;
-    }
-
-    .selected-player__value {
-        display: none;
-    }
-
-}
 
 }
