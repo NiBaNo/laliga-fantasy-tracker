@@ -381,124 +381,25 @@
    COLLAPSED SIDEBAR
 ========================================================= */
 
+/*
+ * En desktop el sidebar plegat desapareix
+ * completament fora de la pantalla.
+ */
+
 .sidebar.collapsed {
-    width: var(--sidebar-collapsed);
+    width: var(--sidebar-width);
+
+    transform: translateX(-100%);
 }
 
 
 /*
-   IMPORTANT:
-
-   The sidebar and .main-content are siblings:
-
-   <aside class="sidebar"></aside>
-   <main class="main-content"></main>
-*/
+ * Quan el sidebar desapareix,
+ * el contingut ocupa tota l'amplada.
+ */
 
 .sidebar.collapsed + .main-content {
-    margin-left: var(--sidebar-collapsed);
-}
-
-
-/* =========================================================
-   HIDE TEXTUAL ELEMENTS
-========================================================= */
-
-.sidebar.collapsed .brand__text,
-.sidebar.collapsed .nav__label,
-.sidebar.collapsed .nav__section-title,
-.sidebar.collapsed .sidebar__status,
-.sidebar.collapsed .sidebar__version {
-    opacity: 0;
-    visibility: hidden;
-}
-
-
-/* =========================================================
-   COLLAPSED HEADER
-========================================================= */
-
-/*
-   Quan el sidebar està plegat no deixem
-   el logo FT + el botó hamburguesa.
-
-   Això evita que visualment sembli
-   que el sidebar està "mig obert".
-*/
-
-.sidebar.collapsed .sidebar__header {
-    justify-content: center;
-
-    padding: 0;
-}
-
-
-/*
-   Amaguem completament el branding.
-
-   No només el text:
-   també desapareix el quadrat FT.
-*/
-
-.sidebar.collapsed .brand {
-    display: none;
-}
-
-
-/*
-   El toggle queda sol i perfectament centrat.
-*/
-
-.sidebar.collapsed .sidebar__toggle {
-    position: static;
-
-    width: 38px;
-    height: 38px;
-
-    display: grid;
-    place-items: center;
-
-    font-size: 17px;
-}
-
-
-/* =========================================================
-   COLLAPSED NAVIGATION
-========================================================= */
-
-.sidebar.collapsed .sidebar__nav {
-    padding: 25px 9px;
-}
-
-
-.sidebar.collapsed .nav__item {
-    justify-content: center;
-
-    padding-left: 0;
-    padding-right: 0;
-}
-
-
-.sidebar.collapsed .nav__icon {
-    width: auto;
-
-    margin: 0;
-}
-
-
-/* Active indicator */
-
-.sidebar.collapsed .nav__item.active::before {
-    left: 0;
-}
-
-
-/* =========================================================
-   COLLAPSED FOOTER
-========================================================= */
-
-.sidebar.collapsed .sidebar__footer {
-    display: none;
+    margin-left: 0;
 }
 
 
@@ -775,7 +676,7 @@
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
     /* -----------------------------------------------------
        Sidebar
