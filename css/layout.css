@@ -569,3 +569,58 @@
     }
 
 }
+
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+========================================================= */
+
+@media (min-width: 769px) {
+
+    .sidebar.collapsed {
+        width: var(--sidebar-collapsed);
+    }
+
+    .main-content:has(~ .sidebar.collapsed) {
+        margin-left: var(--sidebar-collapsed);
+    }
+
+    .sidebar.collapsed .brand__text,
+    .sidebar.collapsed .nav__label,
+    .sidebar.collapsed .nav__section-title,
+    .sidebar.collapsed .sidebar__status,
+    .sidebar.collapsed .sidebar__version {
+        display: none;
+    }
+
+    .sidebar.collapsed .sidebar__header {
+        justify-content: center;
+        padding: 0 12px;
+    }
+
+    .sidebar.collapsed .sidebar__toggle {
+        position: absolute;
+        right: 8px;
+        top: 25px;
+    }
+
+    .sidebar.collapsed .nav__item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar.collapsed .nav__item.active::before {
+        left: 0;
+    }
+
+    .sidebar.collapsed .nav__icon {
+        width: auto;
+    }
+
+    .sidebar.collapsed .sidebar__footer {
+        display: flex;
+        justify-content: center;
+        padding: 15px 0;
+    }
+
+}
