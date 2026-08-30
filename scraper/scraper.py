@@ -328,7 +328,7 @@ def scrape_points(html):
         source_id = match.group(1)
 
         # -------------------------------------------------
-        # PUNTS
+        # PUNTS TOTALS
         # -------------------------------------------------
 
         season_points = parse_int(
@@ -338,10 +338,169 @@ def scrape_points(html):
         )
 
         if season_points is None:
-
             season_points = 0
 
-        points[source_id] = season_points
+        # -------------------------------------------------
+        # JORNADA ACTUAL
+        # -------------------------------------------------
+
+        temporada = parse_int(
+            row.get(
+                "data-temporada"
+            )
+        )
+
+        if temporada is None:
+            temporada = 0
+
+        # -------------------------------------------------
+        # PUNTS PER JORNADA
+        #
+        # FutbolFantasy mostra els racha-box
+        # de més recent a més antic.
+        #
+        # Exemple:
+        #
+        # J3 -> 8
+        # J2 -> 1
+        # J1 -> 5
+        #
+        # HTML:
+        #
+        # 8
+        # 1
+        # 5
+        # -------------------------------------------------
+
+        matchday_points = []
+
+        racha_boxes = row.select(
+            ".racha-container .racha-box"
+        )
+
+        for box in racha_boxes:
+
+            text = box.get_text(
+                " ",
+                strip=True
+            )
+
+            value = parse_int(
+                text
+            )
+
+            if value is None:
+                continue
+
+            matchday_points.append(
+                value
+            )
+
+        # -------------------------------------------------
+        # CONVERTIR ORDRE
+        #
+        # Si temporada = 3 i tenim:
+        #
+        # [8, 1, 5]
+        #
+        # significa:
+        #
+        # J3 = 8
+        # J2 = 1
+        # J1 = 5
+        # -------------------------------------------------
+
+        jornada_data = {}
+
+        if (
+            temporada > 0
+            and matchday_points
+        ):
+
+            for index, value in enumerate(
+                matchday_points
+            ):
+
+                matchday = (
+                    temporada
+                    - index
+                )
+
+                if matchday <= 0:
+                    continue
+
+                jornada_data[
+                    matchday
+                ] = value
+
+        # -------------------------------------------------
+        # GUARDAR RESULTAT
+        # -------------------------------------------------
+
+        points[source_id] = {
+
+            "season_points":
+                season_points,
+
+            "matchday_points":
+                jornada_data
+
+        }
+
+    # -----------------------------------------------------
+    # INFORMACIÓ
+    # -----------------------------------------------------
+
+    total_with_matchdays = sum(
+        1
+        for player in points.values()
+        if player["matchday_points"]
+    )
+
+    total_matchday_records = sum(
+        len(
+            player["matchday_points"]
+        )
+        for player in points.values()
+    )
+
+    print()
+    print(
+        f"Jugadors amb punts per jornada: "
+        f"{total_with_matchdays}"
+    )
+
+    print(
+        f"Registres de jornades extrets: "
+        f"{total_matchday_records}"
+    )
+
+    # -----------------------------------------------------
+    # EXEMPLE DE COMPROVACIÓ
+    # -----------------------------------------------------
+
+    exemple = points.get("2799")
+
+    if exemple:
+
+        print()
+        print(
+            "EXEMPLE - Carlos Soler"
+        )
+
+        print(
+            f"Punts temporada: "
+            f"{exemple['season_points']}"
+        )
+
+        for jornada in sorted(
+            exemple["matchday_points"]
+        ):
+
+            print(
+                f"Jornada {jornada}: "
+                f"{exemple['matchday_points'][jornada]} pts"
+            )
 
     return points
 
@@ -376,7 +535,15 @@ def combine_players(
         if source_id in point_players:
 
             player["points"] = (
-                point_players[source_id]
+                point_players[source_id][
+                    "season_points"
+                ]
+            )
+
+            player["matchday_points"] = (
+                point_players[source_id][
+                    "matchday_points"
+                ]
             )
 
             coincidencies += 1
@@ -384,6 +551,8 @@ def combine_players(
         else:
 
             player["points"] = 0
+
+            player["matchday_points"] = {}
 
             sense_punts += 1
 
@@ -793,6 +962,158 @@ def guardar_historic(supabase, players):
 
 
 # =========================================================
+# GUARDAR PUNTS PER JORNADA
+# =========================================================
+
+def guardar_punts_jornada(
+    supabase,
+    players
+):
+
+    print()
+    print("=" * 70)
+    print("GUARDANT PUNTS PER JORNADA")
+    print("=" * 70)
+
+    source_ids = list(
+        players.keys()
+    )
+
+    # -----------------------------------------------------
+    # RECUPERAR UUIDS
+    # -----------------------------------------------------
+
+    supabase_players = []
+
+    batch_size = 100
+
+    for i in range(
+        0,
+        len(source_ids),
+        batch_size
+    ):
+
+        batch_ids = source_ids[
+            i:i + batch_size
+        ]
+
+        response = (
+            supabase
+            .table("players")
+            .select(
+                "id, source_id"
+            )
+            .in_(
+                "source_id",
+                batch_ids
+            )
+            .execute()
+        )
+
+        if response.data:
+
+            supabase_players.extend(
+                response.data
+            )
+
+    player_ids = {
+
+        row["source_id"]: row["id"]
+
+        for row in supabase_players
+
+    }
+
+    # -----------------------------------------------------
+    # PREPARAR DADES
+    # -----------------------------------------------------
+
+    dades = []
+
+    for source_id, player in players.items():
+
+        supabase_id = player_ids.get(
+            source_id
+        )
+
+        if not supabase_id:
+            continue
+
+        matchday_points = player.get(
+            "matchday_points",
+            {}
+        )
+
+        for matchday, points in matchday_points.items():
+
+            dades.append({
+
+                "player_id":
+                    supabase_id,
+
+                "matchday":
+                    int(matchday),
+
+                "points":
+                    int(points)
+
+            })
+
+    print(
+        f"Registres de punts per jornada: "
+        f"{len(dades)}"
+    )
+
+    if not dades:
+
+        print(
+            "No hi ha punts per jornada per guardar."
+        )
+
+        return
+
+    # -----------------------------------------------------
+    # UPSERT
+    # -----------------------------------------------------
+
+    guardats = 0
+
+    for i in range(
+        0,
+        len(dades),
+        batch_size
+    ):
+
+        batch = dades[
+            i:i + batch_size
+        ]
+
+        (
+            supabase
+            .table(
+                "player_match_points"
+            )
+            .upsert(
+                batch,
+                on_conflict=
+                    "player_id,matchday"
+            )
+            .execute()
+        )
+
+        guardats += len(batch)
+
+        print(
+            f"Punts guardats: "
+            f"{guardats}/{len(dades)}"
+        )
+
+    print()
+    print(
+        "OK - Punts per jornada guardats correctament"
+    )
+
+# =========================================================
 # MAIN
 # =========================================================
 
@@ -869,6 +1190,15 @@ def main():
         # -------------------------------------------------
 
         guardar_historic(
+            supabase,
+            players
+        )
+
+        # -------------------------------------------------
+        # 9. GUARDAR PUNTS PER JORNADA
+        # -------------------------------------------------
+
+        guardar_punts_jornada(
             supabase,
             players
         )
