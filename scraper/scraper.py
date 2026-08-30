@@ -1114,6 +1114,182 @@ def guardar_punts_jornada(
     )
 
 # =========================================================
+# SCRAPER DEL CALENDARI
+# =========================================================
+
+CALENDAR_URL = "https://www.futbolfantasy.com/laliga/calendario"
+
+
+def parse_fixture_date(text):
+
+    if not text:
+        return None
+
+    match = re.search(r"(\d{1,2})/(\d{1,2})\s*(?:<br\s*/?>)?\s*(\d{1,2}):(\d{2})", text)
+
+    if not match:
+        return None
+
+    day, month, hour, minute = map(int, match.groups())
+
+    from datetime import datetime
+
+    today = date.today()
+    year = today.year
+
+    # La temporada 2026/27 passa de setembre-desembre de 2026
+    # a gener-maig de 2027. Inferim l'any pel mes del partit.
+    if today.month >= 7 and month <= 6:
+        year += 1
+    elif today.month <= 6 and month >= 7:
+        year -= 1
+
+    return datetime(
+        year,
+        month,
+        day,
+        hour,
+        minute
+    ).isoformat()
+
+
+def scrape_fixtures(html):
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    print()
+    print("=" * 70)
+    print("EXTRACCIÓ DEL CALENDARI")
+    print("=" * 70)
+
+    match_links = soup.select("a.partido")
+    print(f"Partits trobats: {len(match_links)}")
+
+    fixtures = []
+
+    for link in match_links:
+
+        href = link.get("href") or ""
+        source_match = re.search(r"/partidos/(\d+)-", href)
+        if not source_match:
+            continue
+
+        source_id = source_match.group(1)
+
+        phase = link.select_one(".fase")
+        phase_text = phase.get_text(" ", strip=True) if phase else ""
+        jornada_match = re.search(r"Jornada\s+(\d+)", phase_text, re.I)
+        if not jornada_match:
+            continue
+        matchday = int(jornada_match.group(1))
+
+        home = link.select_one(".equipo.local")
+        away = link.select_one(".equipo.visitante")
+        if not home or not away:
+            continue
+
+        home_img = home.select_one("img")
+        away_img = away.select_one("img")
+        if not home_img or not away_img:
+            continue
+
+        home_team = (home_img.get("alt") or "").strip()
+        away_team = (away_img.get("alt") or "").strip()
+
+        def team_id(img):
+            src = img.get("src") or ""
+            match = re.search(r"/escudom/(\d+)\.png", src)
+            return int(match.group(1)) if match else None
+
+        home_team_id = team_id(home_img)
+        away_team_id = team_id(away_img)
+
+        result = link.select_one(".resultado")
+        date_element = link.select_one(".date")
+        result_text = result.get_text(" ", strip=True) if result else ""
+        date_text = date_element.get_text(" ", strip=True) if date_element else ""
+
+        home_score = None
+        away_score = None
+        score_match = re.search(r"(\d+)\s*-\s*(\d+)", result_text)
+        if score_match:
+            home_score = int(score_match.group(1))
+            away_score = int(score_match.group(2))
+
+        status = "finished" if "terminado" in (link.get("class") or []) else "scheduled"
+        if "en-juego" in (link.get("class") or []) or "en_juego" in (link.get("class") or []):
+            status = "live"
+
+        kickoff_at = parse_fixture_date(date_text)
+
+        # Alguns partits acabats poden continuar mostrant data/hora o no.
+        # Per als que encara no s'han jugat, guardem l'horari real.
+        fixtures.append({
+            "source_id": source_id,
+            "matchday": matchday,
+            "home_team_id": home_team_id,
+            "away_team_id": away_team_id,
+            "home_team": home_team,
+            "away_team": away_team,
+            "home_crest_url": home_img.get("src"),
+            "away_crest_url": away_img.get("src"),
+            "kickoff_at": kickoff_at,
+            "status": status,
+            "home_score": home_score,
+            "away_score": away_score,
+            "source_url": href if href.startswith("http") else f"https://www.futbolfantasy.com{href}",
+        })
+
+    # Evitem duplicats si la pàgina conté el mateix partit en més d'un bloc.
+    unique = {fixture["source_id"]: fixture for fixture in fixtures}
+    fixtures = list(unique.values())
+
+    print(f"Partits únics extrets: {len(fixtures)}")
+
+    return fixtures
+
+
+def guardar_calendari(supabase, fixtures):
+
+    print()
+    print("=" * 70)
+    print("GUARDANT CALENDARI")
+    print("=" * 70)
+
+    if not fixtures:
+        print("No s'han trobat partits per guardar.")
+        return
+
+    batch_size = 100
+    guardats = 0
+
+    for i in range(0, len(fixtures), batch_size):
+        batch = fixtures[i:i + batch_size]
+        supabase.table("fixtures").upsert(
+            batch,
+            on_conflict="source_id"
+        ).execute()
+        guardats += len(batch)
+        print(f"Partits guardats: {guardats}/{len(fixtures)}")
+
+    print("OK - Calendari guardat correctament")
+
+
+def guardar_sync(supabase, status="success"):
+
+    now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat()
+
+    supabase.table("data_sync").insert({
+        "last_success_at": now if status == "success" else None,
+        "players_updated_at": now if status == "success" else None,
+        "points_updated_at": now if status == "success" else None,
+        "market_updated_at": now if status == "success" else None,
+        "fixtures_updated_at": now if status == "success" else None,
+        "status": status,
+    }).execute()
+
+
+# =========================================================
 # MAIN
 # =========================================================
 
@@ -1201,6 +1377,28 @@ def main():
         guardar_punts_jornada(
             supabase,
             players
+        )
+
+        # -------------------------------------------------
+        # 10. ACTUALITZAR CALENDARI
+        # -------------------------------------------------
+
+        calendar_html = descarregar_pagina(
+            CALENDAR_URL
+        )
+
+        fixtures = scrape_fixtures(
+            calendar_html
+        )
+
+        guardar_calendari(
+            supabase,
+            fixtures
+        )
+
+        guardar_sync(
+            supabase,
+            "success"
         )
 
         # -------------------------------------------------
