@@ -1,0 +1,33 @@
+name: Actualitzar jugadors
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "30 22 * * *"
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Descarregar repositori
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Instal·lar dependències
+        run: |
+          pip install requests
+          pip install beautifulsoup4
+          pip install supabase
+
+      - name: Executar scraper
+        env:
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: |
+          python scraper/scraper.py
