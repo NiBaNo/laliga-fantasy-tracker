@@ -6,6 +6,7 @@
    - Reconstrueix la plantilla a partir de transactions.
    - Registra BUY / SELL a Supabase.
    - Mostra els valors actuals reals dels jugadors.
+   - Mostra les fotografies reals dels jugadors.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -87,6 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById(
             "sortPlayers"
         );
+
 
 
     /* =====================================================
@@ -374,6 +376,42 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
 
+    /*
+       Formata noms que arriben en minúscules.
+
+       Exemples:
+
+       raphinha
+       →
+       Raphinha
+
+       iñaki williams
+       →
+       Iñaki Williams
+    */
+
+    const formatPlayerName =
+        name => {
+
+            return String(
+                name || ""
+            )
+                .trim()
+                .toLocaleLowerCase("ca-ES")
+                .split(/\s+/)
+                .filter(Boolean)
+                .map(
+                    word =>
+                        word.charAt(0)
+                            .toLocaleUpperCase("ca-ES")
+                        +
+                        word.slice(1)
+                )
+                .join(" ");
+
+        };
+
+
     const getInitials = name => {
 
         return String(
@@ -558,6 +596,90 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
 
+    /*
+       Crea l'HTML de la fotografia.
+
+       Si existeix image_url:
+       → mostra la fotografia.
+
+       Si no existeix:
+       → mostra les inicials.
+
+       Si la fotografia retorna error:
+       → torna automàticament a les inicials.
+    */
+
+    const createPlayerImage =
+        (
+            player,
+            className = ""
+        ) => {
+
+            const initials =
+                getInitials(
+                    player.name
+                );
+
+
+            const imageUrl =
+                String(
+                    player.image_url || ""
+                ).trim();
+
+
+            const baseClass =
+                `
+                    player-photo
+                    ${className}
+                `.trim();
+
+
+            if (!imageUrl) {
+
+                return `
+                    <div
+                        class="${baseClass}"
+                    >
+                        ${escapeHtml(
+                            initials
+                        )}
+                    </div>
+                `;
+
+            }
+
+
+            return `
+                <div
+                    class="${baseClass} player-photo--image"
+                >
+
+                    <img
+                        src="${escapeHtml(
+                            imageUrl
+                        )}"
+                        alt="${escapeHtml(
+                            formatPlayerName(
+                                player.name
+                            )
+                        )}"
+                        loading="lazy"
+                        onerror="
+                            this.style.display='none';
+                            this.parentElement.classList.remove('player-photo--image');
+                            this.parentElement.classList.add('player-photo--fallback');
+                            this.parentElement.innerHTML='${escapeHtml(
+                                initials
+                            )}';
+                        "
+                    >
+
+                </div>
+            `;
+
+        };
+
+
     const setBodyModalState =
         open => {
 
@@ -635,6 +757,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         current_value,
                         daily_change,
                         points,
+                        image_url,
                         updated_at
                         `
                     )
@@ -807,7 +930,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                             position,
                             current_value,
                             daily_change,
-                            points
+                            points,
+                            image_url
                         )
                         `
                     )
@@ -1406,8 +1530,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     );
 
 
-            const initials =
-                getInitials(
+            const formattedName =
+                formatPlayerName(
                     player.name
                 );
 
@@ -1422,21 +1546,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                         class="squad-player-card__identity"
                     >
 
-                        <div
-                            class="
-                                player-photo
-                                player-photo--${info.className}
-                            "
-                        >
-                            ${initials}
-                        </div>
+                        ${createPlayerImage(
+                            player,
+                            `player-photo--${info.className}`
+                        )}
 
 
                         <div>
 
                             <h3>
                                 ${escapeHtml(
-                                    player.name
+                                    formattedName
                                 )}
                             </h3>
 
@@ -1965,8 +2085,35 @@ document.addEventListener("DOMContentLoaded", async () => {
                 );
 
 
+            /*
+               Si el modal té un contenidor
+               de fotografia, intentem utilitzar-lo.
+
+               Si no existeix, mantenim
+               les inicials actuals.
+            */
+
+            const modalPhotoContainer =
+                document.querySelector(
+                    "#playerModal .player-photo"
+                );
+
+
+            if (modalPhotoContainer) {
+
+                modalPhotoContainer.outerHTML =
+                    createPlayerImage(
+                        player,
+                        "modal-player-photo"
+                    );
+
+            }
+
+
             modalPlayerName.textContent =
-                player.name
+                formatPlayerName(
+                    player.name
+                )
                 ||
                 "";
 
@@ -2862,17 +3009,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     result.innerHTML =
                         `
 
-                        <div
-                            class="
-                                transaction-result__image
-                            "
-                        >
-
-                            ${getInitials(
-                                player.name
-                            )}
-
-                        </div>
+                        ${createPlayerImage(
+                            player,
+                            "transaction-result__image"
+                        )}
 
 
                         <div
@@ -2888,7 +3028,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                             >
 
                                 ${escapeHtml(
-                                    player.name
+                                    formatPlayerName(
+                                        player.name
+                                    )
                                 )}
 
                             </strong>
@@ -2985,9 +3127,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (selectedPlayerImage) {
 
-                selectedPlayerImage.textContent =
-                    getInitials(
-                        player.name
+                selectedPlayerImage.innerHTML =
+                    createPlayerImage(
+                        player,
+                        "selected-player-photo"
                     );
 
             }
@@ -2996,7 +3139,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (selectedPlayerName) {
 
                 selectedPlayerName.textContent =
-                    player.name;
+                    formatPlayerName(
+                        player.name
+                    );
 
             }
 
@@ -3291,12 +3436,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
 
-            const isBuy =
-                transactionType
-                ===
-                "buy";
-
-
             /*
                Protecció addicional.
             */
@@ -3311,7 +3450,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             if (
-                isBuy
+                transactionType
+                ===
+                "buy"
                 &&
                 isInSquad
             ) {
@@ -3326,7 +3467,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             if (
-                !isBuy
+                transactionType
+                ===
+                "sell"
                 &&
                 !isInSquad
             ) {
@@ -3345,7 +3488,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             confirmTransaction.textContent =
-                isBuy
+                transactionType === "buy"
                     ? "Registrant compra..."
                     : "Registrant venda...";
 
@@ -3366,7 +3509,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             selectedTransactionPlayer.id,
 
                         transaction_type:
-                            isBuy
+                            transactionType === "buy"
                                 ? "BUY"
                                 : "SELL",
 
@@ -3392,7 +3535,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                 confirmTransaction.textContent =
-                    isBuy
+                    transactionType === "buy"
                         ? "Confirmar compra"
                         : "Confirmar venda";
 
@@ -3424,7 +3567,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             alert(
-                isBuy
+                transactionType === "buy"
                     ? "Compra registrada correctament"
                     : "Venda registrada correctament"
             );

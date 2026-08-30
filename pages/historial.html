@@ -1,1 +1,1946 @@
+<!DOCTYPE html>
+<html lang="ca">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Historial · Fantasy Tracker</title>
+
+    <meta
+        name="description"
+        content="Historial de compres i vendes de la teva plantilla."
+    >
+
+    <!-- =====================================================
+         FONTS
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         CSS GLOBAL
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/main.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/cards.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/components.css"
+    >
+
+
+    <!-- =====================================================
+         ESTILS ESPECÍFICS HISTORIAL
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           PAGE
+        ================================================== */
+
+        .history-page {
+
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+
+        }
+
+
+        .history-hero {
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+
+            margin-bottom: 34px;
+
+        }
+
+
+        .history-hero__content {
+
+            max-width: 760px;
+
+        }
+
+
+        .history-hero__eyebrow {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            color: #6f7c8d;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 1.8px;
+
+        }
+
+
+        .history-hero__title {
+
+            margin: 0;
+
+            color: #f4f7fa;
+
+            font-size: clamp(
+                30px,
+                4vw,
+                44px
+            );
+
+            line-height: 1.05;
+
+            letter-spacing: -1.8px;
+
+        }
+
+
+        .history-hero__description {
+
+            margin: 14px 0 0;
+
+            color: #8d98a7;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+        }
+
+
+
+        /* =================================================
+           SUMMARY
+        ================================================== */
+
+        .history-summary {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(
+                        0,
+                        1fr
+                    )
+                );
+
+            gap: 14px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .history-stat {
+
+            position: relative;
+
+            min-height: 142px;
+
+            padding: 22px;
+
+            overflow: hidden;
+
+            border: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(
+                        24,
+                        30,
+                        38,
+                        0.98
+                    ),
+                    rgba(
+                        16,
+                        20,
+                        26,
+                        0.98
+                    )
+                );
+
+            box-shadow:
+                0 14px 35px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.12
+                );
+
+        }
+
+
+        .history-stat::after {
+
+            content: "";
+
+            position: absolute;
+
+            right: -35px;
+            bottom: -45px;
+
+            width: 130px;
+            height: 130px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(
+                        0,
+                        220,
+                        130,
+                        0.10
+                    ),
+                    transparent 70%
+                );
+
+            pointer-events: none;
+
+        }
+
+
+        .history-stat__label {
+
+            display: block;
+
+            margin-bottom: 13px;
+
+            color: #687587;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1.4px;
+
+        }
+
+
+        .history-stat__value {
+
+            display: block;
+
+            color: #f2f5f7;
+
+            font-size: 27px;
+            font-weight: 800;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .history-stat__description {
+
+            display: block;
+
+            margin-top: 7px;
+
+            color: #758194;
+
+            font-size: 11px;
+
+        }
+
+
+        .history-stat--profit
+        .history-stat__value {
+
+            color: #00df87;
+
+        }
+
+
+        .history-stat--loss
+        .history-stat__value {
+
+            color: #ff6978;
+
+        }
+
+
+
+        /* =================================================
+           TOOLBAR
+        ================================================== */
+
+        .history-toolbar {
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 16px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .history-toolbar__left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex: 1;
+
+        }
+
+
+        .history-search {
+
+            position: relative;
+
+            width: 100%;
+            max-width: 350px;
+
+        }
+
+
+        .history-search__icon {
+
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #637083;
+
+            font-size: 13px;
+
+            pointer-events: none;
+
+        }
+
+
+        .history-search input {
+
+            width: 100%;
+
+            height: 46px;
+
+            padding:
+                0 15px 0 39px;
+
+            border: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+                );
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background:
+                rgba(
+                    18,
+                    23,
+                    29,
+                    0.92
+                );
+
+            color: #eef2f5;
+
+            font-family: inherit;
+            font-size: 13px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+
+        .history-search input::placeholder {
+
+            color: #5f6b7a;
+
+        }
+
+
+        .history-search input:focus {
+
+            border-color:
+                rgba(
+                    0,
+                    220,
+                    130,
+                    0.45
+                );
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    0,
+                    220,
+                    130,
+                    0.07
+                );
+
+        }
+
+
+        .history-filters {
+
+            display: flex;
+
+            gap: 6px;
+
+            padding: 4px;
+
+            border: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.05
+                );
+
+            border-radius: 10px;
+
+            background:
+                rgba(
+                    17,
+                    22,
+                    28,
+                    0.85
+                );
+
+        }
+
+
+        .history-filter {
+
+            height: 36px;
+
+            padding:
+                0 14px;
+
+            border: 0;
+
+            border-radius: 7px;
+
+            background: transparent;
+
+            color: #788596;
+
+            font-family: inherit;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+
+        }
+
+
+        .history-filter:hover {
+
+            color: #dce3e9;
+
+        }
+
+
+        .history-filter.active {
+
+            background:
+                rgba(
+                    0,
+                    220,
+                    130,
+                    0.10
+                );
+
+            color: #00df87;
+
+        }
+
+
+        .history-sort {
+
+            height: 46px;
+
+            padding:
+                0 13px;
+
+            border: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+                );
+
+            border-radius: 10px;
+
+            background:
+                rgba(
+                    18,
+                    23,
+                    29,
+                    0.92
+                );
+
+            color: #9aa6b5;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            outline: none;
+
+            cursor: pointer;
+
+        }
+
+
+
+        /* =================================================
+           PANEL
+        ================================================== */
+
+        .history-panel {
+
+            overflow: hidden;
+
+            border: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(
+                        19,
+                        24,
+                        30,
+                        0.98
+                    ),
+                    rgba(
+                        14,
+                        18,
+                        23,
+                        0.98
+                    )
+                );
+
+            box-shadow:
+                0 18px 50px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.14
+                );
+
+        }
+
+
+        .history-panel__header {
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            padding:
+                22px 24px;
+
+            border-bottom: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.055
+                );
+
+        }
+
+
+        .history-panel__heading {
+
+            margin: 0;
+
+            color: #edf2f5;
+
+            font-size: 15px;
+            font-weight: 700;
+
+        }
+
+
+        .history-panel__count {
+
+            color: #657283;
+
+            font-size: 11px;
+
+        }
+
+
+
+        /* =================================================
+           TRANSACTIONS
+        ================================================== */
+
+        .history-list {
+
+            padding:
+                8px 18px 18px;
+
+        }
+
+
+        .history-row {
+
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                74px
+                minmax(
+                    260px,
+                    1fr
+                )
+                145px
+                190px;
+
+            align-items: center;
+
+            min-height: 96px;
+
+            padding:
+                14px 6px;
+
+            border-bottom: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.045
+                );
+
+        }
+
+
+        .history-row:last-child {
+
+            border-bottom: 0;
+
+        }
+
+
+        .history-row:hover {
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.018
+                );
+
+        }
+
+
+        .history-date {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+
+            padding-left: 5px;
+
+        }
+
+
+        .history-date__day {
+
+            color: #dfe5ea;
+
+            font-size: 13px;
+            font-weight: 700;
+
+        }
+
+
+        .history-date__year {
+
+            color: #5f6b79;
+
+            font-size: 10px;
+
+        }
+
+
+        .history-player {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            min-width: 0;
+
+        }
+
+
+        .history-player__avatar {
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 48px;
+            height: 48px;
+
+            flex: 0 0 48px;
+
+            overflow: hidden;
+
+            border: 1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #26303b,
+                    #171d24
+                );
+
+            color: #aeb8c3;
+
+            font-size: 13px;
+            font-weight: 800;
+
+        }
+
+
+        .history-player__avatar img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+        }
+
+
+        .history-player__info {
+
+            min-width: 0;
+
+        }
+
+
+        .history-player__name {
+
+            display: block;
+
+            overflow: hidden;
+
+            color: #edf2f5;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+        }
+
+
+        .history-player__team {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 5px;
+
+            color: #687585;
+
+            font-size: 10px;
+
+        }
+
+
+        .history-team-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 24px;
+            height: 17px;
+
+            padding: 0 5px;
+
+            border-radius: 4px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.055
+                );
+
+            color: #8793a1;
+
+            font-size: 8px;
+            font-weight: 800;
+
+        }
+
+
+
+        /* =================================================
+           OPERATION
+        ================================================== */
+
+        .history-operation {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .history-operation__badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            min-width: 94px;
+
+            padding:
+                8px 10px;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 0.3px;
+
+        }
+
+
+        .history-operation__badge::before {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 18px;
+            height: 18px;
+
+            border-radius: 50%;
+
+            font-size: 11px;
+
+        }
+
+
+        .history-operation__badge--buy {
+
+            background:
+                rgba(
+                    0,
+                    220,
+                    130,
+                    0.08
+                );
+
+            color: #00df87;
+
+        }
+
+
+        .history-operation__badge--buy::before {
+
+            content: "+";
+
+            background:
+                rgba(
+                    0,
+                    220,
+                    130,
+                    0.12
+                );
+
+        }
+
+
+        .history-operation__badge--sell {
+
+            background:
+                rgba(
+                    255,
+                    103,
+                    120,
+                    0.08
+                );
+
+            color: #ff7582;
+
+        }
+
+
+        .history-operation__badge--sell::before {
+
+            content: "−";
+
+            background:
+                rgba(
+                    255,
+                    103,
+                    120,
+                    0.12
+                );
+
+        }
+
+
+
+        /* =================================================
+           AMOUNT
+        ================================================== */
+
+        .history-amount {
+
+            text-align: right;
+
+        }
+
+
+        .history-amount__main {
+
+            display: block;
+
+            color: #f0f4f7;
+
+            font-size: 15px;
+            font-weight: 800;
+
+        }
+
+
+        .history-amount__label {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #606d7d;
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+        }
+
+
+
+        /* =================================================
+           PROFIT
+        ================================================== */
+
+        .history-result {
+
+            text-align: right;
+
+        }
+
+
+        .history-result__label {
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #596677;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: 0.7px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .history-result__value {
+
+            display: block;
+
+            font-size: 13px;
+            font-weight: 800;
+
+        }
+
+
+        .history-result__detail {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #596677;
+
+            font-size: 9px;
+
+        }
+
+
+        .history-result--positive
+        .history-result__value {
+
+            color: #00df87;
+
+        }
+
+
+        .history-result--negative
+        .history-result__value {
+
+            color: #ff6978;
+
+        }
+
+
+        .history-result--neutral
+        .history-result__value {
+
+            color: #657283;
+
+        }
+
+
+
+        /* =================================================
+           EMPTY / LOADING
+        ================================================== */
+
+        .history-empty {
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 280px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            color: #697687;
+
+            font-size: 13px;
+
+        }
+
+
+        .history-empty strong {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #dce2e7;
+
+            font-size: 15px;
+
+        }
+
+
+        .history-empty span {
+
+            display: block;
+
+            color: #657181;
+
+        }
+
+
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
+        @media (
+            max-width: 1050px
+        ) {
+
+            .history-summary {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(
+                            0,
+                            1fr
+                        )
+                    );
+
+            }
+
+
+            .history-row {
+
+                grid-template-columns:
+                    64px
+                    minmax(
+                        220px,
+                        1fr
+                    )
+                    120px
+                    150px;
+
+            }
+
+        }
+
+
+        @media (
+            max-width: 760px
+        ) {
+
+            .history-hero {
+
+                display: block;
+
+            }
+
+
+            .history-summary {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(
+                            0,
+                            1fr
+                        )
+                );
+
+            }
+
+
+            .history-toolbar {
+
+                display: block;
+
+            }
+
+
+            .history-toolbar__left {
+
+                display: block;
+
+            }
+
+
+            .history-search {
+
+                max-width: none;
+
+                margin-bottom: 10px;
+
+            }
+
+
+            .history-filters {
+
+                width: max-content;
+
+                max-width: 100%;
+
+            }
+
+
+            .history-sort {
+
+                width: 100%;
+
+                margin-top: 10px;
+
+            }
+
+
+            .history-panel {
+
+                border-radius: 12px;
+
+            }
+
+
+            .history-panel__header {
+
+                padding:
+                    18px;
+
+            }
+
+
+            .history-list {
+
+                padding:
+                    4px 12px 12px;
+
+            }
+
+
+            .history-row {
+
+                grid-template-columns:
+                    48px
+                    minmax(
+                        0,
+                        1fr
+                    );
+
+                gap: 10px;
+
+                padding:
+                    15px 4px;
+
+            }
+
+
+            .history-date {
+
+                padding-left: 0;
+
+            }
+
+
+            .history-player {
+
+                gap: 10px;
+
+            }
+
+
+            .history-player__avatar {
+
+                width: 42px;
+                height: 42px;
+
+                flex-basis: 42px;
+
+            }
+
+
+            .history-operation {
+
+                grid-column:
+                    2;
+
+            }
+
+
+            .history-amount {
+
+                grid-column:
+                    2;
+
+                text-align: left;
+
+            }
+
+
+            .history-result {
+
+                grid-column:
+                    2;
+
+                text-align: left;
+
+            }
+
+
+            .history-operation__badge {
+
+                min-width: 0;
+
+            }
+
+        }
+
+
+        @media (
+            max-width: 480px
+        ) {
+
+            .history-summary {
+
+                gap: 9px;
+
+            }
+
+
+            .history-stat {
+
+                min-height: 125px;
+
+                padding: 17px;
+
+            }
+
+
+            .history-stat__value {
+
+                font-size: 21px;
+
+            }
+
+
+            .history-hero__title {
+
+                font-size: 30px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="sidebar__header">
+
+            <a
+                href="../index.html"
+                class="brand"
+            >
+
+                <div class="brand__icon">
+                    FT
+                </div>
+
+                <div class="brand__text">
+
+                    <span class="brand__title">
+                        Fantasy
+                    </span>
+
+                    <span class="brand__subtitle">
+                        Tracker
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <button
+                class="sidebar__toggle"
+                id="sidebarToggle"
+                aria-label="Tancar menú"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+        <nav class="sidebar__nav">
+
+            <span class="nav__section-title">
+                PRINCIPAL
+            </span>
+
+
+            <a
+                href="../index.html"
+                class="nav__item"
+            >
+
+                <span class="nav__icon">
+                    ◈
+                </span>
+
+                <span class="nav__label">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="plantilla.html"
+                class="nav__item"
+            >
+
+                <span class="nav__icon">
+                    ♙
+                </span>
+
+                <span class="nav__label">
+                    Plantilla
+                </span>
+
+            </a>
+
+
+            <a
+                href="mercat.html"
+                class="nav__item"
+            >
+
+                <span class="nav__icon">
+                    ◆
+                </span>
+
+                <span class="nav__label">
+                    Mercat
+                </span>
+
+            </a>
+
+
+            <a
+                href="historial.html"
+                class="nav__item active"
+            >
+
+                <span class="nav__icon">
+                    ↗
+                </span>
+
+                <span class="nav__label">
+                    Historial
+                </span>
+
+            </a>
+
+
+            <span class="nav__section-title">
+                CONFIGURACIÓ
+            </span>
+
+
+            <a
+                href="configuracio.html"
+                class="nav__item"
+            >
+
+                <span class="nav__icon">
+                    ⚙
+                </span>
+
+                <span class="nav__label">
+                    Configuració
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar__footer">
+
+            <div class="sidebar__status">
+
+                <span class="status__dot"></span>
+
+                <span class="status__text">
+                    Sistema operatiu
+                </span>
+
+            </div>
+
+            <div class="sidebar__version">
+                v0.1.0
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div class="topbar__left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    aria-label="Obrir menú"
+                >
+                    ☰
+                </button>
+
+                <div>
+
+                    <span class="page__eyebrow">
+                        LA LIGA FANTASY
+                    </span>
+
+                    <h1 class="page__title">
+                        Historial
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar__right">
+
+                <div class="topbar__notification">
+                    ◇
+                </div>
+
+                <div class="topbar__user">
+
+                    <div class="topbar__avatar">
+                        N
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Nil
+                        </strong>
+
+                        <span>
+                            Fantasy League
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             PAGE
+        ================================================== -->
+
+        <div class="page-content">
+
+            <div class="history-page">
+
+
+                <!-- =============================================
+                     HERO
+                ============================================== -->
+
+                <section class="history-hero">
+
+                    <div class="history-hero__content">
+
+                        <span
+                            class="history-hero__eyebrow"
+                        >
+                            MOVIMENTS DE LA TEMPORADA
+                        </span>
+
+                        <h2
+                            class="history-hero__title"
+                        >
+                            El teu historial
+                        </h2>
+
+                        <p
+                            class="history-hero__description"
+                        >
+                            Consulta totes les compres i vendes
+                            que has registrat durant la temporada,
+                            amb el resultat econòmic de cada operació.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =============================================
+                     SUMMARY
+                ============================================== -->
+
+                <section
+                    class="history-summary"
+                    aria-label="Resum de l'historial"
+                >
+
+                    <article class="history-stat">
+
+                        <span class="history-stat__label">
+                            OPERACIONS
+                        </span>
+
+                        <strong
+                            class="history-stat__value"
+                            id="totalTransactions"
+                        >
+                            —
+                        </strong>
+
+                        <span
+                            class="history-stat__description"
+                        >
+                            moviments registrats
+                        </span>
+
+                    </article>
+
+
+                    <article class="history-stat">
+
+                        <span class="history-stat__label">
+                            COMPRES
+                        </span>
+
+                        <strong
+                            class="history-stat__value"
+                            id="totalBuys"
+                        >
+                            —
+                        </strong>
+
+                        <span
+                            class="history-stat__description"
+                        >
+                            diners invertits
+                        </span>
+
+                    </article>
+
+
+                    <article class="history-stat">
+
+                        <span class="history-stat__label">
+                            VENDES
+                        </span>
+
+                        <strong
+                            class="history-stat__value"
+                            id="totalSells"
+                        >
+                            —
+                        </strong>
+
+                        <span
+                            class="history-stat__description"
+                            id="totalSalesAmount"
+                        >
+                            ingressos obtinguts
+                        </span>
+
+                    </article>
+
+
+                    <article
+                        class="history-stat"
+                        id="profitStat"
+                    >
+
+                        <span class="history-stat__label">
+                            BENEFICI REALITZAT
+                        </span>
+
+                        <strong
+                            class="history-stat__value"
+                            id="realizedProfit"
+                        >
+                            —
+                        </strong>
+
+                        <span
+                            class="history-stat__description"
+                        >
+                            en jugadors venuts
+                        </span>
+
+                    </article>
+
+                </section>
+
+
+
+                <!-- =============================================
+                     TOOLBAR
+                ============================================== -->
+
+                <section class="history-toolbar">
+
+                    <div class="history-toolbar__left">
+
+                        <div class="history-search">
+
+                            <span
+                                class="history-search__icon"
+                            >
+                                ⌕
+                            </span>
+
+                            <input
+                                type="search"
+                                id="historySearch"
+                                placeholder="Buscar jugador..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+
+                        <div class="history-filters">
+
+                            <button
+                                type="button"
+                                class="history-filter active"
+                                data-filter="all"
+                            >
+                                Tots
+                            </button>
+
+                            <button
+                                type="button"
+                                class="history-filter"
+                                data-filter="BUY"
+                            >
+                                Compres
+                            </button>
+
+                            <button
+                                type="button"
+                                class="history-filter"
+                                data-filter="SELL"
+                            >
+                                Vendes
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <select
+                        class="history-sort"
+                        id="historySort"
+                    >
+
+                        <option value="newest">
+                            Més recents
+                        </option>
+
+                        <option value="oldest">
+                            Més antigues
+                        </option>
+
+                    </select>
+
+                </section>
+
+
+
+                <!-- =============================================
+                     HISTORY PANEL
+                ============================================== -->
+
+                <section class="history-panel">
+
+                    <div class="history-panel__header">
+
+                        <h3
+                            class="history-panel__heading"
+                        >
+                            Moviments
+                        </h3>
+
+                        <span
+                            class="history-panel__count"
+                            id="historyCount"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="history-list"
+                        id="historyList"
+                    >
+
+                        <div class="history-empty">
+
+                            Carregant historial...
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     SUPABASE
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<!-- =========================================================
+     GLOBAL JS
+========================================================= -->
+
+<script src="../js/app.js"></script>
+
+
+<!-- =========================================================
+     HISTORY JS
+========================================================= -->
+
+<script src="../js/historial.js"></script>
+
+
+</body>
+
+</html>
