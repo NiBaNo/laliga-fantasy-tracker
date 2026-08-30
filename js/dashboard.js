@@ -83,6 +83,56 @@ document.addEventListener("DOMContentLoaded", async () => {
         .replace(/&/g, "&amp;").replace(/</g, "&lt;")
         .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
+    // Formata el saldo mentre l'usuari escriu: 150000000 → 150.000.000
+    // Manté també els saldos negatius, per exemple -25.000.000.
+    const formatBalanceInput = () => {
+        if (!els.balanceInput) return;
+
+        const input = els.balanceInput;
+        const raw = input.value;
+        const cursor = input.selectionStart ?? raw.length;
+        const digitsBeforeCursor = raw.slice(0, cursor).replace(/\D/g, "").length;
+        const negative = raw.trim().startsWith("-");
+        const digits = raw.replace(/\D/g, "");
+
+        if (!digits) {
+            input.value = negative ? "-" : "";
+            return;
+        }
+
+        const number = Number(digits);
+        if (!Number.isSafeInteger(number)) return;
+
+        const formatted = new Intl.NumberFormat("ca-ES", {
+            maximumFractionDigits: 0
+        }).format(number);
+
+        input.value = `${negative ? "-" : ""}${formatted}`;
+
+        // Intenta conservar el cursor en una posició natural després de formatar.
+        let seenDigits = 0;
+        let newCursor = input.value.length;
+        for (let i = 0; i < input.value.length; i++) {
+            if (/\d/.test(input.value[i])) seenDigits++;
+            if (seenDigits >= digitsBeforeCursor) {
+                newCursor = i + 1;
+                break;
+            }
+        }
+        input.setSelectionRange(newCursor, newCursor);
+    };
+
+    const parseBalanceInput = () => {
+        if (!els.balanceInput) return NaN;
+        const raw = els.balanceInput.value.trim();
+        if (!raw || raw === "-") return NaN;
+        const negative = raw.startsWith("-");
+        const digits = raw.replace(/\D/g, "");
+        if (!digits) return NaN;
+        const value = Number(digits);
+        return negative ? -value : value;
+    };
+
     const openModal = (el) => { if (el) { el.hidden = false; document.body.classList.add("modal-open"); } };
     const closeModal = (el) => { if (el) { el.hidden = true; document.body.classList.remove("modal-open"); } };
 
@@ -273,10 +323,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const saveBalance = async () => {
         if (!state.user) return;
-        const raw = els.balanceInput.value.replace(/\./g, "").replace(/,/g, ".").trim();
-        const value = Number(raw);
-        if (!Number.isFinite(value)) { els.balanceMessage.textContent = "Introdueix un saldo vàlid."; return; }
-        const rounded = Math.round(value);
+
+        const value = parseBalanceInput();
+        if (!Number.isFinite(value) || !Number.isSafeInteger(value)) {
+            els.balanceMessage.textContent = "Introdueix un saldo vàlid.";
+            return;
+        }
+
+        const rounded = value;
         els.balanceMessage.textContent = "Guardant...";
         const { error } = await supabase.from("manager_balances").upsert({ user_id: state.user.id, balance: rounded, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
         if (error) { els.balanceMessage.textContent = "No s'ha pogut guardar el saldo. Comprova la configuració de Supabase."; console.error(error); return; }
@@ -287,7 +341,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         setTimeout(() => closeModal(els.balanceModal), 400);
     };
 
-    els.balanceEdit?.addEventListener("click", () => { els.balanceInput.value = latestBalance() || ""; els.balanceMessage.textContent = ""; openModal(els.balanceModal); setTimeout(()=>els.balanceInput.focus(),50); });
+    els.balanceEdit?.addEventListener("click", () => {
+        const current = latestBalance();
+        els.balanceInput.value = current ? new Intl.NumberFormat("ca-ES", { maximumFractionDigits: 0 }).format(current) : "";
+        els.balanceMessage.textContent = "";
+        openModal(els.balanceModal);
+        setTimeout(() => els.balanceInput.focus(), 50);
+    });
+
+    els.balanceInput?.addEventListener("input", formatBalanceInput);
     els.balanceForm?.addEventListener("submit", async (e) => { e.preventDefault(); await saveBalance(); });
     els.balanceClose?.addEventListener("click", () => closeModal(els.balanceModal));
     els.balanceCancel?.addEventListener("click", () => closeModal(els.balanceModal));

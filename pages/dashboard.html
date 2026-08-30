@@ -1,1 +1,532 @@
-<!DOCTYPE html><html lang="ca"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Dashboard · Fantasy Tracker</title><meta name="description" content="Resum del teu equip, patrimoni i calendari de LaLiga Fantasy."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="../css/main.css"><link rel="stylesheet" href="../css/layout.css"><link rel="stylesheet" href="../css/cards.css"><link rel="stylesheet" href="../css/components.css"><style>body{background:#070a0d}.dashboard-page{max-width:1500px;margin:0 auto;padding:24px 0 70px}.dash-hero{position:relative;overflow:hidden;display:flex;justify-content:space-between;gap:30px;padding:38px 34px;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:linear-gradient(135deg,#121920,#0d1518 55%,#10261d);box-shadow:0 20px 60px rgba(0,0,0,.18)}.dash-hero:after{content:"";position:absolute;width:320px;height:320px;right:-80px;bottom:-170px;border-radius:50%;background:radial-gradient(circle,rgba(0,223,135,.16),transparent 68%);pointer-events:none}.dash-eyebrow,.dash-label,.dash-section-eyebrow{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#66809a}.dash-hero h2{margin:8px 0 10px;color:#f3f6f8;font-size:clamp(32px,4vw,50px);line-height:1.02;letter-spacing:-2px}.dash-hero p{max-width:610px;margin:0;color:#8492a2;font-size:13px;line-height:1.7}.dash-hero-stat{position:relative;z-index:1;min-width:245px;align-self:center;padding:22px 24px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(14,23,21,.72)}.dash-hero-stat span{display:block;color:#718292;font-size:9px;font-weight:800;letter-spacing:1.2px}.dash-hero-stat strong{display:block;margin:8px 0 7px;color:#f1f5f7;font-size:30px;letter-spacing:-1.2px}.dashboard-hero-change,.dashboard-stat-trend{font-size:11px;font-weight:800}.positive{color:#00df87!important}.negative{color:#ff6978!important}.neutral{color:#8290a0!important}.dash-section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 0 12px}.dash-section-head h2{margin:5px 0 0;color:#edf2f5;font-size:17px}.dash-link{color:#728197;font-size:10px;text-decoration:none}.dash-link:hover{color:#00df87}.dash-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.dash-stat{min-height:135px;padding:19px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,#151b22,#10151b)}.dash-stat-top{display:flex;justify-content:space-between;align-items:center}.dash-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:rgba(0,223,135,.1);color:#00df87;font-weight:800}.dash-stat:nth-child(2) .dash-icon{background:rgba(110,120,255,.11);color:#8d8cff}.dash-stat:nth-child(3) .dash-icon{background:rgba(0,190,255,.1);color:#55cfff}.dash-stat:nth-child(4) .dash-icon{background:rgba(255,170,60,.1);color:#ffad55}.dash-stat .dash-label{display:block;margin-top:19px}.dash-stat strong{display:block;margin-top:7px;color:#edf2f5;font-size:24px;letter-spacing:-.8px}.dash-stat small{display:block;margin-top:6px;color:#667486;font-size:9px}.dash-stat button{margin-top:8px;border:0;background:none;color:#00df87;padding:0;font:700 10px Inter;cursor:pointer}.dash-grid-2{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.dash-panel{overflow:hidden;border:1px solid rgba(255,255,255,.065);border-radius:15px;background:linear-gradient(145deg,#11171d,#0d1217)}.dash-panel-head{display:flex;justify-content:space-between;align-items:center;padding:19px 21px;border-bottom:1px solid rgba(255,255,255,.055)}.dash-panel-head h3{margin:4px 0 0;color:#edf2f5;font-size:14px}.dash-panel-body{padding:10px 18px 18px}.chart-wrap{padding:4px 0}.chart-wrap canvas{width:100%;height:230px;display:block}.dashboard-player-row,.dashboard-market-row{display:flex;align-items:center;gap:11px;min-height:64px;border-bottom:1px solid rgba(255,255,255,.045)}.dashboard-player-row:last-child,.dashboard-market-row:last-child{border-bottom:0}.dashboard-player-avatar,.dashboard-market-avatar{width:38px;height:38px;display:grid;place-items:center;flex:0 0 38px;border-radius:50%;background:linear-gradient(145deg,#29333e,#171d24);border:1px solid rgba(255,255,255,.07);color:#aeb9c4;font-size:10px;font-weight:800;overflow:hidden}.dashboard-market-avatar img{width:100%;height:100%;object-fit:cover}.dashboard-player-info,.dashboard-market-info{min-width:0;flex:1}.dashboard-player-info strong,.dashboard-market-info strong{display:block;color:#e9eef2;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dashboard-player-info span,.dashboard-market-info span{display:block;margin-top:4px;color:#637183;font-size:9px}.dashboard-player-value{text-align:right}.dashboard-player-value strong{display:block;color:#eef3f6;font-size:11px}.dashboard-player-value small{display:block;margin-top:4px;font-size:9px;font-weight:800}.dashboard-market-change{font-size:10px;font-weight:800}.dash-market-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.dashboard-empty{padding:22px 4px;color:#697789;font-size:11px;text-align:center}.fixture-summary-top{display:flex;align-items:center;justify-content:space-between;padding:15px 0}.fixture-summary-top span{display:block;color:#67809a;font-size:9px;font-weight:800;letter-spacing:1.2px}.fixture-summary-top strong{display:block;margin-top:5px;color:#edf2f5;font-size:15px}.fixture-summary-top button{border:0;border-radius:8px;padding:9px 12px;background:rgba(0,223,135,.09);color:#00df87;font:700 10px Inter;cursor:pointer}.fixture-mini{display:grid;grid-template-columns:1fr 105px 1fr;align-items:center;gap:10px;padding:13px 0;border-top:1px solid rgba(255,255,255,.045)}.fixture-mini>span{text-align:center;color:#697789;font-size:9px}.fixture-team{display:flex;align-items:center;gap:8px;color:#dce3e8;font-size:10px}.fixture-team img{width:25px;height:25px;object-fit:contain}.fixture-team.away{justify-content:flex-end}.fixture-team.away img{order:2}.dash-status{display:flex;align-items:center;gap:9px;color:#7c8998;font-size:10px}.dash-status-dot{width:7px;height:7px;border-radius:50%;background:#00df87;box-shadow:0 0 0 4px rgba(0,223,135,.08)}.dash-status-grid{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;color:#5e6d7e;font-size:9px}.modal-shell{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:rgba(3,6,8,.72);backdrop-filter:blur(8px)}.modal-shell[hidden]{display:none}.modal-box{width:min(760px,100%);max-height:min(85vh,800px);overflow:auto;border:1px solid rgba(255,255,255,.08);border-radius:17px;background:#10161c;box-shadow:0 30px 100px rgba(0,0,0,.45)}.modal-box.small{width:min(430px,100%)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.055)}.modal-head h3{margin:5px 0 0;color:#edf2f5;font-size:17px}.modal-close{border:0;background:transparent;color:#758395;font-size:22px;cursor:pointer}.modal-body{padding:20px 24px}.balance-form label{display:block;color:#8390a0;font-size:10px;font-weight:700;letter-spacing:.7px;margin-bottom:8px}.balance-input{width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid rgba(255,255,255,.08);border-radius:10px;outline:0;background:#0b1015;color:#edf2f5;font:700 16px Inter}.balance-input:focus{border-color:rgba(0,223,135,.45);box-shadow:0 0 0 3px rgba(0,223,135,.07)}.balance-help,.balance-message{display:block;margin-top:8px;color:#647284;font-size:9px}.balance-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.dash-btn{border:0;border-radius:9px;padding:10px 15px;font:700 10px Inter;cursor:pointer}.dash-btn.primary{background:#00df87;color:#06110b}.dash-btn.secondary{background:rgba(255,255,255,.06);color:#aab5c0}.fixture-tabs{display:flex;gap:6px;overflow:auto;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.055)}.fixture-tab{flex:0 0 auto;border:0;border-radius:8px;padding:9px 12px;background:transparent;color:#718093;font:700 10px Inter;cursor:pointer}.fixture-tab.active{background:rgba(0,223,135,.1);color:#00df87}.fixture-list{padding:8px 24px 22px}.fixture-card{display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;gap:15px;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.045)}.fixture-card__team{display:flex;align-items:center;gap:10px;color:#e7edf1;font-size:12px}.fixture-card__team:last-child{justify-content:flex-end}.fixture-card__team img{width:34px;height:34px;object-fit:contain}.fixture-card__middle{text-align:center}.fixture-card__middle span{display:block;color:#637488;font-size:8px;font-weight:800}.fixture-card__middle strong{display:block;margin:5px 0;color:#eef3f6;font-size:13px}.fixture-card__middle small{color:#69788a;font-size:9px}.modal-open{overflow:hidden}@media(max-width:1050px){.dash-stats{grid-template-columns:repeat(2,1fr)}.dash-grid-2{grid-template-columns:1fr}.dash-market-grid{grid-template-columns:1fr}}@media(max-width:700px){.dashboard-page{padding-top:10px}.dash-hero{display:block;padding:26px 22px}.dash-hero-stat{margin-top:22px;min-width:0}.dash-hero h2{font-size:34px}.dash-stats{grid-template-columns:1fr 1fr}.fixture-mini{grid-template-columns:1fr 90px 1fr}.fixture-card{grid-template-columns:1fr 80px 1fr}}@media(max-width:480px){.dash-stats{grid-template-columns:1fr}.dash-section-head{margin-top:22px}.fixture-mini{grid-template-columns:1fr}.fixture-mini>span{text-align:left}.fixture-team.away{justify-content:flex-start}.fixture-card{grid-template-columns:1fr;gap:8px}.fixture-card__team:last-child{justify-content:flex-start}.fixture-card__middle{text-align:left}}</style></head><body><div class="app"><aside class="sidebar" id="sidebar"><div class="sidebar__header"><a href="../index.html" class="brand"><div class="brand__icon">FT</div><div class="brand__text"><span class="brand__title">Fantasy</span><span class="brand__subtitle">Tracker</span></div></a><button class="sidebar__toggle" id="sidebarToggle" aria-label="Tancar menú">☰</button></div><nav class="sidebar__nav"><span class="nav__section-title">PRINCIPAL</span><a href="../index.html" class="nav__item"><span class="nav__icon">◈</span><span class="nav__label">Dashboard</span></a><a href="plantilla.html" class="nav__item"><span class="nav__icon">♙</span><span class="nav__label">Plantilla</span></a><a href="mercat.html" class="nav__item"><span class="nav__icon">◆</span><span class="nav__label">Mercat</span></a><a href="historial.html" class="nav__item"><span class="nav__icon">↗</span><span class="nav__label">Historial</span></a><span class="nav__section-title">CONFIGURACIÓ</span><a href="configuracio.html" class="nav__item"><span class="nav__icon">⚙</span><span class="nav__label">Configuració</span></a></nav><div class="sidebar__footer"><div class="sidebar__status"><span class="status__dot"></span><span class="status__text" id="dashboardSyncStatus">Sistema operatiu</span></div><div class="sidebar__version">v0.1.0</div></div></aside><main class="main-content"><header class="topbar"><div class="topbar__left"><button class="mobile-menu" id="mobileMenu" aria-label="Obrir menú">☰</button><div><span class="page__eyebrow">LA LIGA FANTASY</span><h1 class="page__title">Dashboard</h1></div></div><div class="topbar__right"><button class="icon-button" aria-label="Notificacions">🔔<span class="notification-dot"></span></button><button class="profile" id="profileButton" type="button"><div class="profile__avatar" id="profileAvatar">M</div><div class="profile__info"><span class="profile__name" id="profileName">Iniciar sessió</span><span class="profile__role" id="profileRole">Accés al teu equip</span></div><span class="profile__arrow">▾</span></button></div></header><div class="page-content"><div class="dashboard-page"><section class="dash-hero"><div><span class="dash-eyebrow">RESUM DEL TEU EQUIP</span><h2>El teu equip.<br>Les teves decisions.</h2><p>Controla el valor de la plantilla, el teu saldo i l'evolució del patrimoni, i consulta ràpidament el calendari de LaLiga.</p></div><div class="dash-hero-stat"><span>VALOR DE PLANTILLA</span><strong id="dashboardHeroValue">—</strong><div id="dashboardHeroChange" class="dashboard-hero-change">—</div></div></section><div class="dash-section-head"><div><span class="dash-section-eyebrow">ESTAT DE L'EQUIP</span><h2>Patrimoni i recursos</h2></div></div><section class="dash-stats"><article class="dash-stat"><div class="dash-stat-top"><span class="dash-icon">€</span><span id="dashboardSquadChange" class="dashboard-stat-trend">—</span></div><span class="dash-label">VALOR DE PLANTILLA</span><strong id="dashboardSquadValue">—</strong><small>Valor actual dels teus jugadors</small></article><article class="dash-stat"><div class="dash-stat-top"><span class="dash-icon">€</span><span class="dashboard-stat-trend neutral">LIQUIDITAT</span></div><span class="dash-label">SALDO DISPONIBLE</span><strong id="dashboardBalance">—</strong><button type="button" id="dashboardEditBalance">Editar saldo</button></article><article class="dash-stat"><div class="dash-stat-top"><span class="dash-icon">◈</span><span class="dashboard-stat-trend positive">TOTAL</span></div><span class="dash-label">PATRIMONI TOTAL</span><strong id="dashboardNetWorth">—</strong><small>Plantilla + saldo disponible</small></article><article class="dash-stat"><div class="dash-stat-top"><span class="dash-icon">♙</span><span class="dashboard-stat-trend neutral">PLANTILLA</span></div><span class="dash-label">JUGADORS</span><strong id="dashboardSquadCount">—</strong><small>Jugadors actualment en propietat</small></article></section><div class="dash-section-head"><div><span class="dash-section-eyebrow">EVOLUCIÓ</span><h2>El teu patrimoni al llarg del temps</h2></div></div><section class="dash-grid-2"><article class="dash-panel"><div class="dash-panel-head"><div><span class="dash-section-eyebrow">PLANTILLA</span><h3>Valor de l'equip</h3></div></div><div class="dash-panel-body chart-wrap"><canvas id="dashboardValueChart"></canvas></div></article><article class="dash-panel"><div class="dash-panel-head"><div><span class="dash-section-eyebrow">SALDO</span><h3>Saldo disponible</h3></div></div><div class="dash-panel-body chart-wrap"><canvas id="dashboardBalanceChart"></canvas></div></article></section><section class="dash-panel" style="margin-top:14px"><div class="dash-panel-head"><div><span class="dash-section-eyebrow">MERCAT</span><h3>Variació diària de la plantilla</h3></div></div><div class="dash-panel-body chart-wrap"><canvas id="dashboardChangeChart"></canvas></div></section><div class="dash-section-head"><div><span class="dash-section-eyebrow">PLANTILLA</span><h2>Els teus jugadors</h2></div><a class="dash-link" href="plantilla.html">Veure plantilla →</a></div><section class="dash-grid-2"><article class="dash-panel"><div class="dash-panel-head"><div><span class="dash-section-eyebrow">EN PROPIETAT</span><h3>Resum de la plantilla</h3></div></div><div class="dash-panel-body" id="dashboardPlayersList"></div></article><article class="dash-panel"><div class="dash-panel-head"><div><span class="dash-section-eyebrow positive">PUJADES</span><h3>Els que més pugen avui</h3></div><a class="dash-link" href="mercat.html">Mercat →</a></div><div class="dash-panel-body" id="dashboardRisers"></div></article></section><section class="dash-panel" style="margin-top:14px"><div class="dash-panel-head"><div><span class="dash-section-eyebrow negative">BAIXADES</span><h3>Els que més baixen avui</h3></div><a class="dash-link" href="mercat.html">Mercat →</a></div><div class="dash-panel-body" id="dashboardFallers"></div></section><div class="dash-section-head"><div><span class="dash-section-eyebrow">CALENDARI</span><h2>Pròxims partits</h2></div></div><section class="dash-panel"><div class="dash-panel-body" id="dashboardFixtureSummary"></div></section><div class="dash-section-head"><div><span class="dash-section-eyebrow">SISTEMA</span><h2>Estat de les dades</h2></div></div><section class="dash-panel"><div class="dash-panel-body"><div class="dash-status"><span class="dash-status-dot"></span><strong id="dashboardSyncStatus">Sistema operatiu</strong></div><div class="dash-status-grid" id="dashboardSyncDetails"><span>Dades actualitzades: <strong id="dashboardUpdatedAt">—</strong></span></div></div></section></div></div></main></div><div class="modal-shell" id="balanceModal" hidden><div class="modal-box small"><div class="modal-head"><div><span class="dash-section-eyebrow">LIQUIDITAT</span><h3>Actualitza el teu saldo</h3></div><button class="modal-close" id="balanceModalClose" type="button">×</button></div><div class="modal-body"><form id="balanceForm" class="balance-form"><label for="balanceInput">SALDO DISPONIBLE ACTUAL</label><input id="balanceInput" class="balance-input" inputmode="decimal" autocomplete="off" placeholder="70.000.000"><span class="balance-help">Pots introduir valors negatius si tens saldo deutor. Exemple: -25.000.000</span><span id="balanceMessage" class="balance-message"></span><div class="balance-actions"><button type="button" class="dash-btn secondary" id="balanceCancel">Cancel·lar</button><button type="submit" class="dash-btn primary">Guardar saldo</button></div></form></div></div></div><div class="modal-shell" id="fixturesModal" hidden><div class="modal-box"><div class="modal-head"><div><span class="dash-section-eyebrow">CALENDARI LALIGA</span><h3>Partits per jornada</h3></div><button class="modal-close" id="fixturesModalClose" type="button">×</button></div><div class="fixture-tabs" id="fixtureTabs"></div><div class="fixture-list" id="fixtureList"></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../js/app.js"></script><script type="module" src="../js/auth.js"></script><script type="module" src="../js/dashboard.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="ca">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+  <title>
+   Dashboard · Fantasy Tracker
+  </title>
+  <meta content="Resum del teu equip, patrimoni i calendari de LaLiga Fantasy." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="../css/main.css" rel="stylesheet"/>
+  <link href="../css/layout.css" rel="stylesheet"/>
+  <link href="../css/cards.css" rel="stylesheet"/>
+  <link href="../css/components.css" rel="stylesheet"/>
+  <style>
+   body{background:#070a0d}.dashboard-page{max-width:1500px;margin:0 auto;padding:24px 0 70px}.dash-hero{position:relative;overflow:hidden;display:flex;justify-content:space-between;gap:30px;padding:38px 34px;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:linear-gradient(135deg,#121920,#0d1518 55%,#10261d);box-shadow:0 20px 60px rgba(0,0,0,.18)}.dash-hero:after{content:"";position:absolute;width:320px;height:320px;right:-80px;bottom:-170px;border-radius:50%;background:radial-gradient(circle,rgba(0,223,135,.16),transparent 68%);pointer-events:none}.dash-eyebrow,.dash-label,.dash-section-eyebrow{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#66809a}.dash-hero h2{margin:8px 0 10px;color:#f3f6f8;font-size:clamp(32px,4vw,50px);line-height:1.02;letter-spacing:-2px}.dash-hero p{max-width:610px;margin:0;color:#8492a2;font-size:13px;line-height:1.7}.dash-hero-stat{position:relative;z-index:1;min-width:245px;align-self:center;padding:22px 24px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(14,23,21,.72)}.dash-hero-stat span{display:block;color:#718292;font-size:9px;font-weight:800;letter-spacing:1.2px}.dash-hero-stat strong{display:block;margin:8px 0 7px;color:#f1f5f7;font-size:30px;letter-spacing:-1.2px}.dashboard-hero-change,.dashboard-stat-trend{font-size:11px;font-weight:800}.positive{color:#00df87!important}.negative{color:#ff6978!important}.neutral{color:#8290a0!important}.dash-section-head{display:flex;align-items:end;justify-content:space-between;margin:28px 0 12px}.dash-section-head h2{margin:5px 0 0;color:#edf2f5;font-size:17px}.dash-link{color:#728197;font-size:10px;text-decoration:none}.dash-link:hover{color:#00df87}.dash-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.dash-stat{min-height:135px;padding:19px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:linear-gradient(145deg,#151b22,#10151b)}.dash-stat-top{display:flex;justify-content:space-between;align-items:center}.dash-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:rgba(0,223,135,.1);color:#00df87;font-weight:800}.dash-stat:nth-child(2) .dash-icon{background:rgba(110,120,255,.11);color:#8d8cff}.dash-stat:nth-child(3) .dash-icon{background:rgba(0,190,255,.1);color:#55cfff}.dash-stat:nth-child(4) .dash-icon{background:rgba(255,170,60,.1);color:#ffad55}.dash-stat .dash-label{display:block;margin-top:19px}.dash-stat strong{display:block;margin-top:7px;color:#edf2f5;font-size:24px;letter-spacing:-.8px}.dash-stat small{display:block;margin-top:6px;color:#667486;font-size:9px}.dash-stat button{margin-top:8px;border:0;background:none;color:#00df87;padding:0;font:700 10px Inter;cursor:pointer}.dash-grid-2{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.dash-panel{overflow:hidden;border:1px solid rgba(255,255,255,.065);border-radius:15px;background:linear-gradient(145deg,#11171d,#0d1217)}.dash-panel-head{display:flex;justify-content:space-between;align-items:center;padding:19px 21px;border-bottom:1px solid rgba(255,255,255,.055)}.dash-panel-head h3{margin:4px 0 0;color:#edf2f5;font-size:14px}.dash-panel-body{padding:10px 18px 18px}.chart-wrap{padding:4px 0}.chart-wrap canvas{width:100%;height:230px;display:block}.dashboard-player-row,.dashboard-market-row{display:flex;align-items:center;gap:11px;min-height:64px;border-bottom:1px solid rgba(255,255,255,.045)}.dashboard-player-row:last-child,.dashboard-market-row:last-child{border-bottom:0}.dashboard-player-avatar,.dashboard-market-avatar{width:38px;height:38px;display:grid;place-items:center;flex:0 0 38px;border-radius:50%;background:linear-gradient(145deg,#29333e,#171d24);border:1px solid rgba(255,255,255,.07);color:#aeb9c4;font-size:10px;font-weight:800;overflow:hidden}.dashboard-market-avatar img{width:100%;height:100%;object-fit:cover}.dashboard-player-info,.dashboard-market-info{min-width:0;flex:1}.dashboard-player-info strong,.dashboard-market-info strong{display:block;color:#e9eef2;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dashboard-player-info span,.dashboard-market-info span{display:block;margin-top:4px;color:#637183;font-size:9px}.dashboard-player-value{text-align:right}.dashboard-player-value strong{display:block;color:#eef3f6;font-size:11px}.dashboard-player-value small{display:block;margin-top:4px;font-size:9px;font-weight:800}.dashboard-market-change{font-size:10px;font-weight:800}.dash-market-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.dashboard-empty{padding:22px 4px;color:#697789;font-size:11px;text-align:center}.fixture-summary-top{display:flex;align-items:center;justify-content:space-between;padding:15px 0}.fixture-summary-top span{display:block;color:#67809a;font-size:9px;font-weight:800;letter-spacing:1.2px}.fixture-summary-top strong{display:block;margin-top:5px;color:#edf2f5;font-size:15px}.fixture-summary-top button{border:0;border-radius:8px;padding:9px 12px;background:rgba(0,223,135,.09);color:#00df87;font:700 10px Inter;cursor:pointer}.fixture-mini{display:grid;grid-template-columns:1fr 105px 1fr;align-items:center;gap:10px;padding:13px 0;border-top:1px solid rgba(255,255,255,.045)}.fixture-mini>span{text-align:center;color:#697789;font-size:9px}.fixture-team{display:flex;align-items:center;gap:8px;color:#dce3e8;font-size:10px}.fixture-team img{width:25px;height:25px;object-fit:contain}.fixture-team.away{justify-content:flex-end}.fixture-team.away img{order:2}.dash-status{display:flex;align-items:center;gap:9px;color:#7c8998;font-size:10px}.dash-status-dot{width:7px;height:7px;border-radius:50%;background:#00df87;box-shadow:0 0 0 4px rgba(0,223,135,.08)}.dash-status-grid{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;color:#5e6d7e;font-size:9px}.modal-shell{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:rgba(3,6,8,.72);backdrop-filter:blur(8px)}.modal-shell[hidden]{display:none}.modal-box{width:min(760px,100%);max-height:min(85vh,800px);overflow:auto;border:1px solid rgba(255,255,255,.08);border-radius:17px;background:#10161c;box-shadow:0 30px 100px rgba(0,0,0,.45)}.modal-box.small{width:min(430px,100%)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.055)}.modal-head h3{margin:5px 0 0;color:#edf2f5;font-size:17px}.modal-close{border:0;background:transparent;color:#758395;font-size:22px;cursor:pointer}.modal-body{padding:20px 24px}.balance-form label{display:block;color:#8390a0;font-size:10px;font-weight:700;letter-spacing:.7px;margin-bottom:8px}.balance-input{width:100%;box-sizing:border-box;height:50px;padding:0 14px;border:1px solid rgba(255,255,255,.08);border-radius:10px;outline:0;background:#0b1015;color:#edf2f5;font:700 16px Inter}.balance-input:focus{border-color:rgba(0,223,135,.45);box-shadow:0 0 0 3px rgba(0,223,135,.07)}.balance-help,.balance-message{display:block;margin-top:8px;color:#647284;font-size:9px}.balance-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.dash-btn{border:0;border-radius:9px;padding:10px 15px;font:700 10px Inter;cursor:pointer}.dash-btn.primary{background:#00df87;color:#06110b}.dash-btn.secondary{background:rgba(255,255,255,.06);color:#aab5c0}.fixture-tabs{display:flex;gap:6px;overflow:auto;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.055)}.fixture-tab{flex:0 0 auto;border:0;border-radius:8px;padding:9px 12px;background:transparent;color:#718093;font:700 10px Inter;cursor:pointer}.fixture-tab.active{background:rgba(0,223,135,.1);color:#00df87}.fixture-list{padding:8px 24px 22px}.fixture-card{display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;gap:15px;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.045)}.fixture-card__team{display:flex;align-items:center;gap:10px;color:#e7edf1;font-size:12px}.fixture-card__team:last-child{justify-content:flex-end}.fixture-card__team img{width:34px;height:34px;object-fit:contain}.fixture-card__middle{text-align:center}.fixture-card__middle span{display:block;color:#637488;font-size:8px;font-weight:800}.fixture-card__middle strong{display:block;margin:5px 0;color:#eef3f6;font-size:13px}.fixture-card__middle small{color:#69788a;font-size:9px}.modal-open{overflow:hidden}@media(max-width:1050px){.dash-stats{grid-template-columns:repeat(2,1fr)}.dash-grid-2{grid-template-columns:1fr}.dash-market-grid{grid-template-columns:1fr}}@media(max-width:700px){.dashboard-page{padding-top:10px}.dash-hero{display:block;padding:26px 22px}.dash-hero-stat{margin-top:22px;min-width:0}.dash-hero h2{font-size:34px}.dash-stats{grid-template-columns:1fr 1fr}.fixture-mini{grid-template-columns:1fr 90px 1fr}.fixture-card{grid-template-columns:1fr 80px 1fr}}@media(max-width:480px){.dash-stats{grid-template-columns:1fr}.dash-section-head{margin-top:22px}.fixture-mini{grid-template-columns:1fr}.fixture-mini>span{text-align:left}.fixture-team.away{justify-content:flex-start}.fixture-card{grid-template-columns:1fr;gap:8px}.fixture-card__team:last-child{justify-content:flex-start}.fixture-card__middle{text-align:left}}
+  
+.dashboard-player-avatar--image {
+    position: relative;
+}
+.dashboard-player-avatar--image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.dashboard-player-avatar--image span {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.dashboard-market-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dashboard-market-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.dashboard-market-avatar span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+</style>
+ </head>
+ <body>
+  <div class="app">
+   <aside class="sidebar" id="sidebar">
+    <div class="sidebar__header">
+     <a class="brand" href="../index.html">
+      <div class="brand__icon">
+       FT
+      </div>
+      <div class="brand__text">
+       <span class="brand__title">
+        Fantasy
+       </span>
+       <span class="brand__subtitle">
+        Tracker
+       </span>
+      </div>
+     </a>
+     <button aria-label="Tancar menú" class="sidebar__toggle" id="sidebarToggle">
+      ☰
+     </button>
+    </div>
+    <nav class="sidebar__nav">
+     <span class="nav__section-title">
+      PRINCIPAL
+     </span>
+     <a class="nav__item" href="../index.html">
+      <span class="nav__icon">
+       ◈
+      </span>
+      <span class="nav__label">
+       Dashboard
+      </span>
+     </a>
+     <a class="nav__item" href="plantilla.html">
+      <span class="nav__icon">
+       ♙
+      </span>
+      <span class="nav__label">
+       Plantilla
+      </span>
+     </a>
+     <a class="nav__item" href="mercat.html">
+      <span class="nav__icon">
+       ◆
+      </span>
+      <span class="nav__label">
+       Mercat
+      </span>
+     </a>
+     <a class="nav__item" href="historial.html">
+      <span class="nav__icon">
+       ↗
+      </span>
+      <span class="nav__label">
+       Historial
+      </span>
+     </a>
+     <span class="nav__section-title">
+      CONFIGURACIÓ
+     </span>
+     <a class="nav__item" href="configuracio.html">
+      <span class="nav__icon">
+       ⚙
+      </span>
+      <span class="nav__label">
+       Configuració
+      </span>
+     </a>
+    </nav>
+    <div class="sidebar__footer">
+     <div class="sidebar__status">
+      <span class="status__dot">
+      </span>
+      <span class="status__text">
+       Sistema operatiu
+      </span>
+     </div>
+     <div class="sidebar__version">
+      v0.1.0
+     </div>
+    </div>
+   </aside>
+   <main class="main-content">
+    <header class="topbar">
+     <div class="topbar__left">
+      <button aria-label="Obrir menú" class="mobile-menu" id="mobileMenu">
+       ☰
+      </button>
+      <div>
+       <span class="page__eyebrow">
+        LA LIGA FANTASY
+       </span>
+       <h1 class="page__title">
+        Dashboard
+       </h1>
+      </div>
+     </div>
+     <div class="topbar__right">
+      <button aria-label="Notificacions" class="icon-button">
+       🔔
+       <span class="notification-dot">
+       </span>
+      </button>
+      <button class="profile" id="profileButton" type="button">
+       <div class="profile__avatar" id="profileAvatar">
+        M
+       </div>
+       <div class="profile__info">
+        <span class="profile__name" id="profileName">
+         Iniciar sessió
+        </span>
+        <span class="profile__role" id="profileRole">
+         Accés al teu equip
+        </span>
+       </div>
+       <span class="profile__arrow">
+        ▾
+       </span>
+      </button>
+     </div>
+    </header>
+    <div class="page-content">
+     <div class="dashboard-page">
+      <section class="dash-hero">
+       <div>
+        <span class="dash-eyebrow">
+         RESUM DEL TEU EQUIP
+        </span>
+        <h2>
+         El teu equip.
+         <br/>
+         Les teves decisions.
+        </h2>
+        <p>
+         Controla el valor de la plantilla, el teu saldo i l'evolució del patrimoni, i consulta ràpidament el calendari de LaLiga.
+        </p>
+       </div>
+       <div class="dash-hero-stat">
+        <span>
+         VALOR DE PLANTILLA
+        </span>
+        <strong id="dashboardHeroValue">
+         —
+        </strong>
+        <div class="dashboard-hero-change" id="dashboardHeroChange">
+         —
+        </div>
+       </div>
+      </section>
+      <div class="dash-section-head">
+       <div>
+        <span class="dash-section-eyebrow">
+         ESTAT DE L'EQUIP
+        </span>
+        <h2>
+         Patrimoni i recursos
+        </h2>
+       </div>
+      </div>
+      <section class="dash-stats">
+       <article class="dash-stat">
+        <div class="dash-stat-top">
+         <span class="dash-icon">
+          €
+         </span>
+         <span class="dashboard-stat-trend" id="dashboardSquadChange">
+          —
+         </span>
+        </div>
+        <span class="dash-label">
+         VALOR DE PLANTILLA
+        </span>
+        <strong id="dashboardSquadValue">
+         —
+        </strong>
+        <small>
+         Valor actual dels teus jugadors
+        </small>
+       </article>
+       <article class="dash-stat">
+        <div class="dash-stat-top">
+         <span class="dash-icon">
+          €
+         </span>
+         <span class="dashboard-stat-trend neutral">
+          LIQUIDITAT
+         </span>
+        </div>
+        <span class="dash-label">
+         SALDO DISPONIBLE
+        </span>
+        <strong id="dashboardBalance">
+         —
+        </strong>
+        <button id="dashboardEditBalance" type="button">
+         Editar saldo
+        </button>
+       </article>
+       <article class="dash-stat">
+        <div class="dash-stat-top">
+         <span class="dash-icon">
+          ◈
+         </span>
+         <span class="dashboard-stat-trend positive">
+          TOTAL
+         </span>
+        </div>
+        <span class="dash-label">
+         PATRIMONI TOTAL
+        </span>
+        <strong id="dashboardNetWorth">
+         —
+        </strong>
+        <small>
+         Plantilla + saldo disponible
+        </small>
+       </article>
+       <article class="dash-stat">
+        <div class="dash-stat-top">
+         <span class="dash-icon">
+          ♙
+         </span>
+         <span class="dashboard-stat-trend neutral">
+          PLANTILLA
+         </span>
+        </div>
+        <span class="dash-label">
+         JUGADORS
+        </span>
+        <strong id="dashboardSquadCount">
+         —
+        </strong>
+        <small>
+         Jugadors actualment en propietat
+        </small>
+       </article>
+      </section>
+      <div class="dash-section-head">
+       <div>
+        <span class="dash-section-eyebrow">
+         EVOLUCIÓ
+        </span>
+        <h2>
+         El teu patrimoni al llarg del temps
+        </h2>
+       </div>
+      </div>
+      <section class="dash-grid-2">
+       <article class="dash-panel">
+        <div class="dash-panel-head">
+         <div>
+          <span class="dash-section-eyebrow">
+           PLANTILLA
+          </span>
+          <h3>
+           Valor de l'equip
+          </h3>
+         </div>
+        </div>
+        <div class="dash-panel-body chart-wrap">
+         <canvas id="dashboardValueChart">
+         </canvas>
+        </div>
+       </article>
+       <article class="dash-panel">
+        <div class="dash-panel-head">
+         <div>
+          <span class="dash-section-eyebrow">
+           SALDO
+          </span>
+          <h3>
+           Saldo disponible
+          </h3>
+         </div>
+        </div>
+        <div class="dash-panel-body chart-wrap">
+         <canvas id="dashboardBalanceChart">
+         </canvas>
+        </div>
+       </article>
+      </section>
+      <section class="dash-panel" style="margin-top:14px">
+       <div class="dash-panel-head">
+        <div>
+         <span class="dash-section-eyebrow">
+          MERCAT
+         </span>
+         <h3>
+          Variació diària de la plantilla
+         </h3>
+        </div>
+       </div>
+       <div class="dash-panel-body chart-wrap">
+        <canvas id="dashboardChangeChart">
+        </canvas>
+       </div>
+      </section>
+      <div class="dash-section-head">
+       <div>
+        <span class="dash-section-eyebrow">
+         PLANTILLA
+        </span>
+        <h2>
+         Els teus jugadors
+        </h2>
+       </div>
+       <a class="dash-link" href="plantilla.html">
+        Veure plantilla →
+       </a>
+      </div>
+      <section class="dash-grid-2">
+       <article class="dash-panel">
+        <div class="dash-panel-head">
+         <div>
+          <span class="dash-section-eyebrow">
+           EN PROPIETAT
+          </span>
+          <h3>
+           Resum de la plantilla
+          </h3>
+         </div>
+        </div>
+        <div class="dash-panel-body" id="dashboardPlayersList">
+        </div>
+       </article>
+       <article class="dash-panel">
+        <div class="dash-panel-head">
+         <div>
+          <span class="dash-section-eyebrow positive">
+           PUJADES
+          </span>
+          <h3>
+           Els que més pugen avui
+          </h3>
+         </div>
+         <a class="dash-link" href="mercat.html">
+          Mercat →
+         </a>
+        </div>
+        <div class="dash-panel-body" id="dashboardRisers">
+        </div>
+       </article>
+      </section>
+      <section class="dash-panel" style="margin-top:14px">
+       <div class="dash-panel-head">
+        <div>
+         <span class="dash-section-eyebrow negative">
+          BAIXADES
+         </span>
+         <h3>
+          Els que més baixen avui
+         </h3>
+        </div>
+        <a class="dash-link" href="mercat.html">
+         Mercat →
+        </a>
+       </div>
+       <div class="dash-panel-body" id="dashboardFallers">
+       </div>
+      </section>
+      <div class="dash-section-head">
+       <div>
+        <span class="dash-section-eyebrow">
+         CALENDARI
+        </span>
+        <h2>
+         Pròxims partits
+        </h2>
+       </div>
+      </div>
+      <section class="dash-panel">
+       <div class="dash-panel-body" id="dashboardFixtureSummary">
+       </div>
+      </section>
+      <div class="dash-section-head">
+       <div>
+        <span class="dash-section-eyebrow">
+         SISTEMA
+        </span>
+        <h2>
+         Estat de les dades
+        </h2>
+       </div>
+      </div>
+      <section class="dash-panel">
+       <div class="dash-panel-body">
+        <div class="dash-status">
+         <span class="dash-status-dot">
+         </span>
+         <strong id="dashboardSyncStatus">
+          Sistema operatiu
+         </strong>
+        </div>
+        <div class="dash-status-grid" id="dashboardSyncDetails">
+         <span>
+          Dades actualitzades:
+          <strong id="dashboardUpdatedAt">
+           —
+          </strong>
+         </span>
+        </div>
+       </div>
+      </section>
+     </div>
+    </div>
+   </main>
+  </div>
+  <div class="modal-shell" hidden="" id="balanceModal">
+   <div class="modal-box small">
+    <div class="modal-head">
+     <div>
+      <span class="dash-section-eyebrow">
+       LIQUIDITAT
+      </span>
+      <h3>
+       Actualitza el teu saldo
+      </h3>
+     </div>
+     <button class="modal-close" id="balanceModalClose" type="button">
+      ×
+     </button>
+    </div>
+    <div class="modal-body">
+     <form class="balance-form" id="balanceForm">
+      <label for="balanceInput">
+       SALDO DISPONIBLE ACTUAL
+      </label>
+      <input autocomplete="off" class="balance-input" id="balanceInput" inputmode="decimal" placeholder="70.000.000"/>
+      <span class="balance-help">
+       Pots introduir valors negatius si tens saldo deutor. Exemple: -25.000.000
+      </span>
+      <span class="balance-message" id="balanceMessage">
+      </span>
+      <div class="balance-actions">
+       <button class="dash-btn secondary" id="balanceCancel" type="button">
+        Cancel·lar
+       </button>
+       <button class="dash-btn primary" type="submit">
+        Guardar saldo
+       </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div>
+  <div class="modal-shell" hidden="" id="fixturesModal">
+   <div class="modal-box">
+    <div class="modal-head">
+     <div>
+      <span class="dash-section-eyebrow">
+       CALENDARI LALIGA
+      </span>
+      <h3>
+       Partits per jornada
+      </h3>
+     </div>
+     <button class="modal-close" id="fixturesModalClose" type="button">
+      ×
+     </button>
+    </div>
+    <div class="fixture-tabs" id="fixtureTabs">
+    </div>
+    <div class="fixture-list" id="fixtureList">
+    </div>
+   </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+  </script>
+  <script src="../js/app.js">
+  </script>
+  <script src="../js/auth.js" type="module">
+  </script>
+  <script src="../js/dashboard.js" type="module">
+  </script>
+ </body>
+</html>
