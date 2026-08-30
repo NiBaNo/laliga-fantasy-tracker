@@ -2113,25 +2113,167 @@
 }
 
 .points-chart {
-    height: 248px;
+    margin-top: 20px;
+}
+
+.points-panel__heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.points-panel__heading h3 {
+    margin: 0;
+}
+
+.points-panel__heading p {
+    margin: 7px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.points-chart__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+
+    margin-bottom: 18px;
+}
+
+.points-chart__summary > div {
+    padding: 10px 11px;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.018);
+}
+
+.points-chart__summary span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 7px;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+.points-chart__summary strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #edf2f5;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.points-chart__area {
+    height: 235px;
+
+    padding:
+        0 4px 0;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.points-chart__bars {
+    height: 100%;
+
+    min-width: 100%;
 
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
-    gap: 13px;
 
-    margin-top: 22px;
+    gap: 8px;
 }
 
 .points-chart__bar {
     height: 100%;
 
+    min-width: 38px;
+
     display: flex;
-    flex: 1;
+    flex: 1 1 42px;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: 8px;
+
+    gap: 6px;
+}
+
+.points-chart__bar > strong {
+    order: 1;
+
+    min-height: 12px;
+
+    color: #edf2f5;
+
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.points-chart__bar > div {
+    order: 2;
+
+    width: 100%;
+    height: 155px;
+
+    display: flex;
+    align-items: flex-end;
+
+    overflow: hidden;
+
+    border-radius: 5px 5px 2px 2px;
+
+    background:
+        repeating-linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.025) 0,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 38px
+        );
+}
+
+.points-chart__bar i {
+    display: block;
+
+    width: 100%;
+
+    min-height: 4px;
+
+    border-radius: 5px 5px 2px 2px;
+
+    background:
+        linear-gradient(
+            to top,
+            var(--purple),
+            rgba(155, 108, 255, 0.28)
+        );
+
+    transition:
+        height 0.35s ease,
+        opacity 0.2s ease;
+}
+
+.points-chart__bar.is-best i {
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 230, 118, 0.95),
+            rgba(0, 230, 118, 0.30)
+        );
 }
 
 .points-chart__bar > span {
@@ -2140,41 +2282,59 @@
     color: var(--text-muted);
 
     font-size: 8px;
+    font-weight: 700;
 }
 
-.points-chart__bar > strong {
-    order: 1;
-
-    font-size: 10px;
-}
-
-.points-chart__bar > div {
-    order: 2;
-
-    width: 100%;
-    height: 150px;
+.points-chart__empty {
+    min-height: 235px;
 
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    background: rgba(255, 255, 255, 0.025);
+    gap: 6px;
 
-    border-radius: 5px 5px 0 0;
+    padding: 30px;
 
-    overflow: hidden;
+    border: 1px dashed rgba(255, 255, 255, 0.07);
+
+    border-radius: 9px;
+
+    text-align: center;
 }
 
-.points-chart__bar i {
-    width: 100%;
+.points-chart__empty strong {
+    color: #edf2f5;
 
-    background:
-        linear-gradient(
-            to top,
-            var(--purple),
-            rgba(155, 108, 255, 0.28)
-        );
+    font-size: 11px;
 }
 
+.points-chart__empty span {
+    color: var(--text-muted);
+
+    font-size: 9px;
+}
+
+@media (max-width: 600px) {
+
+    .points-chart__summary {
+        grid-template-columns: 1fr;
+    }
+
+    .points-chart__area {
+        height: 220px;
+    }
+
+    .points-chart__bar > div {
+        height: 140px;
+    }
+
+    .points-chart__bar {
+        min-width: 34px;
+    }
+
+}
 
 /* =========================================================
    HIDDEN PLAYER

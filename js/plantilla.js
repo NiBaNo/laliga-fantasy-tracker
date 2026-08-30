@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let selectedDetailHistory = [];
 
+    let selectedDetailMatchdayPoints = [];
+
     let activePlayerMenu = null;
 
 
@@ -2452,14 +2454,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     const loadPlayerHistory =
         async player => {
 
-            const {
+            /*
+               Carreguem en paral·lel:
+               1. Històric diari del valor.
+               2. Punts de cada jornada.
 
-                data,
+               Els punts per jornada provenen de
+               player_match_points, que el scraper
+               actualitza automàticament.
+            */
 
-                error
+            const [
+                historyResponse,
+                matchdayResponse
+            ] = await Promise.all([
 
-            } =
-                await supabase
+                supabase
                     .from("player_values")
                     .select(
                         `
@@ -2479,23 +2489,88 @@ document.addEventListener("DOMContentLoaded", async () => {
                             ascending: true
                         }
                     )
-                    .limit(60);
+                    .limit(60),
+
+                supabase
+                    .from("player_match_points")
+                    .select(
+                        `
+                        matchday,
+                        points
+                        `
+                    )
+                    .eq(
+                        "player_id",
+                        player.id
+                    )
+                    .order(
+                        "matchday",
+                        {
+                            ascending: true
+                        }
+                    )
+
+            ]);
 
 
-            if (error) {
+            if (historyResponse.error) {
 
                 console.error(
                     "Error carregant historial del jugador:",
-                    error
+                    historyResponse.error
                 );
 
-                return;
+            }
+
+
+            if (matchdayResponse.error) {
+
+                console.error(
+                    "Error carregant punts per jornada:",
+                    matchdayResponse.error
+                );
 
             }
 
 
             selectedDetailHistory =
-                data || [];
+                historyResponse.data || [];
+
+
+            selectedDetailMatchdayPoints =
+                (matchdayResponse.data || [])
+                    .map(
+                        row => ({
+
+                            matchday:
+                                Number(
+                                    row.matchday
+                                ),
+
+                            points:
+                                Number(
+                                    row.points
+                                ) || 0
+
+                        })
+                    )
+                    .filter(
+                        row =>
+                            Number.isFinite(
+                                row.matchday
+                            )
+                            &&
+                            row.matchday > 0
+                    )
+                    .sort(
+                        (
+                            a,
+                            b
+                        ) =>
+                            a.matchday
+                            -
+                            b.matchday
+                    );
 
 
             renderPlayerHistory(
@@ -2503,7 +2578,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
 
         };
-
 
 
     /* =====================================================
@@ -2758,30 +2832,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (pointsChart) {
 
-                const pointHistory =
-                    history.slice(
-                        -5
-                    );
+                const matchdayPoints =
+                    selectedDetailMatchdayPoints;
 
 
-                if (
-                    !pointHistory.length
-                ) {
+                if (!matchdayPoints.length) {
 
                     pointsChart.innerHTML =
                         `
                             <div
-                                class="transaction-empty"
+                                class="points-chart__empty"
                             >
-                                Sense historial de punts
-                                disponible.
+                                <strong>
+                                    Encara no hi ha punts per jornada
+                                </strong>
+
+                                <span>
+                                    Les puntuacions apareixeran
+                                    quan es registri una jornada.
+                                </span>
                             </div>
                         `;
 
                 } else {
 
                     const values =
-                        pointHistory.map(
+                        matchdayPoints.map(
                             row =>
                                 Number(
                                     row.points
@@ -2798,74 +2874,188 @@ document.addEventListener("DOMContentLoaded", async () => {
                         );
 
 
+                    const total =
+                        values.reduce(
+                            (
+                                sum,
+                                value
+                            ) =>
+                                sum + value,
+                            0
+                        );
+
+
+                    const average =
+                        values.length
+                            ? total / values.length
+                            : 0;
+
+
+                    const best =
+                        Math.max(
+                            ...values
+                        );
+
+
+                    const bestRow =
+                        matchdayPoints.find(
+                            row =>
+                                row.points
+                                ===
+                                best
+                        );
+
+
                     pointsChart.innerHTML =
-                        pointHistory
-                            .map(
-                                row => {
+                        `
 
-                                    const value =
-                                        Number(
-                                            row.points
-                                        )
-                                        ||
-                                        0;
+                            <div
+                                class="points-chart__summary"
+                            >
 
+                                <div>
 
-                                    const height =
-                                        Math.max(
-                                            8,
-                                            (
-                                                value
-                                                /
-                                                max
+                                    <span>
+                                        TOTAL
+                                    </span>
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            String(
+                                                Number(
+                                                    selectedDetailPlayer?.points
+                                                )
+                                                ||
+                                                total
                                             )
-                                            *
-                                            100
-                                        );
+                                        )}
+                                        pts
+                                    </strong>
+
+                                </div>
 
 
-                                    return `
-                                        <div
-                                            class="
-                                                points-chart__bar
-                                            "
-                                        >
+                                <div>
 
-                                            <span>
-                                                ${escapeHtml(
-                                                    formatShortDate(
-                                                        row.recorded_on
+                                    <span>
+                                        MITJANA
+                                    </span>
+
+                                    <strong>
+                                        ${average.toFixed(1).replace(".", ",")}
+                                        pts
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        MILLOR JORNADA
+                                    </span>
+
+                                    <strong>
+                                        J${bestRow?.matchday ?? "—"}
+                                        ·
+                                        ${best}
+                                        pts
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="points-chart__area"
+                                aria-label="Punts per jornada"
+                            >
+
+                                <div
+                                    class="points-chart__bars"
+                                >
+
+                                    ${matchdayPoints
+                                        .map(
+                                            row => {
+
+                                                const value =
+                                                    Number(
+                                                        row.points
                                                     )
-                                                )}
-                                            </span>
+                                                    ||
+                                                    0;
 
 
-                                            <div>
+                                                const height =
+                                                    Math.max(
+                                                        7,
+                                                        (
+                                                            value
+                                                            /
+                                                            max
+                                                        )
+                                                        *
+                                                        100
+                                                    );
 
-                                                <i
-                                                    style="
-                                                        height:
-                                                        ${height}%
-                                                    "
-                                                ></i>
 
-                                            </div>
+                                                return `
+                                                    <div
+                                                        class="
+                                                            points-chart__bar
+                                                            ${
+                                                                value === best
+                                                                    ? "is-best"
+                                                                    : ""
+                                                            }
+                                                        "
+                                                        title="
+                                                            Jornada
+                                                            ${row.matchday}
+                                                            ·
+                                                            ${value}
+                                                            punts
+                                                        "
+                                                    >
 
+                                                        <strong>
+                                                            ${value}
+                                                        </strong>
 
-                                            <strong>
-                                                ${value}
-                                            </strong>
+                                                        <div>
 
-                                        </div>
-                                    `;
+                                                            <i
+                                                                style="
+                                                                    height:
+                                                                    ${height.toFixed(1)}%
+                                                                "
+                                                            ></i>
 
-                                }
-                            )
-                            .join("");
+                                                        </div>
+
+                                                        <span>
+                                                            J${row.matchday}
+                                                        </span>
+
+                                                    </div>
+                                                `;
+
+                                            }
+                                        )
+                                        .join("")}
+
+                                </div>
+
+                            </div>
+
+                        `;
 
                 }
 
             }
+
 
         };
 
