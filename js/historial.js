@@ -1225,7 +1225,11 @@ document.addEventListener(
 
 
                 row.className =
-                    "history-row";
+                    `history-row ${
+                        isBuy
+                            ? "history-row--buy"
+                            : "history-row--sell"
+                    }`;
 
 
                 row.innerHTML = `
