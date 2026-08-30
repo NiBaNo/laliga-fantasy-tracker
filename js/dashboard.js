@@ -83,6 +83,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         .replace(/&/g, "&amp;").replace(/</g, "&lt;")
         .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
+    const formatPlayerName = (name) => {
+        return String(name || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((word) => word
+                .split("-")
+                .map((part) => part
+                    ? part.charAt(0).toLocaleUpperCase("ca-ES") + part.slice(1)
+                    : part
+                )
+                .join("-")
+            )
+            .join(" ");
+    };
+
+    const getInitials = (name) => {
+        return String(name || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((word) => word[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+    };
+
     // Formata el saldo mentre l'usuari escriu: 150000000 → 150.000.000
     // Manté també els saldos negatius, per exemple -25.000.000.
     const formatBalanceInput = () => {
@@ -241,16 +268,92 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const renderSquad = () => {
         if (!els.playersList) return;
-        const rows = [...state.squad].sort((a,b) => (Number(b.current_value)||0) - (Number(a.current_value)||0)).slice(0, 6);
-        els.playersList.innerHTML = rows.length ? rows.map((p) => `<div class="dashboard-player-row"><div class="dashboard-player-avatar">${escapeHtml((p.name || "?").split(/\s+/).map(x => x[0]).join("").slice(0,2).toUpperCase())}</div><div class="dashboard-player-info"><strong>${escapeHtml(p.name)}</strong><span>${escapeHtml(p.team || "—")} · ${escapeHtml(p.position || "—")}</span></div><div class="dashboard-player-value"><strong>${money(p.current_value, true)}</strong><small class="${Number(p.daily_change) >= 0 ? "positive" : "negative"}">${signedMoney(p.daily_change, true)}</small></div></div>`).join("") : `<div class="dashboard-empty">Encara no tens jugadors a la plantilla.</div>`;
+
+        const rows = [...state.squad]
+            .sort((a, b) => (Number(b.current_value) || 0) - (Number(a.current_value) || 0))
+            .slice(0, 6);
+
+        els.playersList.innerHTML = rows.length
+            ? rows.map((p) => {
+                const name = formatPlayerName(p.name);
+                const initials = getInitials(name);
+                const image = p.image_url
+                    ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
+                    : "";
+
+                return `
+                    <div class="dashboard-player-row">
+                        <div class="dashboard-player-avatar dashboard-player-avatar--image">
+                            ${image}
+                            <span style="${image ? "display:none;" : "display:flex;"}">${escapeHtml(initials)}</span>
+                        </div>
+
+                        <div class="dashboard-player-info">
+                            <strong>${escapeHtml(name)}</strong>
+                            <span>${escapeHtml(p.team || "—")} · ${escapeHtml(p.position || "—")}</span>
+                        </div>
+
+                        <div class="dashboard-player-value">
+                            <strong>${money(p.current_value, true)}</strong>
+                            <small class="${Number(p.daily_change) >= 0 ? "positive" : "negative"}">${signedMoney(p.daily_change, true)}</small>
+                        </div>
+                    </div>
+                `;
+            }).join("")
+            : `<div class="dashboard-empty">Encara no tens jugadors a la plantilla.</div>`;
     };
 
     const renderMarketMovers = () => {
-        const risers = [...state.players].filter(p => Number(p.daily_change) > 0).sort((a,b) => Number(b.daily_change)-Number(a.daily_change)).slice(0,3);
-        const fallers = [...state.players].filter(p => Number(p.daily_change) < 0).sort((a,b) => Number(a.daily_change)-Number(b.daily_change)).slice(0,3);
-        const row = (p, up) => `<div class="dashboard-market-row"><div class="dashboard-market-avatar"><img src="${escapeHtml(p.image_url || "")}" alt="" onerror="this.style.display='none'"></div><div class="dashboard-market-info"><strong>${escapeHtml(p.name)}</strong><span>${escapeHtml(p.team || "—")}</span></div><div class="dashboard-market-change ${up ? "positive" : "negative"}">${signedMoney(p.daily_change, true)}</div></div>`;
-        if (els.risers) els.risers.innerHTML = risers.length ? risers.map(p => row(p,true)).join("") : `<div class="dashboard-empty">Cap jugador està pujant de valor avui.</div>`;
-        if (els.fallers) els.fallers.innerHTML = fallers.length ? fallers.map(p => row(p,false)).join("") : `<div class="dashboard-empty">Cap jugador està baixant de valor avui.</div>`;
+        // Important: només analitzem els jugadors actualment en propietat.
+        const owned = [...state.squad];
+
+        const risers = owned
+            .filter((p) => Number(p.daily_change) > 0)
+            .sort((a, b) => Number(b.daily_change) - Number(a.daily_change))
+            .slice(0, 3);
+
+        const fallers = owned
+            .filter((p) => Number(p.daily_change) < 0)
+            .sort((a, b) => Number(a.daily_change) - Number(b.daily_change))
+            .slice(0, 3);
+
+        const row = (p, up) => {
+            const name = formatPlayerName(p.name);
+            const initials = getInitials(name);
+            const image = p.image_url
+                ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
+                : "";
+
+            return `
+                <div class="dashboard-market-row">
+                    <div class="dashboard-market-avatar">
+                        ${image}
+                        <span style="${image ? "display:none;" : "display:flex;"}">${escapeHtml(initials)}</span>
+                    </div>
+
+                    <div class="dashboard-market-info">
+                        <strong>${escapeHtml(name)}</strong>
+                        <span>${escapeHtml(p.team || "—")}</span>
+                    </div>
+
+                    <div class="dashboard-market-change ${up ? "positive" : "negative"}">
+                        ${signedMoney(p.daily_change, true)}
+                    </div>
+                </div>
+            `;
+        };
+
+        if (els.risers) {
+            els.risers.innerHTML = risers.length
+                ? risers.map((p) => row(p, true)).join("")
+                : `<div class="dashboard-empty">Cap jugador de la teva plantilla està pujant de valor avui.</div>`;
+        }
+
+        if (els.fallers) {
+            els.fallers.innerHTML = fallers.length
+                ? fallers.map((p) => row(p, false)).join("")
+                : `<div class="dashboard-empty">Cap jugador de la teva plantilla està baixant de valor avui.</div>`;
+        }
     };
 
     const renderCharts = () => {

@@ -88,7 +88,7 @@ const initAuth = async () => {
                             <input
                                 type="email"
                                 id="loginEmail"
-                                placeholder="eloi@fantasy.com"
+                                placeholder="user@fantasy.com"
                                 autocomplete="email"
                                 required
                             >

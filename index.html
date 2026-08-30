@@ -51,6 +51,168 @@
     width: 100%;
     height: 100%;
 }
+  
+/* =========================================================
+   DASHBOARD LOCAL NAV
+========================================================= */
+
+.dashboard-anchor-nav {
+    position: sticky;
+    top: var(--topbar-height);
+    z-index: 450;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 18px;
+    padding: 5px;
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 11px;
+    background: rgba(12,16,20,.88);
+    box-shadow: 0 10px 30px rgba(0,0,0,.16);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.dashboard-anchor-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.dashboard-anchor-nav a {
+    flex: 0 0 auto;
+    padding: 8px 13px;
+    border-radius: 7px;
+    color: #718093;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+}
+
+.dashboard-anchor-nav a:hover {
+    color: #dfe7ec;
+    background: rgba(255,255,255,.045);
+}
+
+.dashboard-anchor-nav a:first-child {
+    color: #00df87;
+    background: rgba(0,223,135,.09);
+}
+
+.dashboard-anchor-target {
+    scroll-margin-top: calc(var(--topbar-height) + 82px);
+}
+
+/* =========================================================
+   SQUAD / MOVERS LAYOUT
+========================================================= */
+
+.dash-squad-panel {
+    width: 100%;
+}
+
+.dash-squad-panel .dash-panel-body {
+    padding-top: 4px;
+}
+
+.dash-squad-movers {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 14px;
+}
+
+.dashboard-player-avatar--image,
+.dashboard-market-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-player-avatar--image img,
+.dashboard-market-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.dashboard-player-avatar--image span,
+.dashboard-market-avatar span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* =========================================================
+   FIXTURES MODAL
+========================================================= */
+
+.fixtures-modal-box {
+    width: min(1080px, 100%);
+    max-height: min(88vh, 900px);
+}
+
+.fixtures-modal-box .modal-head {
+    padding: 24px 28px;
+}
+
+.fixtures-modal-box .fixture-tabs {
+    padding: 15px 28px;
+}
+
+.fixtures-modal-box .fixture-list {
+    padding: 10px 28px 30px;
+}
+
+.fixtures-modal-box .fixture-card {
+    min-height: 92px;
+    padding: 20px 10px;
+}
+
+.fixtures-modal-box .fixture-card__team {
+    gap: 12px;
+}
+
+.fixtures-modal-box .fixture-card__team img {
+    width: 42px;
+    height: 42px;
+}
+
+.fixtures-modal-box .fixture-card__middle strong {
+    font-size: 16px;
+}
+
+.fixtures-modal-box .fixture-card__middle small {
+    font-size: 10px;
+}
+
+@media (max-width: 700px) {
+    .dashboard-anchor-nav {
+        width: calc(100% - 4px);
+        justify-content: flex-start;
+        margin-bottom: 14px;
+    }
+
+    .dashboard-anchor-nav a {
+        padding: 8px 11px;
+    }
+
+    .dash-squad-movers {
+        grid-template-columns: 1fr;
+    }
+
+    .fixtures-modal-box .modal-head,
+    .fixtures-modal-box .fixture-tabs,
+    .fixtures-modal-box .fixture-list {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
 
 </style>
  </head>
@@ -177,6 +339,23 @@
     </header>
     <div class="page-content">
      <div class="dashboard-page">
+      <nav aria-label="Navegació del dashboard" class="dashboard-anchor-nav">
+       <a href="#dashboard-resum">
+        Resum
+       </a>
+       <a href="#dashboard-evolucio">
+        Evolució
+       </a>
+       <a href="#dashboard-plantilla">
+        Plantilla
+       </a>
+       <a href="#dashboard-calendari">
+        Calendari
+       </a>
+       <a href="#dashboard-sistema">
+        Sistema
+       </a>
+      </nav>
       <section class="dash-hero">
        <div>
         <span class="dash-eyebrow">
@@ -203,7 +382,7 @@
         </div>
        </div>
       </section>
-      <div class="dash-section-head">
+      <div class="dash-section-head dashboard-anchor-target" id="dashboard-resum">
        <div>
         <span class="dash-section-eyebrow">
          ESTAT DE L'EQUIP
@@ -291,7 +470,7 @@
         </small>
        </article>
       </section>
-      <div class="dash-section-head">
+      <div class="dash-section-head dashboard-anchor-target" id="dashboard-evolucio">
        <div>
         <span class="dash-section-eyebrow">
          EVOLUCIÓ
@@ -351,7 +530,7 @@
         </canvas>
        </div>
       </section>
-      <div class="dash-section-head">
+      <div class="dash-section-head dashboard-anchor-target" id="dashboard-plantilla">
        <div>
         <span class="dash-section-eyebrow">
          PLANTILLA
@@ -364,7 +543,7 @@
         Veure plantilla →
        </a>
       </div>
-      <section class="dash-grid-2">
+      <section class="dash-panel dash-squad-panel">
        <article class="dash-panel">
         <div class="dash-panel-head">
          <div>
@@ -379,6 +558,8 @@
         <div class="dash-panel-body" id="dashboardPlayersList">
         </div>
        </article>
+      </section>
+      <section class="dash-grid-2 dash-squad-movers">
        <article class="dash-panel">
         <div class="dash-panel-head">
          <div>
@@ -396,25 +577,25 @@
         <div class="dash-panel-body" id="dashboardRisers">
         </div>
        </article>
-      </section>
-      <section class="dash-panel" style="margin-top:14px">
-       <div class="dash-panel-head">
-        <div>
-         <span class="dash-section-eyebrow negative">
-          BAIXADES
-         </span>
-         <h3>
-          Els que més baixen avui
-         </h3>
+       <article class="dash-panel">
+        <div class="dash-panel-head">
+         <div>
+          <span class="dash-section-eyebrow negative">
+           BAIXADES
+          </span>
+          <h3>
+           Els que més baixen avui
+          </h3>
+         </div>
+         <a class="dash-link" href="pages/mercat.html">
+          Mercat →
+         </a>
         </div>
-        <a class="dash-link" href="pages/mercat.html">
-         Mercat →
-        </a>
-       </div>
-       <div class="dash-panel-body" id="dashboardFallers">
-       </div>
+        <div class="dash-panel-body" id="dashboardFallers">
+        </div>
+       </article>
       </section>
-      <div class="dash-section-head">
+      <div class="dash-section-head dashboard-anchor-target" id="dashboard-calendari">
        <div>
         <span class="dash-section-eyebrow">
          CALENDARI
@@ -428,7 +609,7 @@
        <div class="dash-panel-body" id="dashboardFixtureSummary">
        </div>
       </section>
-      <div class="dash-section-head">
+      <div class="dash-section-head dashboard-anchor-target" id="dashboard-sistema">
        <div>
         <span class="dash-section-eyebrow">
          SISTEMA
@@ -500,7 +681,7 @@
    </div>
   </div>
   <div class="modal-shell" hidden="" id="fixturesModal">
-   <div class="modal-box">
+   <div class="modal-box fixtures-modal-box">
     <div class="modal-head">
      <div>
       <span class="dash-section-eyebrow">
