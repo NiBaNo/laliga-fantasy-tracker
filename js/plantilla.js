@@ -9,36 +9,10 @@
    - Mostra les fotografies reals dels jugadors.
 ========================================================= */
 
+import { supabase } from "./supabase.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
 
-
-    /* =====================================================
-       SUPABASE
-    ===================================================== */
-
-    const SUPABASE_URL =
-        "https://xkwzddjzypnskakskell.supabase.co";
-
-    const SUPABASE_ANON_KEY =
-        "sb_publishable_mRv3S9r8wbop2EyPR5Icyg_bTAHwYNz";
-
-
-    if (!window.supabase) {
-
-        console.error(
-            "Supabase no està carregat."
-        );
-
-        return;
-
-    }
-
-
-    const supabase =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
 
 
 
@@ -59,6 +33,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let selectedDetailPlayer = null;
 
     let selectedDetailHistory = [];
+
+    let activePlayerMenu = null;
 
 
 
@@ -687,6 +663,129 @@ document.addEventListener("DOMContentLoaded", async () => {
                 open
                     ? "hidden"
                     : "";
+
+        };
+
+
+    /* =====================================================
+       NOTIFICACIONS PREMIUM
+    ===================================================== */
+
+    let toastContainer = null;
+
+    const ensureToastContainer =
+        () => {
+
+            if (toastContainer) {
+                return toastContainer;
+            }
+
+            toastContainer =
+                document.createElement("div");
+
+            toastContainer.className =
+                "fantasy-toast-container";
+
+            toastContainer.setAttribute(
+                "aria-live",
+                "polite"
+            );
+
+            toastContainer.setAttribute(
+                "aria-atomic",
+                "true"
+            );
+
+            document.body.appendChild(
+                toastContainer
+            );
+
+            return toastContainer;
+
+        };
+
+
+    const showToast =
+        (
+            message,
+            type = "success"
+        ) => {
+
+            const container =
+                ensureToastContainer();
+
+            const toast =
+                document.createElement("div");
+
+            toast.className =
+                `fantasy-toast fantasy-toast--${type}`;
+
+            const icon =
+                type === "success"
+                    ? "✓"
+                    : type === "error"
+                        ? "!"
+                        : "i";
+
+            toast.innerHTML = `
+                <span class="fantasy-toast__icon">
+                    ${icon}
+                </span>
+
+                <span class="fantasy-toast__content">
+                    ${escapeHtml(message)}
+                </span>
+
+                <button
+                    type="button"
+                    class="fantasy-toast__close"
+                    aria-label="Tancar notificació"
+                >
+                    ×
+                </button>
+            `;
+
+            container.appendChild(
+                toast
+            );
+
+            requestAnimationFrame(
+                () => {
+                    toast.classList.add(
+                        "is-visible"
+                    );
+                }
+            );
+
+            const removeToast =
+                () => {
+
+                    toast.classList.remove(
+                        "is-visible"
+                    );
+
+                    setTimeout(
+                        () => {
+                            toast.remove();
+                        },
+                        220
+                    );
+
+                };
+
+            toast
+                .querySelector(
+                    ".fantasy-toast__close"
+                )
+                ?.addEventListener(
+                    "click",
+                    removeToast
+                );
+
+            setTimeout(
+                removeToast,
+                4200
+            );
 
         };
 
@@ -1452,6 +1551,87 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =====================================================
+       MENÚ RÀPID DEL JUGADOR
+    ===================================================== */
+
+    const closePlayerMenus =
+        () => {
+
+            document
+                .querySelectorAll(
+                    ".player-action-menu.is-open"
+                )
+                .forEach(
+                    menu =>
+                        menu.classList.remove(
+                            "is-open"
+                        )
+                );
+
+            activePlayerMenu =
+                null;
+
+        };
+
+
+    const createPlayerActionMenu =
+        player => {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "player-action-menu";
+
+
+            const sellButton =
+                document.createElement("button");
+
+            sellButton.type =
+                "button";
+
+            sellButton.className =
+                "player-action-menu__item";
+
+            sellButton.innerHTML = `
+                <span class="player-action-menu__icon">
+                    −
+                </span>
+
+                <span>
+                    Registrar venda
+                </span>
+            `;
+
+
+            sellButton.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    closePlayerMenus();
+
+                    openTransactionModal(
+                        "sell",
+                        player
+                    );
+
+                }
+            );
+
+
+            wrapper.appendChild(
+                sellButton
+            );
+
+            return wrapper;
+
+        };
+
+
+    /* =====================================================
        CREAR TARGETA JUGADOR
     ===================================================== */
 
@@ -1590,7 +1770,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     <button
                         class="player-menu-button"
-                        aria-label="Opcions"
+                        aria-label="Opcions del jugador"
+                        aria-expanded="false"
                         type="button"
                     >
                         ⋮
@@ -1725,6 +1906,66 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
 
 
+            const playerTop =
+                card.querySelector(
+                    ".squad-player-card__top"
+                );
+
+
+            const menuButton =
+                card.querySelector(
+                    ".player-menu-button"
+                );
+
+
+            if (playerTop && menuButton) {
+
+                const actionMenu =
+                    createPlayerActionMenu(
+                        player
+                    );
+
+                playerTop.appendChild(
+                    actionMenu
+                );
+
+
+                menuButton.addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        const isOpen =
+                            actionMenu.classList.contains(
+                                "is-open"
+                            );
+
+                        closePlayerMenus();
+
+                        if (!isOpen) {
+
+                            actionMenu.classList.add(
+                                "is-open"
+                            );
+
+                            menuButton.setAttribute(
+                                "aria-expanded",
+                                "true"
+                            );
+
+                            activePlayerMenu =
+                                actionMenu;
+
+                        }
+
+                    }
+                );
+
+            }
+
+
             card.addEventListener(
                 "click",
                 event => {
@@ -1732,6 +1973,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     if (
                         event.target.closest(
                             ".player-menu-button"
+                        )
+                        ||
+                        event.target.closest(
+                            ".player-action-menu"
                         )
                     ) {
 
@@ -1741,6 +1986,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     }
 
+
+                    closePlayerMenus();
 
                     openPlayerModal(
                         player
@@ -2716,7 +2963,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     const openTransactionModal =
-        async type => {
+        async (
+            type,
+            preselectedPlayer = null
+        ) => {
 
             const user =
                 await getCurrentUser();
@@ -2724,8 +2974,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!user) {
 
-                alert(
-                    "Has d'iniciar sessió per registrar compres o vendes."
+                showToast(
+                    "Has d'iniciar sessió per registrar compres o vendes.",
+                    "error"
                 );
 
                 return;
@@ -2814,6 +3065,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             setBodyModalState(
                 true
             );
+
+
+            if (
+                preselectedPlayer
+                &&
+                !isBuy
+            ) {
+
+                selectTransactionPlayer(
+                    preselectedPlayer
+                );
+
+            }
 
 
             setTimeout(
@@ -3277,17 +3541,65 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     /* =====================================================
-       VALIDACIÓ PREU
+       FORMAT + VALIDACIÓ PREU
     ===================================================== */
 
-    transactionPrice?.addEventListener(
-        "input",
+    const getTransactionPriceValue =
         () => {
 
-            const price =
-                Number(
-                    transactionPrice.value
+            if (!transactionPrice) {
+                return 0;
+            }
+
+            const digits =
+                String(
+                    transactionPrice.value || ""
+                )
+                    .replace(/\D/g, "");
+
+            return digits
+                ? Number(digits)
+                : 0;
+
+        };
+
+
+    const formatTransactionPriceInput =
+        () => {
+
+            if (!transactionPrice) {
+                return;
+            }
+
+            const raw =
+                String(
+                    transactionPrice.value || ""
                 );
+
+            const digits =
+                raw.replace(
+                    /\D/g,
+                    ""
+                );
+
+
+            transactionPrice.value =
+                digits
+                    ? new Intl.NumberFormat(
+                        "ca-ES",
+                        {
+                            maximumFractionDigits: 0
+                        }
+                    ).format(
+                        Number(digits)
+                    )
+                    : "";
+
+
+            const price =
+                digits
+                    ? Number(digits)
+                    : 0;
 
 
             if (confirmTransaction) {
@@ -3301,7 +3613,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             }
 
-        }
+        };
+
+
+    transactionPrice?.addEventListener(
+        "input",
+        formatTransactionPriceInput
     );
 
 
@@ -3404,8 +3721,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!user) {
 
-                alert(
-                    "La sessió ha caducat. Torna a iniciar sessió."
+                showToast(
+                    "La sessió ha caducat. Torna a iniciar sessió.",
+                    "error"
                 );
 
                 return;
@@ -3414,9 +3732,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             const price =
-                Number(
-                    transactionPrice?.value
-                );
+                getTransactionPriceValue();
 
 
             const date =
@@ -3457,8 +3773,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 isInSquad
             ) {
 
-                alert(
-                    "Aquest jugador ja forma part de la teva plantilla."
+                showToast(
+                    "Aquest jugador ja forma part de la teva plantilla.",
+                    "error"
                 );
 
                 return;
@@ -3474,8 +3791,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 !isInSquad
             ) {
 
-                alert(
-                    "Aquest jugador no forma part de la teva plantilla."
+                showToast(
+                    "Aquest jugador no forma part de la teva plantilla.",
+                    "error"
                 );
 
                 return;
@@ -3540,8 +3858,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                         : "Confirmar venda";
 
 
-                alert(
-                    "No s'ha pogut registrar la transacció."
+                showToast(
+                    "No s'ha pogut registrar la transacció.",
+                    "error"
                 );
 
 
@@ -3566,10 +3885,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             closeTransactionModal();
 
 
-            alert(
+            showToast(
                 transactionType === "buy"
                     ? "Compra registrada correctament"
-                    : "Venda registrada correctament"
+                    : "Venda registrada correctament",
+                "success"
             );
 
         }
@@ -3627,6 +3947,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     );
 
+
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            if (
+                !event.target.closest(
+                    ".player-action-menu"
+                )
+                &&
+                !event.target.closest(
+                    ".player-menu-button"
+                )
+            ) {
+
+                closePlayerMenus();
+
+            }
+
+        }
+    );
 
 
     /* =====================================================

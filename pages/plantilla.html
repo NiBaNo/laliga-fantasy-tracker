@@ -1827,12 +1827,13 @@
 
 
                             <input
-                                type="number"
+                                type="text"
                                 id="transactionPrice"
-                                min="0"
-                                step="1"
+                                inputmode="numeric"
+                                autocomplete="off"
                                 placeholder="0"
                                 required
+                                aria-describedby="transactionPriceHelp"
                             >
 
 
@@ -1844,9 +1845,8 @@
                         </div>
 
 
-                        <small>
-                            Introdueix l'import exacte
-                            de l'operació.
+                        <small id="transactionPriceHelp">
+                            Introdueix l'import exacte de l'operació.
                         </small>
 
 
@@ -1936,7 +1936,7 @@
     
     <script type="module" src="../js/auth.js"></script>
     
-    <script src="../js/plantilla.js"></script>
+    <script type="module" src="../js/plantilla.js"></script>
 
 
 </body>
