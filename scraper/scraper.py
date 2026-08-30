@@ -530,6 +530,10 @@ def comprovar_jugadors(players):
 # GUARDAR JUGADORS A SUPABASE
 # =========================================================
 
+# =========================================================
+# GUARDAR JUGADORS A SUPABASE
+# =========================================================
+
 def guardar_jugadors(supabase, players):
 
     print()
@@ -556,6 +560,8 @@ def guardar_jugadors(supabase, players):
             "daily_change": player["daily_change"],
 
             "points": player["points"],
+
+            "image_url": player["image_url"],
 
         })
 
