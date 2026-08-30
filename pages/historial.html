@@ -21,10 +21,7 @@
          FONTS
     ====================================================== -->
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link
         rel="preconnect"
@@ -42,25 +39,13 @@
          CSS GLOBAL
     ====================================================== -->
 
-    <link
-        rel="stylesheet"
-        href="../css/main.css"
-    >
+    <link rel="stylesheet" href="../css/main.css">
 
-    <link
-        rel="stylesheet"
-        href="../css/layout.css"
-    >
+    <link rel="stylesheet" href="../css/layout.css">
 
-    <link
-        rel="stylesheet"
-        href="../css/cards.css"
-    >
+    <link rel="stylesheet" href="../css/cards.css">
 
-    <link
-        rel="stylesheet"
-        href="../css/components.css"
-    >
+    <link rel="stylesheet" href="../css/components.css">
 
 
     <!-- =====================================================
@@ -83,14 +68,19 @@
         }
 
 
+        /* =================================================
+           HERO
+        ================================================== */
+
         .history-hero {
 
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
+
             gap: 30px;
 
-            margin-bottom: 34px;
+            margin-bottom: 30px;
 
         }
 
@@ -148,7 +138,6 @@
             line-height: 1.7;
 
         }
-
 
 
         /* =================================================
@@ -219,6 +208,25 @@
                     0,
                     0,
                     0.12
+                );
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease;
+
+        }
+
+
+        .history-stat:hover {
+
+            transform: translateY(-2px);
+
+            border-color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.09
                 );
 
         }
@@ -298,21 +306,52 @@
         }
 
 
-        .history-stat--profit
-        .history-stat__value {
+        .history-stat--profit .history-stat__value {
 
             color: #00df87;
 
         }
 
 
-        .history-stat--loss
-        .history-stat__value {
+        .history-stat--loss .history-stat__value {
 
             color: #ff6978;
 
         }
 
+
+        .history-stat--buy::after {
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(
+                        0,
+                        220,
+                        130,
+                        0.12
+                    ),
+                    transparent 70%
+                );
+
+        }
+
+
+        .history-stat--sell::after {
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(
+                        255,
+                        103,
+                        120,
+                        0.10
+                    ),
+                    transparent 70%
+                );
+
+        }
 
 
         /* =================================================
@@ -563,7 +602,6 @@
         }
 
 
-
         /* =================================================
            PANEL
         ================================================== */
@@ -653,18 +691,21 @@
         }
 
 
-
         /* =================================================
-           TRANSACTIONS
+           HISTORY LIST
         ================================================== */
 
         .history-list {
 
             padding:
-                8px 18px 18px;
+                6px 18px 18px;
 
         }
 
+
+        /* =================================================
+           TRANSACTION ROW
+        ================================================== */
 
         .history-row {
 
@@ -673,20 +714,21 @@
             display: grid;
 
             grid-template-columns:
-                74px
+                76px
                 minmax(
-                    260px,
+                    240px,
                     1fr
                 )
-                145px
-                190px;
+                125px
+                150px
+                175px;
 
             align-items: center;
 
             min-height: 96px;
 
             padding:
-                14px 6px;
+                14px 12px;
 
             border-bottom: 1px solid
                 rgba(
@@ -695,6 +737,12 @@
                     255,
                     0.045
                 );
+
+            border-radius: 10px;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
 
         }
 
@@ -708,16 +756,110 @@
 
         .history-row:hover {
 
+            transform: translateX(2px);
+
+        }
+
+
+        /* BUY */
+
+        .history-row--buy {
+
             background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.018
+                linear-gradient(
+                    90deg,
+                    rgba(
+                        0,
+                        220,
+                        130,
+                        0.055
+                    ),
+                    rgba(
+                        0,
+                        220,
+                        130,
+                        0.012
+                    ) 60%,
+                    transparent
                 );
 
         }
 
+
+        .history-row--buy:hover {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(
+                        0,
+                        220,
+                        130,
+                        0.085
+                    ),
+                    rgba(
+                        0,
+                        220,
+                        130,
+                        0.018
+                    ) 60%,
+                    transparent
+                );
+
+        }
+
+
+        /* SELL */
+
+        .history-row--sell {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(
+                        255,
+                        103,
+                        120,
+                        0.055
+                    ),
+                    rgba(
+                        255,
+                        103,
+                        120,
+                        0.012
+                    ) 60%,
+                    transparent
+                );
+
+        }
+
+
+        .history-row--sell:hover {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(
+                        255,
+                        103,
+                        120,
+                        0.085
+                    ),
+                    rgba(
+                        255,
+                        103,
+                        120,
+                        0.018
+                    ) 60%,
+                    transparent
+                );
+
+        }
+
+
+        /* =================================================
+           DATE
+        ================================================== */
 
         .history-date {
 
@@ -750,6 +892,10 @@
 
         }
 
+
+        /* =================================================
+           PLAYER
+        ================================================== */
 
         .history-player {
 
@@ -832,6 +978,7 @@
             font-weight: 700;
 
             text-overflow: ellipsis;
+
             white-space: nowrap;
 
         }
@@ -884,7 +1031,6 @@
         }
 
 
-
         /* =================================================
            OPERATION
         ================================================== */
@@ -906,7 +1052,7 @@
 
             gap: 7px;
 
-            min-width: 94px;
+            min-width: 88px;
 
             padding:
                 8px 10px;
@@ -998,7 +1144,6 @@
         }
 
 
-
         /* =================================================
            AMOUNT
         ================================================== */
@@ -1039,9 +1184,8 @@
         }
 
 
-
         /* =================================================
-           PROFIT
+           RESULT
         ================================================== */
 
         .history-result {
@@ -1092,29 +1236,25 @@
         }
 
 
-        .history-result--positive
-        .history-result__value {
+        .history-result--positive .history-result__value {
 
             color: #00df87;
 
         }
 
 
-        .history-result--negative
-        .history-result__value {
+        .history-result--negative .history-result__value {
 
             color: #ff6978;
 
         }
 
 
-        .history-result--neutral
-        .history-result__value {
+        .history-result--neutral .history-result__value {
 
             color: #657283;
 
         }
-
 
 
         /* =================================================
@@ -1163,14 +1303,30 @@
         }
 
 
-
         /* =================================================
-           MOBILE
+           RESPONSIVE
         ================================================== */
 
-        @media (
-            max-width: 1050px
-        ) {
+        @media (max-width: 1150px) {
+
+            .history-row {
+
+                grid-template-columns:
+                    68px
+                    minmax(
+                        200px,
+                        1fr
+                    )
+                    110px
+                    135px
+                    155px;
+
+            }
+
+        }
+
+
+        @media (max-width: 1050px) {
 
             .history-summary {
 
@@ -1194,38 +1350,16 @@
                         220px,
                         1fr
                     )
-                    120px
-                    150px;
+                    115px
+                    140px
+                    155px;
 
             }
 
         }
 
 
-        @media (
-            max-width: 760px
-        ) {
-
-            .history-hero {
-
-                display: block;
-
-            }
-
-
-            .history-summary {
-
-                grid-template-columns:
-                    repeat(
-                        2,
-                        minmax(
-                            0,
-                            1fr
-                        )
-                );
-
-            }
-
+        @media (max-width: 850px) {
 
             .history-toolbar {
 
@@ -1270,20 +1404,55 @@
 
             .history-panel {
 
-                border-radius: 12px;
-
-            }
-
-
-            .history-panel__header {
-
-                padding:
-                    18px;
+                overflow-x: auto;
 
             }
 
 
             .history-list {
+
+                min-width: 760px;
+
+            }
+
+        }
+
+
+        @media (max-width: 760px) {
+
+            .history-hero {
+
+                display: block;
+
+            }
+
+
+            .history-summary {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(
+                            0,
+                            1fr
+                        )
+                    );
+
+            }
+
+
+            .history-panel {
+
+                border-radius: 12px;
+
+                overflow: hidden;
+
+            }
+
+
+            .history-list {
+
+                min-width: 0;
 
                 padding:
                     4px 12px 12px;
@@ -1301,6 +1470,8 @@
                     );
 
                 gap: 10px;
+
+                min-height: 0;
 
                 padding:
                     15px 4px;
@@ -1334,16 +1505,14 @@
 
             .history-operation {
 
-                grid-column:
-                    2;
+                grid-column: 2;
 
             }
 
 
             .history-amount {
 
-                grid-column:
-                    2;
+                grid-column: 2;
 
                 text-align: left;
 
@@ -1352,8 +1521,7 @@
 
             .history-result {
 
-                grid-column:
-                    2;
+                grid-column: 2;
 
                 text-align: left;
 
@@ -1369,9 +1537,7 @@
         }
 
 
-        @media (
-            max-width: 480px
-        ) {
+        @media (max-width: 480px) {
 
             .history-summary {
 
@@ -1616,29 +1782,57 @@
 
             <div class="topbar__right">
 
-                <div class="topbar__notification">
-                    ◇
-                </div>
+                <button
+                    class="icon-button"
+                    aria-label="Notificacions"
+                >
 
-                <div class="topbar__user">
+                    🔔
 
-                    <div class="topbar__avatar">
-                        N
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <button
+                    class="profile"
+                    id="profileButton"
+                    type="button"
+                >
+
+                    <div
+                        class="profile__avatar"
+                        id="profileAvatar"
+                    >
+                        M
                     </div>
 
-                    <div>
 
-                        <strong>
-                            Nil
-                        </strong>
+                    <div class="profile__info">
 
-                        <span>
-                            Fantasy League
+                        <span
+                            class="profile__name"
+                            id="profileName"
+                        >
+                            Iniciar sessió
+                        </span>
+
+
+                        <span
+                            class="profile__role"
+                            id="profileRole"
+                        >
+                            Accés al teu equip
                         </span>
 
                     </div>
 
-                </div>
+
+                    <span class="profile__arrow">
+                        ▾
+                    </span>
+
+                </button>
 
             </div>
 
@@ -1663,21 +1857,15 @@
 
                     <div class="history-hero__content">
 
-                        <span
-                            class="history-hero__eyebrow"
-                        >
+                        <span class="history-hero__eyebrow">
                             MOVIMENTS DE LA TEMPORADA
                         </span>
 
-                        <h2
-                            class="history-hero__title"
-                        >
+                        <h2 class="history-hero__title">
                             El teu historial
                         </h2>
 
-                        <p
-                            class="history-hero__description"
-                        >
+                        <p class="history-hero__description">
                             Consulta totes les compres i vendes
                             que has registrat durant la temporada,
                             amb el resultat econòmic de cada operació.
@@ -1711,55 +1899,48 @@
                             —
                         </strong>
 
-                        <span
-                            class="history-stat__description"
-                        >
+                        <span class="history-stat__description">
                             moviments registrats
                         </span>
 
                     </article>
 
 
-                    <article class="history-stat">
+                    <article class="history-stat history-stat--buy">
 
                         <span class="history-stat__label">
-                            COMPRES
+                            TOTAL GASTAT
                         </span>
 
                         <strong
                             class="history-stat__value"
-                            id="totalBuys"
+                            id="totalBought"
                         >
                             —
                         </strong>
 
-                        <span
-                            class="history-stat__description"
-                        >
-                            diners invertits
+                        <span class="history-stat__description">
+                            en compres
                         </span>
 
                     </article>
 
 
-                    <article class="history-stat">
+                    <article class="history-stat history-stat--sell">
 
                         <span class="history-stat__label">
-                            VENDES
+                            TOTAL GENERAT
                         </span>
 
                         <strong
                             class="history-stat__value"
-                            id="totalSells"
+                            id="totalSold"
                         >
                             —
                         </strong>
 
-                        <span
-                            class="history-stat__description"
-                            id="totalSalesAmount"
-                        >
-                            ingressos obtinguts
+                        <span class="history-stat__description">
+                            en vendes
                         </span>
 
                     </article>
@@ -1771,7 +1952,7 @@
                     >
 
                         <span class="history-stat__label">
-                            BENEFICI REALITZAT
+                            BENEFICI / PÈRDUA
                         </span>
 
                         <strong
@@ -1781,10 +1962,8 @@
                             —
                         </strong>
 
-                        <span
-                            class="history-stat__description"
-                        >
-                            en jugadors venuts
+                        <span class="history-stat__description">
+                            resultat de jugadors venuts
                         </span>
 
                     </article>
@@ -1803,9 +1982,7 @@
 
                         <div class="history-search">
 
-                            <span
-                                class="history-search__icon"
-                            >
+                            <span class="history-search__icon">
                                 ⌕
                             </span>
 
@@ -1877,9 +2054,7 @@
 
                     <div class="history-panel__header">
 
-                        <h3
-                            class="history-panel__heading"
-                        >
+                        <h3 class="history-panel__heading">
                             Moviments
                         </h3>
 
@@ -1922,9 +2097,7 @@
      SUPABASE
 ========================================================= -->
 
-<script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
 <!-- =========================================================
@@ -1932,6 +2105,13 @@
 ========================================================= -->
 
 <script src="../js/app.js"></script>
+
+
+<!-- =========================================================
+     AUTH
+========================================================= -->
+
+<script type="module" src="../js/auth.js"></script>
 
 
 <!-- =========================================================

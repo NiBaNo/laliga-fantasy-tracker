@@ -102,21 +102,15 @@ document.addEventListener(
             );
 
 
-        const totalBuys =
+        const totalBought =
             document.getElementById(
-                "totalBuys"
+                "totalBought"
             );
 
 
-        const totalSells =
+        const totalSold =
             document.getElementById(
-                "totalSells"
-            );
-
-
-        const totalSalesAmount =
-            document.getElementById(
-                "totalSalesAmount"
+                "totalSold"
             );
 
 
@@ -903,7 +897,7 @@ document.addEventListener(
                     );
 
 
-                const totalBought =
+                const totalBoughtAmount =
                     buys.reduce(
                         (
                             sum,
@@ -922,7 +916,7 @@ document.addEventListener(
                     );
 
 
-                const totalSold =
+                const totalSoldAmount =
                     sells.reduce(
                         (
                             sum,
@@ -964,36 +958,16 @@ document.addEventListener(
                     );
 
 
-                totalBuys.textContent =
-                    String(
-                        buys.length
+                totalBought.textContent =
+                    formatCurrency(
+                        totalBoughtAmount
                     );
 
 
-                totalSalesAmount.textContent =
-                    `${formatCurrency(totalBought)} invertits`;
-
-
-                totalSells.textContent =
-                    String(
-                        sells.length
+                totalSold.textContent =
+                    formatCurrency(
+                        totalSoldAmount
                     );
-
-
-                const salesDescription =
-                    document.querySelector(
-                        "#totalSalesAmount"
-                    );
-
-
-                if (
-                    salesDescription
-                ) {
-
-                    salesDescription.textContent =
-                        `${formatCurrency(totalSold)} ingressats`;
-
-                }
 
 
                 realizedProfit.textContent =
