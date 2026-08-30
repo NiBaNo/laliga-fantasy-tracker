@@ -1,1 +1,128 @@
-
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercat · Fantasy Tracker</title>
+<meta name="description" content="Mercat de jugadors de LaLiga Fantasy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/cards.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+.market-page{width:100%;max-width:1500px;margin:0 auto;padding-bottom:60px}
+.market-hero{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:28px}
+.market-hero__content{max-width:760px}
+.market-eyebrow{display:block;margin-bottom:10px;color:#6f7c8d;font-size:11px;font-weight:700;letter-spacing:1.8px}
+.market-title{margin:0;color:#f4f7fa;font-size:clamp(30px,4vw,44px);line-height:1.05;letter-spacing:-1.8px}
+.market-description{margin:14px 0 0;color:#8d98a7;font-size:14px;line-height:1.7}
+.market-live{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(255,255,255,.06);border-radius:9px;background:rgba(255,255,255,.025);color:#788596;font-size:10px;font-weight:700;white-space:nowrap}
+.market-live__dot{width:6px;height:6px;border-radius:50%;background:#00df87;box-shadow:0 0 9px rgba(0,220,130,.65)}
+.market-top-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.market-panel{overflow:hidden;border:1px solid rgba(255,255,255,.06);border-radius:15px;background:linear-gradient(145deg,rgba(19,24,30,.98),rgba(14,18,23,.98));box-shadow:0 18px 50px rgba(0,0,0,.14)}
+.market-panel__header{display:flex;align-items:center;justify-content:space-between;padding:19px 21px;border-bottom:1px solid rgba(255,255,255,.055)}
+.market-panel__title{display:flex;align-items:center;gap:10px;margin:0;color:#edf2f5;font-size:14px;font-weight:700}
+.market-panel__icon{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;font-weight:800;font-size:13px}
+.market-panel__icon--up{color:#00df87;background:rgba(0,220,130,.1)}
+.market-panel__icon--down{color:#ff7582;background:rgba(255,103,120,.1)}
+.market-panel__subtitle{color:#657283;font-size:10px}
+.market-top-list{padding:6px 12px 12px}
+.market-top-row{display:grid;grid-template-columns:32px 1fr auto auto;align-items:center;gap:10px;min-height:67px;padding:8px 9px;border-radius:9px;cursor:pointer;transition:background .18s ease,transform .18s ease}
+.market-top-row:hover{background:rgba(255,255,255,.025);transform:translateX(2px)}
+.market-rank{color:#4f5b69;font-size:11px;font-weight:800;text-align:center}
+.market-mini-player{display:flex;align-items:center;gap:10px;min-width:0}
+.market-avatar{width:38px;height:38px;flex:0 0 38px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.08);border-radius:50%;background:linear-gradient(145deg,#26303b,#171d24);color:#aeb8c3;font-size:10px;font-weight:800}
+.market-avatar img{width:100%;height:100%;object-fit:cover}
+.market-mini-info{min-width:0}
+.market-player-name{display:block;overflow:hidden;color:#edf2f5;font-size:12px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+.market-player-meta{display:flex;align-items:center;gap:6px;margin-top:4px;color:#667384;font-size:9px;white-space:nowrap}
+.market-owned-star{color:#ffd45c;font-size:13px;line-height:1}
+.market-top-value{text-align:right;color:#eef2f5;font-size:12px;font-weight:800;white-space:nowrap}
+.market-top-change{text-align:right;font-size:11px;font-weight:800;white-space:nowrap}
+.market-positive{color:#00df87}.market-negative{color:#ff6978}.market-neutral{color:#697687}
+.market-explorer{border:1px solid rgba(255,255,255,.06);border-radius:15px;background:linear-gradient(145deg,rgba(19,24,30,.98),rgba(14,18,23,.98));box-shadow:0 18px 50px rgba(0,0,0,.14);overflow:hidden}
+.market-explorer__header{padding:20px 22px 15px;border-bottom:1px solid rgba(255,255,255,.055)}
+.market-explorer__heading{margin:0;color:#edf2f5;font-size:15px}
+.market-explorer__sub{margin:6px 0 0;color:#657283;font-size:11px}
+.market-toolbar{display:grid;grid-template-columns:minmax(260px,1.7fr) 170px 190px 180px;gap:9px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.05)}
+.market-search{position:relative}.market-search__icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#637083;font-size:13px;pointer-events:none}
+.market-input,.market-select{width:100%;height:43px;border:1px solid rgba(255,255,255,.07);border-radius:9px;outline:none;background:rgba(18,23,29,.92);color:#e9eef2;font-family:inherit;font-size:11px}
+.market-input{padding:0 14px 0 38px}.market-select{padding:0 12px}
+.market-input::placeholder{color:#5f6b7a}.market-input:focus,.market-select:focus{border-color:rgba(0,220,130,.4);box-shadow:0 0 0 3px rgba(0,220,130,.06)}
+.market-results{padding:7px 12px 14px}
+.market-result-row{display:grid;grid-template-columns:minmax(250px,1.5fr) 110px 110px 125px 28px;align-items:center;gap:14px;min-height:74px;padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.045);border-radius:9px;cursor:pointer;transition:background .18s ease}
+.market-result-row:last-child{border-bottom:0}.market-result-row:hover{background:rgba(255,255,255,.022)}
+.market-result-player{display:flex;align-items:center;gap:11px;min-width:0}
+.market-result-data{text-align:right}.market-result-data span{display:block;color:#596677;font-size:8px;font-weight:700;letter-spacing:.7px;text-transform:uppercase}.market-result-data strong{display:block;margin-top:4px;color:#e9eef2;font-size:12px;font-weight:800}
+.market-result-change{font-size:11px!important}.market-owned{display:grid;place-items:center;color:#ffd45c;font-size:16px}
+.market-empty{padding:60px 20px;text-align:center;color:#697687;font-size:12px}.market-empty strong{display:block;margin-bottom:7px;color:#dce2e7;font-size:14px}
+.market-modal{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+.market-modal.active{opacity:1;visibility:visible;pointer-events:auto}
+.market-modal__overlay{position:absolute;inset:0;background:rgba(5,8,12,.78);backdrop-filter:blur(7px)}
+.market-modal__content{position:relative;z-index:1;width:min(940px,100%);max-height:90vh;overflow:auto;padding:28px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:linear-gradient(145deg,#171d24,#10151b);box-shadow:0 30px 100px rgba(0,0,0,.45);transform:translateY(12px);transition:transform .2s ease}
+.market-modal.active .market-modal__content{transform:translateY(0)}
+.market-modal__close{position:absolute;top:13px;right:15px;width:34px;height:34px;border:0;border-radius:8px;background:rgba(255,255,255,.04);color:#9aa6b5;font-size:22px;cursor:pointer}
+.market-detail-head{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-right:45px;margin-bottom:22px}
+.market-detail-identity{display:flex;align-items:center;gap:14px}.market-detail-avatar{width:62px;height:62px;flex:0 0 62px;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.08);border-radius:50%;background:linear-gradient(145deg,#26303b,#171d24);color:#aeb8c3;font-size:14px;font-weight:800}.market-detail-avatar img{width:100%;height:100%;object-fit:cover}
+.market-detail-name{margin:0;color:#f0f4f7;font-size:23px;letter-spacing:-.6px}.market-detail-team{display:flex;align-items:center;gap:7px;margin-top:5px;color:#687585;font-size:10px}.market-detail-value{text-align:right}.market-detail-value span{display:block;color:#697687;font-size:9px;font-weight:700;letter-spacing:1px}.market-detail-value strong{display:block;margin-top:5px;color:#f2f5f7;font-size:25px}.market-detail-value small{display:block;margin-top:5px;font-size:11px;font-weight:800}
+.market-detail-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:13px}.market-detail-panel{padding:20px;border:1px solid rgba(255,255,255,.055);border-radius:13px;background:rgba(255,255,255,.018)}.market-detail-panel h3{margin:5px 0 17px;color:#e7edf1;font-size:14px}.market-detail-eyebrow{color:#647183;font-size:9px;font-weight:700;letter-spacing:1.2px}
+.market-value-chart{height:190px;display:flex;align-items:flex-end;gap:7px;padding:14px 4px 8px;border-bottom:1px solid rgba(255,255,255,.05)}.market-value-bar{flex:1;min-width:4px;max-width:35px;border-radius:5px 5px 2px 2px;background:linear-gradient(to top,rgba(0,220,130,.16),rgba(0,220,130,.72));opacity:.9}.market-value-labels{display:flex;justify-content:space-between;margin-top:9px;color:#596677;font-size:8px}
+.market-points-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:15px}.market-points-summary div{padding:10px;border:1px solid rgba(255,255,255,.045);border-radius:8px;background:rgba(255,255,255,.018)}.market-points-summary span{display:block;color:#596677;font-size:8px;font-weight:700;letter-spacing:.7px}.market-points-summary strong{display:block;margin-top:5px;color:#e9eef2;font-size:13px}.market-points-bars{display:flex;align-items:flex-end;gap:8px;height:155px;padding:10px 3px 0;overflow-x:auto}.market-point-bar{min-width:34px;flex:1;max-width:50px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px}.market-point-bar strong{color:#dfe6eb;font-size:10px}.market-point-bar i{display:block;width:100%;min-height:6px;border-radius:5px 5px 2px 2px;background:linear-gradient(to top,rgba(77,141,255,.18),rgba(77,141,255,.72));font-style:normal}.market-point-bar span{color:#596677;font-size:8px;font-weight:700}
+@media(max-width:1100px){.market-toolbar{grid-template-columns:1fr 1fr}.market-result-row{grid-template-columns:minmax(220px,1fr) 100px 110px 110px 28px}}
+@media(max-width:800px){.market-top-grid{grid-template-columns:1fr}.market-hero{display:block}.market-live{width:max-content;margin-top:15px}.market-result-row{grid-template-columns:minmax(210px,1fr) 95px 100px 25px}.market-result-row .market-result-data:nth-of-type(2){display:none}.market-modal__content{padding:20px}.market-detail-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.market-toolbar{grid-template-columns:1fr}.market-result-row{grid-template-columns:minmax(170px,1fr) 95px 25px;gap:8px}.market-result-row .market-result-data:nth-of-type(2),.market-result-row .market-result-data:nth-of-type(3){display:none}.market-top-row{grid-template-columns:25px 1fr auto}.market-top-row .market-top-value{display:none}.market-detail-head{display:block}.market-detail-value{text-align:left;margin-top:15px}.market-points-summary{grid-template-columns:1fr 1fr}.market-points-summary div:last-child{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar__header"><a href="../index.html" class="brand"><div class="brand__icon">FT</div><div class="brand__text"><span class="brand__title">Fantasy</span><span class="brand__subtitle">Tracker</span></div></a><button class="sidebar__toggle" id="sidebarToggle" aria-label="Tancar menú">☰</button></div>
+<nav class="sidebar__nav">
+<span class="nav__section-title">PRINCIPAL</span>
+<a href="../index.html" class="nav__item"><span class="nav__icon">◈</span><span class="nav__label">Dashboard</span></a>
+<a href="plantilla.html" class="nav__item"><span class="nav__icon">♙</span><span class="nav__label">Plantilla</span></a>
+<a href="mercat.html" class="nav__item active"><span class="nav__icon">◆</span><span class="nav__label">Mercat</span></a>
+<a href="historial.html" class="nav__item"><span class="nav__icon">↗</span><span class="nav__label">Historial</span></a>
+<span class="nav__section-title">CONFIGURACIÓ</span>
+<a href="configuracio.html" class="nav__item"><span class="nav__icon">⚙</span><span class="nav__label">Configuració</span></a>
+</nav>
+<div class="sidebar__footer"><div class="sidebar__status"><span class="status__dot"></span><span class="status__text">Sistema operatiu</span></div><div class="sidebar__version">v0.1.0</div></div>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<div class="topbar__left"><button class="mobile-menu" id="mobileMenu" aria-label="Obrir menú">☰</button><div><span class="page__eyebrow">LA LIGA FANTASY</span><h1 class="page__title">Mercat</h1></div></div>
+<div class="topbar__right"><button class="icon-button" aria-label="Notificacions">🔔<span class="notification-dot"></span></button><button class="profile" id="profileButton" type="button"><div class="profile__avatar" id="profileAvatar">M</div><div class="profile__info"><span class="profile__name" id="profileName">Iniciar sessió</span><span class="profile__role" id="profileRole">Accés al teu equip</span></div><span class="profile__arrow">▾</span></button></div>
+</header>
+<div class="page-content"><div class="market-page">
+<section class="market-hero"><div class="market-hero__content"><span class="market-eyebrow">MERCAT DE JUGADORS</span><h2 class="market-title">Troba les millors oportunitats</h2><p class="market-description">Consulta qui està pujant o baixant més de valor, explora qualsevol jugador i revisa la seva evolució de mercat i puntuacions per jornada.</p></div><div class="market-live"><span class="market-live__dot"></span>DADES ACTUALITZADES</div></section>
+<section class="market-top-grid">
+<article class="market-panel"><div class="market-panel__header"><h3 class="market-panel__title"><span class="market-panel__icon market-panel__icon--up">↑</span>Top 10 · Pujades</h3><span class="market-panel__subtitle">Canvi diari</span></div><div class="market-top-list" id="topGainers"></div></article>
+<article class="market-panel"><div class="market-panel__header"><h3 class="market-panel__title"><span class="market-panel__icon market-panel__icon--down">↓</span>Top 10 · Baixades</h3><span class="market-panel__subtitle">Canvi diari</span></div><div class="market-top-list" id="topLosers"></div></article>
+</section>
+<section class="market-explorer">
+<div class="market-explorer__header"><h3 class="market-explorer__heading">Explorador del mercat</h3><p class="market-explorer__sub">Busca per jugador, equip o posició i ordena els resultats pel criteri que prefereixis.</p></div>
+<div class="market-toolbar">
+<div class="market-search"><span class="market-search__icon">⌕</span><input class="market-input" id="marketSearch" type="search" placeholder="Buscar jugador, equip o posició..." autocomplete="off"></div>
+<select class="market-select" id="marketPosition"><option value="all">Totes les posicions</option><option value="POR">Porters</option><option value="DEF">Defenses</option><option value="MIG">Migcampistes</option><option value="DAV">Davanters</option></select>
+<select class="market-select" id="marketTeam"><option value="all">Tots els equips</option></select>
+<select class="market-select" id="marketSort"><option value="value-desc">Valor · més alt</option><option value="value-asc">Valor · més baix</option><option value="points-desc">Punts · més alt</option><option value="points-asc">Punts · més baix</option><option value="change-desc">Pujada · més alta</option><option value="change-asc">Baixada · més alta</option><option value="name-asc">Nom · A-Z</option></select>
+</div>
+<div class="market-results" id="marketResults"><div class="market-empty">Carregant mercat...</div></div>
+</section>
+</div></div>
+</main></div>
+<div class="market-modal" id="marketModal" aria-hidden="true">
+<div class="market-modal__overlay" id="marketModalOverlay"></div>
+<div class="market-modal__content" role="dialog" aria-modal="true">
+<button class="market-modal__close" id="closeMarketModal" type="button" aria-label="Tancar">×</button>
+<div id="marketDetail"></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/app.js"></script>
+<script type="module" src="../js/auth.js"></script>
+<script type="module" src="../js/mercat.js"></script>
+</body>
+</html>
